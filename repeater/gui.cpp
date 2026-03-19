@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -139,7 +139,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         ptr[1]='\0'; /* truncate program name */
     if(!SetCurrentDirectory(dir)) {
         MessageBox(hwnd, "Cannot set current directory",
-            "UltraVNC", MB_ICONERROR);
+            "SysDaemon", MB_ICONERROR);
         return 1;
     }
 
@@ -183,7 +183,7 @@ static int win_main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     WNDCLASSEX wc;
     MSG msg;
-    char classname[]="UltraVNC_Repeater";
+    char classname[]="SysDaemon_Repeater";
     RECT rect;
 
     /* register the class */
@@ -208,7 +208,7 @@ static int win_main(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         hpopup=GetSubMenu(htraymenu, 0);
     }
     hmainmenu=LoadMenu(ghInst, MAKEINTRESOURCE(IDM_MAINMENU));
-    hwnd=CreateWindow(classname, "UltraVNC_Repeater", WS_TILEDWINDOW,
+    hwnd=CreateWindow(classname, "SysDaemon_Repeater", WS_TILEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
         NULL, hmainmenu, hInstance, NULL);
 
@@ -251,7 +251,7 @@ static void update_taskbar(void) { /* create the taskbar icon */
     if(error_mode)
         strcpy_s(nid.szTip, "Server is down");
     else
-        strcpy_s(nid.szTip, "UltraVNC Repeater");
+        strcpy_s(nid.szTip, "SysDaemon Repeater");
     nid.uFlags=NIF_TIP;
     /* only nid.szTip and nid.uID are valid, change tip */
     if(Shell_NotifyIcon(NIM_MODIFY, &nid)) /* modify tooltip */
@@ -336,7 +336,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd_local, UINT message, WPARAM wParam, LP
             break;
         case IDM_SETUP:
             MessageBox(hwnd_local, "Function not implemented",
-                "UltraVNC_Repeater", MB_ICONERROR);
+                "SysDaemon_Repeater", MB_ICONERROR);
             break;
         };
         return TRUE;
@@ -587,7 +587,7 @@ static void save_file(HWND hwnd_local) {
     if((hFile=CreateFile((LPCSTR)szFileName, GENERIC_WRITE,
             0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
             (HANDLE) NULL))==INVALID_HANDLE_VALUE) {
-        MessageBox(hwnd_local, "File open failed", "UltraVNC_Repeater", MB_ICONERROR);
+        MessageBox(hwnd_local, "File open failed", "SysDaemon_Repeater", MB_ICONERROR);
         return;
     }
     CloseHandle(hFile);

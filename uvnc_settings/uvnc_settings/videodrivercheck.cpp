@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -167,7 +167,7 @@ CheckVideoDriver(bool Box)
                         else
                         {
                             strcat(buf2, "Driver Not Activated, is the viewer current connected?\n");
-                            strcat(buf2, "A Mirrior Driver can only be started if UltraVNC Server is a service or running as admin\n");
+                            strcat(buf2, "A Mirrior Driver can only be started if SysDaemon Server is a service or running as admin\n");
                         }
                         MessageBox(NULL,buf2,buf,0);
 					}

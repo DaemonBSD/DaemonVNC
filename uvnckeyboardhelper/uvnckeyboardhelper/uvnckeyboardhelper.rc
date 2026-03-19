@@ -154,11 +154,11 @@ BEGIN
     BEGIN
         BLOCK "040004b0"
         BEGIN
-            VALUE "CompanyName", "uvnc bv"
+            VALUE "CompanyName", "SysDaemon Corp"
             VALUE "FileDescription", "used to send special keys"
             VALUE "FileVersion", "1.0.0.1"
             VALUE "InternalName", "uvnckeyboardhelper.exe"
-            VALUE "LegalCopyright", "Copyright © 2002-2025 UltraVNC Team Members. All Rights Reserved."
+            VALUE "LegalCopyright", "Copyright © 2002-2025 SysDaemon Team Members. All Rights Reserved."
             VALUE "OriginalFilename", "uvnckeyboardhelper.exe"
             VALUE "ProductName", "uvnckeyboardhelper"
             VALUE "ProductVersion", "1.0.0.1"

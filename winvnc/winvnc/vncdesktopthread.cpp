@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -556,7 +556,7 @@ bool vncDesktopThread::handle_display_change(HANDLE& threadHandle, rfb::Region2D
 							m_server->UpdatePalette(false); // changed no lock ok
 							// UpdateLocalFormat without updatelock can cause stuck in m_signal->wait(), because not returning from mutex->lock()
 							// the synchonisation of EnableUpdates(TRUE|FALSE) does not work without getting the UpdateLock.
-							// This is a weakness in the VNC Server implementation
+							// This is a weakness in the Daemon Helper implementation
 							// We had the problem on Windows XP, running in a virtual machine of Windows 7 VirtualBox.
 							m_server->UpdateLocalFormat(true); // Must have the update lock
 						}

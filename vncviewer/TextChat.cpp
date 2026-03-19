@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -17,7 +17,7 @@
 #include "richedit.h"
 #include "common/win32_helpers.h"
 #include <rdr/Exception.h>
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 
 using namespace helper;
 
@@ -457,7 +457,7 @@ BOOL CALLBACK TextChat::TextChatDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM wParam,
 			const long lTitleBufSize=256;			
 			char szTitle[lTitleBufSize] = {};
 
-			_snprintf_s(szTitle, lTitleBufSize-1, _TRUNCATE, "UltraVNC Viewer - Chat with <%s>",_this->m_szRemoteName);
+			_snprintf_s(szTitle, lTitleBufSize-1, _TRUNCATE, "SysDaemon Viewer - Chat with <%s>",_this->m_szRemoteName);
 			SetWindowText(hWnd, szTitle);			
 
 			// Trunc the remote name for display in Chat Area before the first parenthesis, if any.

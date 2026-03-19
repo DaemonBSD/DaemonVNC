@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2004 Martin Scharpf. All Rights Reserved.
 //
@@ -51,15 +51,15 @@
 
 #define STR_FILEVERSION XSTR(STR_VERSION) "\0"
 #define STR_PRODUCTVERSION XSTR(STR_VERSION) "\0"
-#define STR_COPYRIGHT "Copyright © 2002-2025 UltraVNC Team Members. All Rights Reserved.\0"
+#define STR_COPYRIGHT "Copyright © 2002-2025 SysDaemon Team Members. All Rights Reserved.\0"
 #define STR_SPECIALBUILD "v" XSTR(STR_MAINVER) " ReleaseCandidate " XSTR(STR_RC_VERSION) "\0"
 #if isRC == 1
-#define STR_ABOUT_SERVER_VERSION XSTR(UltraVNC Win32 Server v STR_MAINVER RC STR_RC_VERSION)
-#define STR_ABOUT_VIEWER_VERSION XSTR(UltraVNC Win32 Viewer v STR_MAINVER RC STR_RC_VERSION)
+#define STR_ABOUT_SERVER_VERSION XSTR(SysDaemon Win32 Server v STR_MAINVER RC STR_RC_VERSION)
+#define STR_ABOUT_VIEWER_VERSION XSTR(SysDaemon Win32 Viewer v STR_MAINVER RC STR_RC_VERSION)
 #else
-#define STR_ABOUT_SERVER_VERSION XSTR(UltraVNC Win32 Server v STR_VERSION)
-#define STR_ABOUT_VIEWER_VERSION XSTR(UltraVNC Win32 Viewer v STR_VERSION)
+#define STR_ABOUT_SERVER_VERSION XSTR(SysDaemon Win32 Server v STR_VERSION)
+#define STR_ABOUT_VIEWER_VERSION XSTR(SysDaemon Win32 Viewer v STR_VERSION)
 #endif
-#define STR_COMPANYNAME "UltraVNC\0"
+#define STR_COMPANYNAME "SysDaemon\0"
 
 #endif // ULTRAVNC_VERSIONINFO_H

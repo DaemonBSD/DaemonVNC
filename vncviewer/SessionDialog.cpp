@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -24,7 +24,7 @@
 #include "../UdtCloudlib/proxy/Cloudthread.h"
 #endif
 #include "AboutBox.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 using namespace helper;
 extern HINSTANCE m_hInstResDLL;
 
@@ -196,7 +196,7 @@ BOOL CALLBACK SessDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		helper::SafeSetWindowUserData(hwnd, lParam);
 		char version[50]{};
 		char title[256]{};
-		strcpy_s(title, "UltraVNC Viewer -");
+		strcpy_s(title, "SysDaemon Viewer -");
 		strcat_s(title, GetVersionFromResource(version));
 		SetWindowText(hwnd, title);
 	}
@@ -361,7 +361,7 @@ BOOL CALLBACK SessDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				sprintf_s(fname, "%.15s-%d.vnc", _this->m_host_dialog, (disp > 0 && disp < 100) ? disp : _this->m_port);
 				char buffer[_MAX_PATH];
 				_this->getAppData(buffer);
-				strcat_s(buffer, "\\UltraVNC");
+				strcat_s(buffer, "\\SysDaemon");
 				_mkdir(buffer);
 				strcat_s(buffer, "\\");
 				strcat_s(buffer, fname);
@@ -744,7 +744,7 @@ bool SessionDialog::connect(HWND hwnd)
 
 	sprintf_s(fname, "%.15s-%d.vnc", m_host_dialog, (disp > 0 && disp < 100) ? disp : m_port);
 	getAppData(buffer);
-	strcat_s(buffer, "\\UltraVNC");
+	strcat_s(buffer, "\\SysDaemon");
 	_mkdir(buffer);
 	strcat_s(buffer, "\\");
 	strcat_s(buffer, fname);

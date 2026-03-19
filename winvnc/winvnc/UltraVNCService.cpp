@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -15,7 +15,7 @@
 #include <wtsapi32.h>
 #include "common/win32_helpers.h"
 #include "common/inifile.h"
-#include "UltraVNCService.h"
+#include "SysDaemonService.h"
 #include <userenv.h>
 #include <shlobj.h>
 #include <direct.h>
@@ -23,22 +23,22 @@
 
 
 
-SERVICE_STATUS UltraVNCService::serviceStatus{};
-SERVICE_STATUS_HANDLE UltraVNCService::serviceStatusHandle = NULL;
-char UltraVNCService::service_path[MAX_PATH]{};
-char UltraVNCService::service_name[256] = "uvnc_service";
-char UltraVNCService::app_path[MAX_PATH]{};
-int UltraVNCService::kickrdp = 0;
-PROCESS_INFORMATION  UltraVNCService::ProcessInfo{};
-bool UltraVNCService::IsShutdown = false;
-HANDLE UltraVNCService::hEndSessionEvent = NULL;
-HANDLE UltraVNCService::hEvent = NULL;
-int UltraVNCService::clear_console = 0;
-char* UltraVNCService::app_name = "UltraVNC";
-char  UltraVNCService::cmdtext[256]{};
-char UltraVNCService::configfilename[MAX_PATH] = "";
-char UltraVNCService::inifile[MAX_PATH] = "";
-IniFile UltraVNCService::iniFileService;
+SERVICE_STATUS SysDaemonService::serviceStatus{};
+SERVICE_STATUS_HANDLE SysDaemonService::serviceStatusHandle = NULL;
+char SysDaemonService::service_path[MAX_PATH]{};
+char SysDaemonService::service_name[256] = "sysdaemon_sv";
+char SysDaemonService::app_path[MAX_PATH]{};
+int SysDaemonService::kickrdp = 0;
+PROCESS_INFORMATION  SysDaemonService::ProcessInfo{};
+bool SysDaemonService::IsShutdown = false;
+HANDLE SysDaemonService::hEndSessionEvent = NULL;
+HANDLE SysDaemonService::hEvent = NULL;
+int SysDaemonService::clear_console = 0;
+char* SysDaemonService::app_name = "SysDaemon";
+char  SysDaemonService::cmdtext[256]{};
+char SysDaemonService::configfilename[MAX_PATH] = "";
+char SysDaemonService::inifile[MAX_PATH] = "";
+IniFile SysDaemonService::iniFileService;
 
 void GetServiceExecutablePath(char* path, size_t size) {
 	if (GetModuleFileName(NULL, path, static_cast<DWORD>(size)))
@@ -50,13 +50,13 @@ void GetServiceExecutablePath(char* path, size_t size) {
 		path = '\0';
 }
 
-UltraVNCService::UltraVNCService()
+SysDaemonService::SysDaemonService()
 {
 	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void WINAPI UltraVNCService::service_main(DWORD argc, LPTSTR* argv) {
+void WINAPI SysDaemonService::service_main(DWORD argc, LPTSTR* argv) {
     /* initialise service status */
     serviceStatus.dwServiceType=SERVICE_WIN32;
     serviceStatus.dwCurrentState=SERVICE_STOPPED;
@@ -79,7 +79,7 @@ void WINAPI UltraVNCService::service_main(DWORD argc, LPTSTR* argv) {
 	HRESULT result = SHGetFolderPathA(NULL, CSIDL_COMMON_APPDATA, NULL, 0, programdataPath);
 	strcpy_s(inifile, "");
 	strcat_s(inifile, programdataPath);
-	strcat_s(inifile, "\\UltraVNC");
+	strcat_s(inifile, "\\SysDaemon");
 	strcat_s(inifile, "\\");
 	strcat_s(inifile, configfilename);
 	std::ifstream file(inifile);
@@ -133,11 +133,11 @@ void WINAPI UltraVNCService::service_main(DWORD argc, LPTSTR* argv) {
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
-void WINAPI UltraVNCService::control_handler(DWORD controlCode)
+void WINAPI SysDaemonService::control_handler(DWORD controlCode)
 {
   control_handler_ex(controlCode, 0, 0, 0);
 }
-DWORD WINAPI UltraVNCService::control_handler_ex(DWORD controlCode, DWORD dwEventType, LPVOID lpEventData, LPVOID lpContext) {
+DWORD WINAPI SysDaemonService::control_handler_ex(DWORD controlCode, DWORD dwEventType, LPVOID lpEventData, LPVOID lpContext) {
     switch (controlCode) {
     case SERVICE_CONTROL_INTERROGATE:
         break;
@@ -177,7 +177,7 @@ DWORD WINAPI UltraVNCService::control_handler_ex(DWORD controlCode, DWORD dwEven
     return NO_ERROR;
 }
 ////////////////////////////////////////////////////////////////////////////////
-int UltraVNCService::start_service(char *cmd) {
+int SysDaemonService::start_service(char *cmd) {
 	strcpy_s(cmdtext,256,cmd);
     SERVICE_TABLE_ENTRY serviceTable[]={
 	 {service_name, service_main},
@@ -190,13 +190,13 @@ int UltraVNCService::start_service(char *cmd) {
     return 0; /* NT service started */
 }
 ////////////////////////////////////////////////////////////////////////////////
-void UltraVNCService::set_service_description()
+void SysDaemonService::set_service_description()
 {
     // Add service description 
 	DWORD	dw;
 	HKEY hKey;
 	char tempName[256];
-    char desc[] = "UltraVNC Server provides secure remote desktop sharing";
+    char desc[] = "SysDaemon Server provides secure remote desktop sharing";
 	_snprintf_s(tempName,  sizeof tempName, "SYSTEM\\CurrentControlSet\\Services\\%s", service_name);
 	RegCreateKeyEx(HKEY_LOCAL_MACHINE,
 						tempName,
@@ -225,7 +225,7 @@ void UltraVNCService::set_service_description()
 
 
 
-int UltraVNCService::install_service(void) {
+int SysDaemonService::install_service(void) {
     SC_HANDLE scm, service;
 	pad();
 
@@ -235,7 +235,7 @@ int UltraVNCService::install_service(void) {
             app_name, MB_ICONERROR);
         return 1;
     }
-    //"UltraVNC Server provides secure remote desktop sharing"
+    //"SysDaemon Server provides secure remote desktop sharing"
     service=CreateService(scm,service_name, service_name, SERVICE_ALL_ACCESS,
                           SERVICE_WIN32_OWN_PROCESS,
                           SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, service_path,
@@ -267,7 +267,7 @@ int UltraVNCService::install_service(void) {
     return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////
-int UltraVNCService::uninstall_service(void) {
+int SysDaemonService::uninstall_service(void) {
     SC_HANDLE scm, service;
     SERVICE_STATUS serviceStatus;
 
@@ -329,7 +329,7 @@ int UltraVNCService::uninstall_service(void) {
     return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////
-int UltraVNCService::pad()
+int SysDaemonService::pad()
 {
 	char dir[MAX_PATH], *ptr;
 	char exe_file_name[MAX_PATH];
@@ -351,7 +351,7 @@ int UltraVNCService::pad()
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-BOOL UltraVNCService::CreateServiceSafeBootKey()
+BOOL SysDaemonService::CreateServiceSafeBootKey()
 {
 	HKEY hKey;
 	DWORD dwDisp = 0;
@@ -369,7 +369,7 @@ BOOL UltraVNCService::CreateServiceSafeBootKey()
 		return FALSE;
 }
 ////////////////////////////////////////////////////////////////////////////////
-void UltraVNCService::Set_Safemode()
+void SysDaemonService::Set_Safemode()
 {
 	OSVERSIONINFO OSversion;	
 	OSversion.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
@@ -497,7 +497,7 @@ void UltraVNCService::Set_Safemode()
 			}
 }
 
-BOOL UltraVNCService::reboot()
+BOOL SysDaemonService::reboot()
 {
 	HANDLE hToken; 
     TOKEN_PRIVILEGES tkp; 
@@ -516,7 +516,7 @@ BOOL UltraVNCService::reboot()
 	return TRUE;
 }
 
-BOOL UltraVNCService::Force_reboot()
+BOOL SysDaemonService::Force_reboot()
 {
 	HANDLE hToken; 
     TOKEN_PRIVILEGES tkp; 
@@ -545,13 +545,13 @@ BOOL UltraVNCService::Force_reboot()
 	return TRUE;
 }
 
-void UltraVNCService::Reboot_with_force_reboot()
+void SysDaemonService::Reboot_with_force_reboot()
 {
 	Force_reboot();
 
 }
 
-void UltraVNCService::Reboot_with_force_reboot_elevated()
+void SysDaemonService::Reboot_with_force_reboot_elevated()
 {
 	char exe_file_name[MAX_PATH];
 	GetModuleFileName(0, exe_file_name, MAX_PATH);
@@ -568,7 +568,7 @@ void UltraVNCService::Reboot_with_force_reboot_elevated()
 	ShellExecuteEx(&shExecInfo);
 }
 
-void UltraVNCService::Reboot_in_safemode()
+void SysDaemonService::Reboot_in_safemode()
 {
 	if (CreateServiceSafeBootKey()) 
 		{
@@ -578,7 +578,7 @@ void UltraVNCService::Reboot_in_safemode()
 
 }
 
-void UltraVNCService::Reboot_in_safemode_elevated()
+void SysDaemonService::Reboot_in_safemode_elevated()
 {
 	char exe_file_name[MAX_PATH];
 	GetModuleFileName(0, exe_file_name, MAX_PATH);
@@ -598,7 +598,7 @@ void UltraVNCService::Reboot_in_safemode_elevated()
 ////////////////// ALL /////////////////////////////
 ////////////////////////////////////////////////////
 
-BOOL UltraVNCService::DeleteServiceSafeBootKey()
+BOOL SysDaemonService::DeleteServiceSafeBootKey()
 {
 	LONG lSuccess;
 	char szKey[1024];
@@ -608,7 +608,7 @@ BOOL UltraVNCService::DeleteServiceSafeBootKey()
 
 }
 
-void UltraVNCService::Restore_safemode()
+void SysDaemonService::Restore_safemode()
 {
 	OSVERSIONINFO OSversion;	
 	OSversion.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
@@ -732,7 +732,7 @@ void UltraVNCService::Restore_safemode()
 		}
 }
 
-void UltraVNCService::Restore_after_reboot()
+void SysDaemonService::Restore_after_reboot()
 {
 	//If we are running !normal mode
 	//disable boot.ini /safemode:network
@@ -744,7 +744,7 @@ void UltraVNCService::Restore_after_reboot()
 	}
 }
 
-void UltraVNCService::disconnect_remote_sessions()
+void SysDaemonService::disconnect_remote_sessions()
 {
 	typedef BOOLEAN(WINAPI* pWinStationConnect) (HANDLE, ULONG, ULONG, PCWSTR, ULONG);
 	HMODULE  hlibwinsta = LoadLibrary("winsta.dll");
@@ -772,7 +772,7 @@ void UltraVNCService::disconnect_remote_sessions()
 		FreeLibrary(hlibwinsta);
 }
 
-bool UltraVNCService::IsAnyRDPSessionActive()
+bool SysDaemonService::IsAnyRDPSessionActive()
 {
 	WTS_SESSION_INFO* pSessions = 0;
 	DWORD   nSessions(0);
@@ -800,7 +800,7 @@ bool UltraVNCService::IsAnyRDPSessionActive()
 }
 
 
-int UltraVNCService::createWinvncExeCall(bool preconnect, bool rdpselect)
+int SysDaemonService::createWinvncExeCall(bool preconnect, bool rdpselect)
 {
 	char exe_file_name[MAX_PATH];
 	GetModuleFileName(0, exe_file_name, MAX_PATH);
@@ -811,7 +811,7 @@ int UltraVNCService::createWinvncExeCall(bool preconnect, bool rdpselect)
 	strcpy_s(app_path, exe_file_name);
 	strcat_s(app_path, " -config");
 	strcat_s(app_path, "\"");
-	strcat_s(app_path, UltraVNCService::inifile);
+	strcat_s(app_path, SysDaemonService::inifile);
 	strcat_s(app_path, "\"");
 	if (preconnect)
 		strcat_s(app_path, " -preconnect");
@@ -838,7 +838,7 @@ int UltraVNCService::createWinvncExeCall(bool preconnect, bool rdpselect)
 }
 
 
-void UltraVNCService::monitorSessions() {
+void SysDaemonService::monitorSessions() {
 	BOOL  RDPMODE = false;
 	RDPMODE = iniFileService.ReadInt("admin", "rdpmode", 0);
 	createWinvncExeCall(false, false);
@@ -886,7 +886,7 @@ void UltraVNCService::monitorSessions() {
 			// We get some preconnect session selection input
 		case WAIT_OBJECT_0 + 2:
 		{
-			//Tell UltraVNC Server to stop
+			//Tell SysDaemon Server to stop
 			SetEvent(hEvent);
 			requestedSessionID = *a;
 			//We always have a process handle, else we could not get the signal from it.
@@ -1090,7 +1090,7 @@ void UltraVNCService::monitorSessions() {
 		CloseHandle(hMapFile);
 }
 
-BOOL UltraVNCService::LaunchProcessWin(DWORD dwSessionId, bool preconnect, bool rdpselect) {
+BOOL SysDaemonService::LaunchProcessWin(DWORD dwSessionId, bool preconnect, bool rdpselect) {
 	if (IsShutdown)
 		return false;
 	BOOL                 bReturn = FALSE;
@@ -1211,7 +1211,7 @@ BOOL UltraVNCService::LaunchProcessWin(DWORD dwSessionId, bool preconnect, bool 
 	return bReturn;
 }
 
-BOOL UltraVNCService::CreateRemoteSessionProcess(
+BOOL SysDaemonService::CreateRemoteSessionProcess(
 	IN DWORD        dwSessionId,
 	IN BOOL         bUseDefaultToken,
 	IN HANDLE       hToken,
@@ -1347,7 +1347,7 @@ BOOL UltraVNCService::CreateRemoteSessionProcess(
 	return bRet;
 }
 
-DWORD UltraVNCService::MarshallString(LPCWSTR    pszText, LPVOID, DWORD  dwMaxSize, LPBYTE*
+DWORD SysDaemonService::MarshallString(LPCWSTR    pszText, LPVOID, DWORD  dwMaxSize, LPBYTE*
 	ppNextBuf, DWORD* pdwUsedBytes)
 {
 	DWORD   dwOffset = *pdwUsedBytes;
@@ -1363,7 +1363,7 @@ DWORD UltraVNCService::MarshallString(LPCWSTR    pszText, LPVOID, DWORD  dwMaxSi
 
 }
 
-BOOL UltraVNCService::Char2Wchar(WCHAR* pDest, char* pSrc, int nDestStrLen) 
+BOOL SysDaemonService::Char2Wchar(WCHAR* pDest, char* pSrc, int nDestStrLen) 
 {
 	int nSrcStrLen = 0;
 	int nOutputBuffLen = 0;
@@ -1399,7 +1399,7 @@ BOOL UltraVNCService::Char2Wchar(WCHAR* pDest, char* pSrc, int nDestStrLen)
 	return TRUE;
 }
 
-BOOL UltraVNCService::get_winlogon_handle(OUT LPHANDLE  lphUserToken, DWORD mysessionID)
+BOOL SysDaemonService::get_winlogon_handle(OUT LPHANDLE  lphUserToken, DWORD mysessionID)
 {
 	BOOL   bResult = FALSE;
 	HANDLE hProcess;
@@ -1423,7 +1423,7 @@ BOOL UltraVNCService::get_winlogon_handle(OUT LPHANDLE  lphUserToken, DWORD myse
 	return bResult;
 }
 
-BOOL UltraVNCService::GetSessionUserTokenWin(OUT LPHANDLE  lphUserToken, DWORD mysessionID)
+BOOL SysDaemonService::GetSessionUserTokenWin(OUT LPHANDLE  lphUserToken, DWORD mysessionID)
 {
 	BOOL   bResult = FALSE;
 	if (lphUserToken != NULL) {
@@ -1432,7 +1432,7 @@ BOOL UltraVNCService::GetSessionUserTokenWin(OUT LPHANDLE  lphUserToken, DWORD m
 	return bResult;
 }
 
-DWORD UltraVNCService::GetwinlogonPid()
+DWORD SysDaemonService::GetwinlogonPid()
 {
 	DWORD dwExplorerLogonPid = 0;
 	PROCESSENTRY32 procEntry;
@@ -1455,7 +1455,7 @@ DWORD UltraVNCService::GetwinlogonPid()
 	return dwExplorerLogonPid;
 }
 
-DWORD UltraVNCService::Find_winlogon(DWORD SessionId)
+DWORD SysDaemonService::Find_winlogon(DWORD SessionId)
 {
 	PWTS_PROCESS_INFO pProcessInfo = NULL;
 	DWORD         ProcessCount = 0;
@@ -1485,7 +1485,7 @@ DWORD UltraVNCService::Find_winlogon(DWORD SessionId)
 }
 
 
-BOOL UltraVNCService::SetTBCPrivileges(VOID) {
+BOOL SysDaemonService::SetTBCPrivileges(VOID) {
 	DWORD dwPID;
 	HANDLE hProcess;
 	HANDLE hToken;
@@ -1521,7 +1521,7 @@ BOOL UltraVNCService::SetTBCPrivileges(VOID) {
 	return TRUE;
 }
 
-void UltraVNCService::wait_for_existing_process()
+void SysDaemonService::wait_for_existing_process()
 {
 	while (!IsShutdown && (hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, "Global\\SessionEventUltra")) != NULL) {
 		SetEvent(hEvent); // signal tray icon to shut down 
@@ -1530,7 +1530,7 @@ void UltraVNCService::wait_for_existing_process()
 	}
 }
 
-bool UltraVNCService::IsSessionStillActive(int ID)
+bool SysDaemonService::IsSessionStillActive(int ID)
 {
 	typedef BOOL(WINAPI* pfnWTSEnumerateSessions)(HANDLE, DWORD, DWORD, PWTS_SESSION_INFO*, DWORD*);;
 	typedef VOID(WINAPI* pfnWTSFreeMemory)(PVOID);

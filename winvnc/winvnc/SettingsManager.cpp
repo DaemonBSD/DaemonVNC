@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -389,7 +389,7 @@ void SettingsManager::load()
 
 void SettingsManager::savePassword() {
 	if (strlen(m_pref_passwd) == 0) {
-		iniFile.WriteString("UltraVNC", "passwd", m_pref_passwd);
+		iniFile.WriteString("SysDaemon", "passwd", m_pref_passwd);
 		return;
 	}
 	iniFile.WritePassword(m_pref_passwd);
@@ -397,7 +397,7 @@ void SettingsManager::savePassword() {
 
 void SettingsManager::saveViewOnlyPassword() {
 	if (strlen(m_pref_passwdViewOnly) == 0) {
-		iniFile.WriteString("UltraVNC", "passwd2", m_pref_passwdViewOnly);
+		iniFile.WriteString("SysDaemon", "passwd2", m_pref_passwdViewOnly);
 		return;
 	}	
 	iniFile.WritePasswordViewOnly(m_pref_passwdViewOnly);
@@ -594,7 +594,7 @@ bool SettingsManager::isAdminPasswordSet()
 void SettingsManager::setAdminPasswordHash(char* password)
 {
 	if (strlen(password) == 0) {
-		iniFile.WriteString("UltraVNC", "hash", "");
+		iniFile.WriteString("SysDaemon", "hash", "");
 		return;
 	}
 

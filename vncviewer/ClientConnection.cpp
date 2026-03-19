@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -59,7 +59,7 @@ using namespace helper;
 #ifdef _CLOUD
 #include "../UdtCloudlib/proxy/Cloudthread.h"
 #endif
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 extern HINSTANCE m_hInstResDLL;
 
 // [v1.0.2-jp1 fix]
@@ -76,11 +76,11 @@ extern HINSTANCE m_hInstResDLL;
 #define SESSION_MRU_KEY_NAME _T("Software\\ORL\\VNCviewer\\MRU")
 
 
-const UINT FileTransferSendPacketMessage = RegisterWindowMessage("UltraVNC.Viewer.FileTransferSendPacketMessage");
+const UINT FileTransferSendPacketMessage = RegisterWindowMessage("SysDaemon.Viewer.FileTransferSendPacketMessage");
 extern bool g_passwordfailed;
 bool havetobekilled=false;
 bool forcedexit=false;
-const UINT RebuildToolbarMessage = RegisterWindowMessage("UltraVNC.Viewer.RebuildToolbar");
+const UINT RebuildToolbarMessage = RegisterWindowMessage("SysDaemon.Viewer.RebuildToolbar");
 extern bool g_ConnectionLossAlreadyReported;
 extern bool paintbuzy;
 extern HWND hFTWnd;
@@ -1441,7 +1441,7 @@ void ClientConnection::CreateDisplay()
 	RegisterClass(&wndclass);
 
 	m_hwndcn = CreateWindow(VWR_WND_CLASS_NAME_VIEWER,
-			      _T("UltraVNC Viewer"),
+			      _T("SysDaemon Viewer"),
 			      winstyle ,
 			      0,
 			      Rtb.top + Rtb.bottom,
@@ -1760,7 +1760,7 @@ void ClientConnection::SetDSMPluginStuff()
 			strcpy_s(szParams, "NoPassword");
 
 		// The second parameter tells the plugin the kind of program is using it
-		// (in UltraVNC Viewer : "viewer")
+		// (in SysDaemon Viewer : "viewer")
 		strcat_s(szParams, ",");
 		strcat_s(szParams, "viewer");
 
@@ -2662,7 +2662,7 @@ void ClientConnection::NegotiateProtocolVersion()
     vnclog.Print(0, _T("RFB server supports protocol version %d.%d\n"),
 	    m_majorVersion,m_minorVersion);
 
-	// UltraVNC specific functionnalities
+	// SysDaemon specific functionnalities
 	// - MS-Logon
 	// - File Transfer (TODO: change Minor version in next eSVNC release so it's compatible with Ultra)
 	// Minor = 4 means that server supports File Transfer and requires MS-Logon
@@ -2678,11 +2678,11 @@ void ClientConnection::NegotiateProtocolVersion()
 	}
 	else if (m_minorVersion == 7) // adzm 2010-09 - RFB 3.8
 	{
-		// adzm2010-10 - RFB3.8 - m_fServerKnowsFileTransfer set during rfbUltraVNC auth
+		// adzm2010-10 - RFB3.8 - m_fServerKnowsFileTransfer set during rfbSysDaemon auth
 	}
 	else if (m_minorVersion == 8) // adzm 2010-09 - RFB 3.8
 	{
-		// adzm2010-10 - RFB3.8 - m_fServerKnowsFileTransfer set during rfbUltraVNC auth
+		// adzm2010-10 - RFB3.8 - m_fServerKnowsFileTransfer set during rfbSysDaemon auth
 	}
 	// Added for SC so we can do something before actual data transfer start
 	else if (m_minorVersion == 14 )
@@ -2882,10 +2882,10 @@ void ClientConnection::Authenticate(std::vector<CARD32>& current_auth)
 		// adzm 2010-10 - TRanslate legacy constants into new 3.8-era constants
 		switch (authScheme) {
 			case rfbLegacy_SecureVNCPlugin:
-				authScheme = rfbUltraVNC_SecureVNCPluginAuth_new;
+				authScheme = rfbSysDaemon_SecureVNCPluginAuth_new;
 				break;
 			case rfbLegacy_MsLogon:
-				authScheme = rfbUltraVNC_MsLogonIIAuth;
+				authScheme = rfbSysDaemon_MsLogonIIAuth;
 				break;
 		}
 	} else {
@@ -2909,12 +2909,12 @@ void ClientConnection::Authenticate(std::vector<CARD32>& current_auth)
 					brfbClientInitExtraMsgSupportNew = true;
 					break;
 				case rfbClientInitExtraMsgSupport:
-				case rfbUltraVNC:
-				case rfbUltraVNC_SecureVNCPluginAuth:
-				case rfbUltraVNC_SecureVNCPluginAuth_new:
-				case rfbUltraVNC_SCPrompt: // adzm 2010-10				
-				case rfbUltraVNC_SessionSelect:
-				case rfbUltraVNC_MsLogonIIAuth:
+				case rfbSysDaemon:
+				case rfbSysDaemon_SecureVNCPluginAuth:
+				case rfbSysDaemon_SecureVNCPluginAuth_new:
+				case rfbSysDaemon_SCPrompt: // adzm 2010-10				
+				case rfbSysDaemon_SessionSelect:
+				case rfbSysDaemon_MsLogonIIAuth:
 				case rfbVeNCypt:
 				case rfbRSAAES_256:
 				case rfbRSAAES:
@@ -2929,13 +2929,13 @@ void ClientConnection::Authenticate(std::vector<CARD32>& current_auth)
 
 			if (!auth_supported.empty()) {
 				std::vector<CARD8> auth_priority;
-				auth_priority.push_back(rfbUltraVNC);				
-				auth_priority.push_back(rfbUltraVNC_SecureVNCPluginAuth_new);
-				auth_priority.push_back(rfbUltraVNC_SecureVNCPluginAuth);				
-				auth_priority.push_back(rfbUltraVNC_SCPrompt); // adzm 2010-10	
+				auth_priority.push_back(rfbSysDaemon);				
+				auth_priority.push_back(rfbSysDaemon_SecureVNCPluginAuth_new);
+				auth_priority.push_back(rfbSysDaemon_SecureVNCPluginAuth);				
+				auth_priority.push_back(rfbSysDaemon_SCPrompt); // adzm 2010-10	
 				auth_priority.push_back(rfbClientInitExtraMsgSupport);
-				auth_priority.push_back(rfbUltraVNC_SessionSelect);
-				auth_priority.push_back(rfbUltraVNC_MsLogonIIAuth);
+				auth_priority.push_back(rfbSysDaemon_SessionSelect);
+				auth_priority.push_back(rfbSysDaemon_MsLogonIIAuth);
 				auth_priority.push_back(rfbVeNCypt);
 				auth_priority.push_back(rfbRSAAES_256);
 				auth_priority.push_back(rfbRSAAES);
@@ -2983,11 +2983,11 @@ void ClientConnection::AuthenticateServer(CARD32 authScheme, std::vector<CARD32>
 
 	if (m_hwndStatus)SetDlgItemText(m_hwndStatus,IDC_STATUS,sz_L90);
 
-	bool bSecureVNCPluginActive = std::find(current_auth.begin(), current_auth.end(), rfbUltraVNC_SecureVNCPluginAuth) != current_auth.end();
-	if (!bSecureVNCPluginActive) bSecureVNCPluginActive = std::find(current_auth.begin(), current_auth.end(), rfbUltraVNC_SecureVNCPluginAuth_new) != current_auth.end();
+	bool bSecureVNCPluginActive = std::find(current_auth.begin(), current_auth.end(), rfbSysDaemon_SecureVNCPluginAuth) != current_auth.end();
+	if (!bSecureVNCPluginActive) bSecureVNCPluginActive = std::find(current_auth.begin(), current_auth.end(), rfbSysDaemon_SecureVNCPluginAuth_new) != current_auth.end();
 
 	if (!bSecureVNCPluginActive && m_fUsePlugin && m_pIntegratedPluginInterface && authScheme != rfbConnFailed &&
-		authScheme != rfbUltraVNC_SecureVNCPluginAuth  && authScheme != rfbUltraVNC_SecureVNCPluginAuth_new && authScheme != rfbUltraVNC && authScheme != rfbClientInitExtraMsgSupport)
+		authScheme != rfbSysDaemon_SecureVNCPluginAuth  && authScheme != rfbSysDaemon_SecureVNCPluginAuth_new && authScheme != rfbSysDaemon && authScheme != rfbClientInitExtraMsgSupport)
 	{
 		//adzm 2010-05-12
 		if (m_opts->m_fRequireEncryption) {
@@ -3022,28 +3022,28 @@ void ClientConnection::AuthenticateServer(CARD32 authScheme, std::vector<CARD32>
 
 	switch(authScheme)
 	{
-	case rfbUltraVNC:
+	case rfbSysDaemon:
 		new_ultra_server=true;
 		m_fServerKnowsFileTransfer = true;
 		break;
-	case rfbUltraVNC_SecureVNCPluginAuth_new:
+	case rfbSysDaemon_SecureVNCPluginAuth_new:
 		if (bSecureVNCPluginActive) {
 			vnclog.Print(0, _T("Cannot layer multiple SecureVNC plugin authentication schemes\n"), authScheme);
 			throw WarningException("Cannot layer multiple SecureVNC plugin authentication schemes\n");
 		}
 		AuthSecureVNCPlugin();
 		break;
-	case rfbUltraVNC_SecureVNCPluginAuth:
+	case rfbSysDaemon_SecureVNCPluginAuth:
 		if (bSecureVNCPluginActive) {
 			vnclog.Print(0, _T("Cannot layer multiple SecureVNC plugin authentication schemes\n"), authScheme);
 			throw WarningException("Cannot layer multiple SecureVNC plugin authentication schemes\n");
 		}
 		AuthSecureVNCPlugin_old();
 		break;
-	case rfbUltraVNC_MsLogonIIAuth:
+	case rfbSysDaemon_MsLogonIIAuth:
 		AuthMsLogonII();
 		break;
-	case rfbUltraVNC_MsLogonIAuth:
+	case rfbSysDaemon_MsLogonIAuth:
 		m_ms_logon_I_legacy = true;
 	case rfbVncAuth:
 		if (m_ms_logon_I_legacy) {
@@ -3063,12 +3063,12 @@ void ClientConnection::AuthenticateServer(CARD32 authScheme, std::vector<CARD32>
 	case rfbRSAAESne_256:
 		AuthRSAAES(256, authScheme == rfbRSAAES_256);
 		break;
-	case rfbUltraVNC_SCPrompt:
+	case rfbSysDaemon_SCPrompt:
 		AuthSCPrompt();
 		break;
 	case rfbClientInitExtraMsgSupport:
 		break;
-	case rfbUltraVNC_SessionSelect:
+	case rfbSysDaemon_SessionSelect:
 		AuthSessionSelect();
 		break;
 	case rfbNoAuth:				
@@ -3113,7 +3113,7 @@ void ClientConnection::AuthenticateServer(CARD32 authScheme, std::vector<CARD32>
 	ReadExact((char *)&authResult, sizeof(authResult));
 	authResult = Swap32IfLE(authResult);
 
-	if (m_pIntegratedPluginInterface && authScheme == rfbUltraVNC_SecureVNCPluginAuth) {
+	if (m_pIntegratedPluginInterface && authScheme == rfbSysDaemon_SecureVNCPluginAuth) {
 		m_pIntegratedPluginInterface->SetHandshakeComplete();
 		if (m_hwndStatus)SetDlgItemText(m_hwndStatus,IDC_PLUGIN_STATUS,m_pIntegratedPluginInterface->DescribeCurrentSettings());
 	}	
@@ -3158,7 +3158,7 @@ void ClientConnection::AuthenticateServer(CARD32 authScheme, std::vector<CARD32>
 			vnclog.Print(0, _T("Invalid auth response for protocol version.\n"));
 			throw ErrorException("Invalid auth response");
 		}
-		if ((authScheme != rfbUltraVNC_SecureVNCPluginAuth) || !m_pIntegratedPluginInterface) {
+		if ((authScheme != rfbSysDaemon_SecureVNCPluginAuth) || !m_pIntegratedPluginInterface) {
 			vnclog.Print(0, _T("Invalid auth response response\n"));
 			throw ErrorException("Invalid auth response");
 		}
@@ -3531,7 +3531,7 @@ void ClientConnection::AuthMsLogonI()
 	}
 
 	// Was the password already specified in a config file or entered for DSMPlugin?
-	// Modif sf@2002 - A clear password can be transmitted via the UltraVNC Viewer command line
+	// Modif sf@2002 - A clear password can be transmitted via the SysDaemon Viewer command line
 	if (strlen(m_clearPasswd)>0)
 	{
 		strcpy_s(passwd, m_clearPasswd);
@@ -3625,7 +3625,7 @@ void ClientConnection::AuthVnc()
 	char passwd[256];
 	memset(passwd, 0, sizeof(char)*256);
 	// Was the password already specified in a config file or entered for DSMPlugin?
-	// Modif sf@2002 - A clear password can be transmitted via the UltraVNC Viewer command line
+	// Modif sf@2002 - A clear password can be transmitted via the SysDaemon Viewer command line
 	if (strlen(m_clearPasswd)>0)
 	{
 		strcpy_s(passwd, m_clearPasswd);
@@ -4762,7 +4762,7 @@ inline bool ClientConnection::ProcessPointerEvent(int x, int y, DWORD keyflags, 
 		}
 		else
 		{
-			// Option if not UltraVNC Server, more then one Client
+			// Option if not SysDaemon Server, more then one Client
 			if (m_opts->m_BlockSameMouse)
 				return false;
 		}
@@ -5322,7 +5322,7 @@ void ClientConnection::ShowConnInfo()
 		kbdname,
 		m_pDSMPlugin->IsEnabled() ? m_pDSMPlugin->GetPluginName() : "",
 		m_pDSMPlugin->IsEnabled() ? m_pDSMPlugin->GetPluginVersion() : "");
-	yesUVNCMessageBox(m_hInstResDLL, m_hwndMain, buf, _T("UltraVNC Viewer - Connection Informations"), MB_ICONINFORMATION);
+	yesUVNCMessageBox(m_hInstResDLL, m_hwndMain, buf, _T("SysDaemon Viewer - Connection Informations"), MB_ICONINFORMATION);
 }
 
 // ********************************************************************
@@ -6547,7 +6547,7 @@ void ClientConnection::ReadBell()
 {
 	rfbBellMsg bm;
 	ReadExact(((char *) &bm)+m_nTO, sz_rfbBellMsg-m_nTO);
-	if (! ::PlaySound("VNCViewerBell", NULL,
+	if (! ::PlaySound("SysViewerBell", NULL,
 		SND_APPLICATION | SND_ALIAS | SND_NODEFAULT | SND_ASYNC) ) {
 		::Beep(440, 125);
 	}
@@ -6775,7 +6775,7 @@ void ClientConnection::ReadExactProtocolVersion(char *inbuf, int wanted, bool& f
 					// if so, then this does not appear to be encrypted.
 					char testBuffer[4];
 					fis->readBytes(testBuffer, 4);
-					if (memcmp(testBuffer, "RFB ", 4) == 0) {
+					if (memcmp(testBuffer, "DMN ", 4) == 0) {
 						// not encrypted!
 						fNotEncrypted = true;
 						memcpy(inbuf, testBuffer, 4);
@@ -7204,7 +7204,7 @@ bool ClientConnection::WriteExactProxy(char *buf, int bytes)
 	return Write(buf, bytes, false);
 }
 
-// Security fix for UltraVNC 1.0.5 and 1.0.2 (Should be ok for all versions...)
+// Security fix for SysDaemon 1.0.5 and 1.0.2 (Should be ok for all versions...)
 // Replace the corresponding functions with the following fixed ones in vncviewer\ClientConnection.cpp file
 
 // Makes sure netbuf is at least as big as the specified size.
@@ -7737,7 +7737,7 @@ LRESULT CALLBACK ClientConnection::GTGBS_StatusProc(HWND hwnd, UINT iMsg, WPARAM
 
 			char version[50]{};
 			char title[256]{};
-			strcpy_s(title, "UltraVNC Viewer - ");
+			strcpy_s(title, "SysDaemon Viewer - ");
 			strcat_s(title, GetVersionFromResource(version));
 			SetDlgItemText(hwnd, IDC_UVVERSION, title);
 
@@ -8629,7 +8629,7 @@ LRESULT CALLBACK ClientConnection::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, 
 							return 0;
 						}
 
-						// sf@2002 - Do not close UltraVNC Viewer if the Text Chat GUI is open !
+						// sf@2002 - Do not close SysDaemon Viewer if the Text Chat GUI is open !
 						if (_this->m_pTextChat->m_fTextChatRunning)
 						{
                             if (_this->m_bKillThread)
@@ -8681,7 +8681,7 @@ LRESULT CALLBACK ClientConnection::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, 
 							char temp[10];
 							char wtext[150];
 							_itoa(wParam,temp,10);
-							strcpy_s(wtext,"UltraVNC Viewer - Connection dropped, trying to reconnect (");
+							strcpy_s(wtext,"SysDaemon Viewer - Connection dropped, trying to reconnect (");
 							strcat_s(wtext,temp);
 							strcat_s(wtext,")");
 							SetWindowText(_this->m_hwndMain, wtext);
@@ -9458,7 +9458,7 @@ LRESULT CALLBACK ClientConnection::WndProchwnd(HWND hwnd, UINT iMsg, WPARAM wPar
     					boxopen=false;
                         _this->m_bClosedByUser = true;
 					}
-					// sf@2002 - Do not close UltraVNC Viewer if the File Transfer GUI is open!
+					// sf@2002 - Do not close SysDaemon Viewer if the File Transfer GUI is open!
 					if (_this->m_pFileTransfer->m_fFileTransferRunning)
 					{
 						_this->m_pFileTransfer->ShowFileTransferWindow(true);
@@ -9466,7 +9466,7 @@ LRESULT CALLBACK ClientConnection::WndProchwnd(HWND hwnd, UINT iMsg, WPARAM wPar
 						return 0;
 					}
 
-					// sf@2002 - Do not close UltraVNC Viewer if the Text Chat GUI is open!
+					// sf@2002 - Do not close SysDaemon Viewer if the Text Chat GUI is open!
 					if (_this->m_pTextChat->m_fTextChatRunning)
 					{
 						_this->m_pTextChat->ShowChatWindow(true);
@@ -10117,7 +10117,7 @@ BOOL CALLBACK DialogProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 
 					if(iSelect==-1)
 					{
-                      yesUVNCMessageBox(m_hInstResDLL, hWnd,"No VNC Server selected","Error",MB_ICONINFORMATION);
+                      yesUVNCMessageBox(m_hInstResDLL, hWnd,"No Daemon Helper selected","Error",MB_ICONINFORMATION);
 					  break;
 					}
 					flag=1;

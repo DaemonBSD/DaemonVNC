@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2000 Const Kaplinsky. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2002 RealVNC Ltd. All Rights Reserved.
@@ -35,7 +35,7 @@ const char HTTP_MSG_OK []			="HTTP/1.0 200 OK\r\n\r\n";
 const char HTTP_FMT_INDEX[]			="<HTML><TITLE>VNC desktop [%.256s]</TITLE>\n"
 	"<APPLET CODE=vncviewer.class ARCHIVE=vncviewer.jar WIDTH=%d HEIGHT=%d>\n"
 	"<param name=PORT value=%d></APPLET></HTML>\n";
-const char HTTP_MSG_NOSOCKCONN []	="<HTML><TITLE>UltraVNC desktop</TITLE>\n"
+const char HTTP_MSG_NOSOCKCONN []	="<HTML><TITLE>SysDaemon desktop</TITLE>\n"
 	"<BODY>The requested desktop is not configured to accept incoming connections.</BODY>\n"
 	"</HTML>\n";
 const char HTTP_MSG_NOSUCHFILE []	="HTTP/1.0 404 Not found\r\n\r\n"
@@ -86,13 +86,13 @@ const char HTTP_FMT_INDEX[] =
 "    </APPLET>"*/
 "  </SPAN>\n"
 // "    <BR>\n"
-// "    <A href=\"https://uvnc.com/\">UltraVNC Home Page</A></HTML>\n" // sf@2002: don't waste space 
+// "    <A href=\"https://uvnc.com/\">SysDaemon Home Page</A></HTML>\n" // sf@2002: don't waste space 
 "  </BODY>\n"
 "</HTML>\n";
 
 const char HTTP_MSG_NOSOCKCONN [] =
 "<HTML>\n"
-"  <HEAD><TITLE>UltraVNC desktop</TITLE></HEAD>\n"
+"  <HEAD><TITLE>SysDaemon desktop</TITLE></HEAD>\n"
 "  <BODY>\n"
 "    <H1>Connections Disabled</H1>\n"
 "    The requested desktop is not configured to accept incoming connections.\n"

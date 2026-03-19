@@ -152,7 +152,7 @@ BEGIN
         MENUITEM "New connection",              ID_NEWCONN
         MENUITEM "Connection options",          IDC_OPTIONBUTTON
         MENUITEM SEPARATOR
-        MENUITEM "&About UltraVNC Viewer...",   IDD_APP_ABOUT
+        MENUITEM "&About SysDaemon Viewer...",   IDD_APP_ABOUT
         MENUITEM SEPARATOR
         MENUITEM "Toggle Listen Mode (On/Off)", ID_LISTEN_MODE
         MENUITEM "Close Tray icon",             ID_CLOSEAPP
@@ -178,7 +178,7 @@ END
 
 IDD_OPTIONDIALOG DIALOGEX 0, 0, 335, 253
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTERMOUSE | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - Connection Settings"
+CAPTION "SysDaemon Viewer - Connection Settings"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "Auto-select best settings",IDC_AUTODETECT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,12,136,12
@@ -260,7 +260,7 @@ END
 IDD_FILETRANSFER_DLG DIALOGEX 0, 0, 555, 414
 STYLE DS_SYSMODAL | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - File Transfer"
+CAPTION "SysDaemon Viewer - File Transfer"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     LTEXT           "History",IDC_HS_STATIC,4,378,26,8
@@ -300,7 +300,7 @@ END
 
 IDD_SESSION_DLG DIALOGEX 0, 0, 260, 297
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer 1.4.4.0-dev - Connection"
+CAPTION "SysDaemon Viewer 1.4.4.0-dev - Connection"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     COMBOBOX        IDC_HOSTNAME_EDIT,81,30,103,66,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
@@ -318,7 +318,7 @@ BEGIN
     PUSHBUTTON      "Restore defaults",IDC_RESET_DEFAULTS,9,258,60,13
     PUSHBUTTON      "Save",IDC_SAVE,191,277,60,13
     LTEXT           "Computer",IDC_LINE1,33,32,46,8
-    CTEXT           "UltraVNC Viewer",IDC_LOGO,46,7,156,8,SS_CENTERIMAGE
+    CTEXT           "SysDaemon Viewer",IDC_LOGO,46,7,156,8,SS_CENTERIMAGE
     LTEXT           "Computer",IDC_LINE2,33,46,47,8
     CONTROL         "",IDC_DEFAULTBOX,"Static",SS_BLACKFRAME | SS_REALSIZEIMAGE,4,0,255,84
     CONTROL         IDB_GREEN,IDC_GREEN,"Static",SS_BITMAP,192,52,6,6
@@ -328,7 +328,7 @@ END
 
 IDD_SERVINFO_DLG DIALOGEX 0, 0, 224, 170
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - RFB Server information"
+CAPTION "SysDaemon Viewer - RFB Server information"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,167,149,50,14
@@ -338,7 +338,7 @@ END
 IDD_AUTH_DIALOG DIALOGEX 101, 66, 214, 63
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - Authentication"
+CAPTION "SysDaemon Viewer - Authentication"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDD_USER_NAME,104,6,96,14,ES_AUTOHSCROLL
@@ -353,10 +353,10 @@ END
 IDD_AUTH_DIALOG2 DIALOGEX 101, 66, 214, 113
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - Authentication - Unsecured Transmission"
+CAPTION "SysDaemon Viewer - Authentication - Unsecured Transmission"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "With the current UltraVNC Viewer version, the password you provide is not transferred securely, except if you are using the encryption DSMPlugin.\r\nPlease update the UltraVNC Server on the remote computer to v1.0.2 or above for secure password transmission.",IDC_STATIC,8,6,196,44
+    LTEXT           "With the current SysDaemon Viewer version, the password you provide is not transferred securely, except if you are using the encryption DSMPlugin.\r\nPlease update the SysDaemon Server on the remote computer to v1.0.2 or above for secure password transmission.",IDC_STATIC,8,6,196,44
     EDITTEXT        IDD_USER_NAME,114,57,92,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_PASSWD_EDIT,114,73,92,14,ES_PASSWORD | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "Login",IDOK,95,92,54,15
@@ -369,7 +369,7 @@ END
 IDD_CUSTUM_KEY DIALOGEX 0, 0, 224, 58
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - Send Custom Key (Experimental...)"
+CAPTION "SysDaemon Viewer - Send Custom Key (Experimental...)"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     LTEXT           "KeyCode (decimal)",IDC_STATIC,7,9,87,12
@@ -384,7 +384,7 @@ END
 
 IDD_STATUS DIALOGEX 0, 0, 214, 201
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - Connection Status"
+CAPTION "SysDaemon Viewer - Connection Status"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "Close",IDCLOSE,157,180,50,14
@@ -397,7 +397,7 @@ BEGIN
     RTEXT           "Received",IDC_RECEIVED,117,141,72,9
     LTEXT           "Port Number",IDC_PORT,101,26,101,9
     ICON            IDI_NET,IDC_STATIC,93,121,20,20
-    LTEXT           "VNC Server",IDC_STATIC,11,12,46,9
+    LTEXT           "Daemon Helper",IDC_STATIC,11,12,46,9
     LTEXT           "Server Name",IDC_VNCSERVER,101,12,101,9
     LTEXT           "Status",IDC_STATIC,12,54,46,9
     LTEXT           "Connection closed",IDC_STATUS,101,54,105,9
@@ -410,13 +410,13 @@ BEGIN
     LTEXT           "Encoder",IDC_STATIC,12,40,46,9
     LTEXT           "FPS",IDC_STATIC,12,99,46,8
     LTEXT           "1",IDC_FPS,101,99,58,8
-    LTEXT           "UltraVNC Viewer 1.4.4.0-dev",IDC_UVVERSION,12,161,191,11
+    LTEXT           "SysDaemon Viewer 1.4.4.0-dev",IDC_UVVERSION,12,161,191,11
 END
 
 IDD_AUTH_DIALOG1 DIALOGEX 101, 66, 234, 58
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - WARNING: Upgrade server..."
+CAPTION "SysDaemon Viewer - WARNING: Upgrade server..."
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWD_EDIT,108,13,110,14,ES_PASSWORD | ES_AUTOHSCROLL
@@ -428,7 +428,7 @@ END
 
 IDD_FTPARAM_DLG DIALOGEX 0, 0, 241, 60
 STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - File Transfer Param Dialog"
+CAPTION "SysDaemon Viewer - File Transfer Param Dialog"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_FTPARAM_EDIT,10,21,224,14,ES_AUTOHSCROLL
@@ -439,7 +439,7 @@ END
 
 IDD_TEXTCHAT_DLG DIALOGEX 0, 0, 307, 175
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - Chat"
+CAPTION "SysDaemon Viewer - Chat"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_INPUTAREA_EDIT,4,136,255,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | NOT WS_BORDER | WS_VSCROLL,WS_EX_STATICEDGE
@@ -452,13 +452,13 @@ END
 
 IDD_APP_ABOUT DIALOGEX 0, 0, 264, 66
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - About"
+CAPTION "SysDaemon Viewer - About"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,198,48,62,14
     CONTROL         IDB_VNC64,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE,8,1,34,29
-    LTEXT           "UltraVNC Viewer 1.4.4.0-dev",IDC_UVVERSION,44,7,199,11
-    LTEXT           "Copyright © 2002-2025 UltraVNC Team Members",IDC_STATIC,44,31,184,13
+    LTEXT           "SysDaemon Viewer 1.4.4.0-dev",IDC_UVVERSION,44,7,199,11
+    LTEXT           "Copyright © 2002-2025 SysDaemon Team Members",IDC_STATIC,44,31,184,13
     LTEXT           "Built",IDC_STATIC,44,18,15,11
     LTEXT           "BuildTime",IDC_BUILDTIME,78,18,98,11
     LTEXT           "https://uvnc.com/",IDC_UVNCCOM,39,54,55,8
@@ -468,7 +468,7 @@ END
 IDD_FTCONFIRM_DLG DIALOGEX 0, 0, 227, 86
 STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer"
+CAPTION "SysDaemon Viewer"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     LTEXT           "Confirm message here",IDC_FTPCONFIRMCOMMENT,4,8,163,53
@@ -480,18 +480,18 @@ END
 
 IDD_APP_MESSAGE2 DIALOGEX 0, 0, 273, 109
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - Information"
+CAPTION "SysDaemon Viewer - Information"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "Close",IDOK,213,87,54,15
     LTEXT           "Info Message",IDC_Message2,43,35,215,26
     CONTROL         IDB_VNC64,IDC_STATIC,"Static",SS_BITMAP | SS_CENTERIMAGE,5,7,34,29
-    LTEXT           "UltraVNC Viewer 1.4.4.0-dev",IDC_UVVERSION2,43,6,199,11
+    LTEXT           "SysDaemon Viewer 1.4.4.0-dev",IDC_UVVERSION2,43,6,199,11
     LTEXT           "Built",IDC_STATIC,43,17,15,10
     LTEXT           "BuildTime",IDC_BUILDTIME,68,17,98,10
     LTEXT           "https://forum.uvnc.com/",IDC_FORUMHYPERLINK,56,74,102,8
     LTEXT           "https://uvnc.com/",IDC_WEBSITE,56,64,94,8
-    LTEXT           "https://github.com/ultravnc/UltraVNC",IDC_GIT,56,84,144,8
+    LTEXT           "https://github.com/ultravnc/SysDaemon",IDC_GIT,56,84,144,8
     LTEXT           "https://uvnc.com/downloads/ultravnc.html",IDC_WEBDOWNLOAD,56,94,135,8
     LTEXT           "Website:",IDC_STATIC,10,64,38,8
     LTEXT           "Forum:",IDC_STATIC,10,74,38,8
@@ -502,7 +502,7 @@ END
 IDD_AUTH_DIALOG3 DIALOGEX 101, 66, 234, 58
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - Authentication"
+CAPTION "SysDaemon Viewer - Authentication"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWD_EDIT,118,13,100,14,ES_PASSWORD | ES_AUTOHSCROLL
@@ -515,7 +515,7 @@ END
 IDD_AUTH_DIALOG4 DIALOGEX 101, 66, 215, 91
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - Authentication"
+CAPTION "SysDaemon Viewer - Authentication"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDD_USER_NAME,96,7,110,14,ES_AUTOHSCROLL
@@ -534,7 +534,7 @@ END
 IDD_AUTH_DIALOG5 DIALOGEX 101, 66, 235, 79
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
-CAPTION "UltraVNC Viewer - Authentication"
+CAPTION "SysDaemon Viewer - Authentication"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_PASSWD_EDIT,107,6,117,14,ES_PASSWORD | ES_AUTOHSCROLL
@@ -550,7 +550,7 @@ END
 
 IDD_SESSIONSELECTOR DIALOGEX 0, 0, 316, 183
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "UltraVNC Viewer - Session Selector"
+CAPTION "SysDaemon Viewer - Session Selector"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,205,162,50,14
@@ -561,7 +561,7 @@ END
 IDD_SAVEIMAGE DIALOGEX 0, 0, 316, 59
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | DS_CENTERMOUSE | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
-CAPTION "UltraVNC Viewer - Snapshot"
+CAPTION "SysDaemon Viewer - Snapshot"
 FONT 11, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     EDITTEXT        IDC_FOLDER,51,7,189,14,ES_AUTOHSCROLL
@@ -1202,7 +1202,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_TRAY                "UltraVNC Viewer listening"
+    IDR_TRAY                "SysDaemon Viewer listening"
 END
 
 STRINGTABLE
@@ -1213,9 +1213,9 @@ BEGIN
     ID_BUTTON_DESKTOP       "Select Desktop"
     IDS_WARNING             "WARNING: By default, this session does not use any encryption whatsoever. Please do not use it to send sensitive data unless you are sure your connection is secure (by using an encryption plugin, for instance).\n\n"
     IDS_A1                  "Stop viewer systray"
-    IDS_A2                  "UltraVNC info"
+    IDS_A2                  "SysDaemon info"
     IDS_A3                  "Error creating listening daemon:\n\r"
-    IDS_A4                  "Perhaps another UltraVNC Viewer is already running?"
+    IDS_A4                  "Perhaps another SysDaemon Viewer is already running?"
     IDS_A5                  "VNC Viewer error"
     IDS_B1                  "Error initializing sockets library"
     IDS_B2                  "Client list overflow!"
@@ -1304,7 +1304,7 @@ BEGIN
     IDS_D25                 "No server scale denominator specified"
     IDS_D26                 "No quick option number specified"
     IDS_D27                 "No DSM plugin specified ('PluginName.dsm')"
-    IDS_D28                 "Invalid VNC Server specified."
+    IDS_D28                 "Invalid Daemon Helper specified."
     IDS_E1                  "Unable to load the Rich Edit (RICHED32.DLL) control!"
 END
 
@@ -1317,7 +1317,7 @@ BEGIN
     IDS_F5                  "The Plugin cannot be loaded.\n\rPlease check its name integrity."
     IDS_F6                  "Plugin Loading"
     IDS_F7                  "The Plugin cannot be Initialized.\n\rPlease check its name integrity."
-    IDS_F8                  "Invalid VNC Server specified.\n\rServer should be of the form host:display."
+    IDS_F8                  "Invalid Daemon Helper specified.\n\rServer should be of the form host:display."
     IDS_F10                 "Connection setup"
     IDS_F11                 "No Plugin detected..."
     IDS_G1                  "Error creating Flasher socket"
@@ -1419,8 +1419,8 @@ BEGIN
     IDS_I1                  "Error creating Daemon socket"
     IDS_I2                  "Error binding Daemon socket"
     IDS_I3                  "Error when Daemon listens"
-    IDS_J1                  "To exit from full-screen mode, use Ctrl-Esc Esc and then\r\nright-click on the UltraVNC Viewer taskbar icon to see the menu."
-    IDS_J2                  "UltraVNC Viewer full-screen mode"
+    IDS_J1                  "To exit from full-screen mode, use Ctrl-Esc Esc and then\r\nright-click on the SysDaemon Viewer taskbar icon to see the menu."
+    IDS_J2                  "SysDaemon Viewer full-screen mode"
     IDS_K2                  "Error saving file"
     IDS_K1                  "Invalid filename"
     IDS_K3                  "Do you want to save the password in this file?\n\r Saving a password to a file is insecure."
@@ -1498,7 +1498,7 @@ BEGIN
     IDS_L36                 "Alt Key Up"
     IDS_L37                 "Ne&w connection...\tCtrl+Alt+Shift+N"
     IDS_L38                 "Save connection info &as... \tCtrl+Alt+F5"
-    IDS_L39                 "&About UltraVNC Viewer..."
+    IDS_L39                 "&About SysDaemon Viewer..."
     IDS_L40                 "Close listening &daemon"
     IDS_L41                 "DSMPlugin cannot be configured"
     IDS_L42                 "User Can celled"
@@ -1539,27 +1539,27 @@ BEGIN
     IDS_L69                 "Server closed connection \n\r -Your connection has been rejected \n\r -Network disconnect \n\r -Firewall "
     IDS_L70                 "Insufficient memory to allocate network buffer."
     IDS_L71                 "Insufficient memory to allocate zlib buffer."
-    IDS_L72                 "UltraVNC Viewer Status for"
-    IDS_L73                 "UltraVNC Viewer Status"
+    IDS_L72                 "SysDaemon Viewer Status for"
+    IDS_L73                 "SysDaemon Viewer Status"
     IDS_L74                 "No Connection"
     IDS_L75                 "Are you certain you wish to exit?"
-    IDS_L76                 "This action will close the UltraVNC Viewer"
+    IDS_L76                 "This action will close the SysDaemon Viewer"
 END
 
 STRINGTABLE
 BEGIN
-    IDS_L77                 "The connected VNC Server doesn't support UltraVNC File Transfer!"
-    IDS_L78                 "UltraVNC Viewer - Unavailable Functionality"
+    IDS_L77                 "The connected Daemon Helper doesn't support SysDaemon File Transfer!"
+    IDS_L78                 "SysDaemon Viewer - Unavailable Functionality"
     IDS_L79                 "The File Transfer Window is already open!"
     IDS_L80                 "File Transfer Warning"
-    IDS_L81                 "The connected VNC Server doesn't support UltraVNC Text Chat!"
-    IDS_L82                 "UltraVNC Viewer - Unavailable Functionality"
+    IDS_L81                 "The connected Daemon Helper doesn't support SysDaemon Text Chat!"
+    IDS_L82                 "SysDaemon Viewer - Unavailable Functionality"
     IDS_L83                 "The Text Chat Window is already open!"
     IDS_L84                 "Text Chat Warning"
     IDS_L85                 "Please close the File Transfer Window first"
     IDS_L86                 "Please close the Text Chat Window first"
     IDS_L87                 "Please close the Connection Options... Window first"
-    IDS_L88                 "UltraVNC Viewer - Warning"
+    IDS_L88                 "SysDaemon Viewer - Warning"
     IDS_L89                 "Negotiate Protocol Version..."
     IDS_L90                 "Password requested"
     IDS_L91                 "Connection failed"

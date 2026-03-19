@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -14,7 +14,7 @@
 #include "common/inifile.h"
 #include <cctype>
 #include <cassert>
-#include "UltraVNCService.h"
+#include "SysDaemonService.h"
 #include <winvnc/winvnc.h>
 #include "SettingsManager.h"
 #include <lmcons.h>
@@ -97,7 +97,7 @@ namespace serviceHelpers {
 
 	void Real_stop_service() {
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net stop \"%s\"", UltraVNCService::service_name);
+		_snprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 	}
 
@@ -121,7 +121,7 @@ namespace serviceHelpers {
 
 	void Real_start_service() {
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net start \"%s\"", UltraVNCService::service_name);
+		_snprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 	}
 
@@ -481,7 +481,7 @@ namespace postHelper {
 	UINT MENU_ADD_CLIENT6_MSG_INIT = RegisterWindowMessage("WinVNC.AddClient6.Message.Init");
 	UINT MENU_ADD_CLIENT6_MSG = RegisterWindowMessage("WinVNC.AddClient6.Message");
 	UINT MENU_TRAYICON_BALLOON_MSG = RegisterWindowMessage("WinVNC.TrayIconBalloon2.Message");
-	UINT FileTransferSendPacketMessage = RegisterWindowMessage("UltraVNC.Viewer.FileTransferSendPacketMessage");
+	UINT FileTransferSendPacketMessage = RegisterWindowMessage("SysDaemon.Viewer.FileTransferSendPacketMessage");
 
 	in6_addr G_LPARAM_IN6 = {};
 
@@ -494,7 +494,7 @@ namespace postHelper {
 
 	BOOL PostAddNewRepeaterClient() {
 		// assumes the -repeater command line set the repeater global variable.
-		// Post to the UltraVNC Server menu window (usually expected to fail at program startup)
+		// Post to the SysDaemon Server menu window (usually expected to fail at program startup)
 		if (!PostToWinVNC(MENU_ADD_CLIENT_MSG, (WPARAM)0xFFFFFFFF, (LPARAM)0xFFFFFFFF))
 			return FALSE;
 		return TRUE;
@@ -502,7 +502,7 @@ namespace postHelper {
 
 	BOOL PostAddNewCloudClient() {
 		// assumes the -repeater command line set the repeater global variable.
-		// Post to the UltraVNC Server menu window (usually expected to fail at program startup)
+		// Post to the SysDaemon Server menu window (usually expected to fail at program startup)
 		if (!PostToWinVNC(MENU_ADD_CLOUD_MSG, (WPARAM)0xFFFFFFFF, (LPARAM)0xFFFFFFFF))
 			return FALSE;
 		return TRUE;
@@ -518,7 +518,7 @@ namespace postHelper {
 	}
 
 	BOOL PostAddNewClientInit(unsigned long ipaddress, unsigned short port) {
-		// Post to the UltraVNC Server menu window
+		// Post to the SysDaemon Server menu window
 		if (!PostToWinVNC(MENU_ADD_CLIENT_MSG_INIT, (WPARAM)port, (LPARAM)ipaddress))
 		{
 			vnclog.Print(LL_INTERR, VNCLOG("PostAddNewClient failed\n"));
@@ -530,7 +530,7 @@ namespace postHelper {
 	}
 
 	BOOL PostAddNewClient4(unsigned long ipaddress, unsigned short port) {
-		// Post to the UltraVNC Server menu window
+		// Post to the SysDaemon Server menu window
 		if (!PostToWinVNC(MENU_ADD_CLIENT_MSG, (WPARAM)port, (LPARAM)ipaddress))
 		{
 			vnclog.Print(LL_INTERR, VNCLOG("PostAddNewClient failed\n"));
@@ -542,7 +542,7 @@ namespace postHelper {
 	}
 
 	BOOL PostAddNewClientInit4(unsigned long ipaddress, unsigned short port) {
-		// Post to the UltraVNC Server menu window
+		// Post to the SysDaemon Server menu window
 		if (!PostToWinVNC(MENU_ADD_CLIENT_MSG_INIT, (WPARAM)port, (LPARAM)ipaddress)) {
 			vnclog.Print(LL_INTERR, VNCLOG("PostAddNewClient failed\n"));
 			if (port == 1111 && ipaddress == 1111) ClientTimerReconnect = true;
@@ -551,7 +551,7 @@ namespace postHelper {
 		return TRUE;
 	}
 	BOOL PostAddNewClient6(in6_addr* ipaddress, unsigned short port) {
-		// Post to the UltraVNC Server menu window
+		// Post to the SysDaemon Server menu window
 		// We can not sen a IPv6 address with a LPARAM, so we fake the message by copying in a gloobal var.
 		memcpy(&G_LPARAM_IN6, ipaddress, sizeof(in6_addr));
 		if (!PostToWinVNC(MENU_ADD_CLIENT6_MSG, (WPARAM)port, (LPARAM)ipaddress))
@@ -560,7 +560,7 @@ namespace postHelper {
 	}
 
 	BOOL PostAddNewClientInit6(in6_addr* ipaddress, unsigned short port) {
-		// Post to the UltraVNC Server menu window
+		// Post to the SysDaemon Server menu window
 		// We can not sen a IPv6 address with a LPARAM, so we fake the message by copying in a gloobal var.
 		memcpy(&G_LPARAM_IN6, ipaddress, sizeof(in6_addr));
 		if (!PostToWinVNC(MENU_ADD_CLIENT6_MSG_INIT, (WPARAM)port, (LPARAM)ipaddress))
@@ -569,7 +569,7 @@ namespace postHelper {
 	}
 
 	BOOL PostAddNewClient(unsigned long ipaddress, unsigned short port) {
-		// Post to the UltraVNC Server menu window
+		// Post to the SysDaemon Server menu window
 		if (!PostToWinVNC(MENU_ADD_CLIENT_MSG, (WPARAM)port, (LPARAM)ipaddress))
 		{
 			vnclog.Print(LL_INTERR, VNCLOG("PostAddNewClient failed\n"));
@@ -593,15 +593,15 @@ namespace postHelper {
 		if (hservwnd == NULL)
 			return FALSE;
 
-		// Post the message to UltraVNC Server
+		// Post the message to SysDaemon Server
 		PostMessage(hservwnd, message, wParam, lParam);
 		return TRUE;
 	}
 
 	BOOL PostToWinVNC(UINT message, WPARAM wParam, LPARAM lParam) {
-		// Locate the hidden UltraVNC Server menu window
+		// Locate the hidden SysDaemon Server menu window
 		// adzm 2010-02-10 - If we are in SC mode, then we know we want to only post messages to our own instance. This prevents
-		// conflicts if the user already has another copy of a UltraVNC Server derived application running.
+		// conflicts if the user already has another copy of a SysDaemon Server derived application running.
 		if (allowMultipleInstances || settings->getScExit() || settings->getScPrompt()) {
 			return PostToThisWinVNC(message, wParam, lParam);
 		}
@@ -611,13 +611,13 @@ namespace postHelper {
 		if (hservwnd == NULL)
 			return FALSE;
 
-		// Post the message to UltraVNC Server
+		// Post the message to SysDaemon Server
 		PostMessage(hservwnd, message, wParam, lParam);
 		return TRUE;
 	}
 
 	HWND FindWinVNCWindow(bool bThisProcess) {
-		// Locate the hidden UltraVNC Server menu window
+		// Locate the hidden SysDaemon Server menu window
 		if (!bThisProcess) {
 			// Find any window with the MENU_CLASS_NAME window class
 			HWND returnvalue = FindWindow(MENU_CLASS_NAME, NULL);
@@ -806,7 +806,7 @@ namespace processHelper {
 		}
 
 		// Open the service
-		SC_HANDLE hService = OpenService(hSCM, UltraVNCService::service_name, SERVICE_QUERY_STATUS);
+		SC_HANDLE hService = OpenService(hSCM, SysDaemonService::service_name, SERVICE_QUERY_STATUS);
 		if (!hService) {
 			CloseServiceHandle(hSCM);
 			return false;
@@ -838,7 +838,7 @@ namespace processHelper {
 		SC_HANDLE hSCM = ::OpenSCManager(nullptr, nullptr, SC_MANAGER_ENUMERATE_SERVICE);
 		if (hSCM) {
 			// Attempt to open the specified service with query configuration access
-			SC_HANDLE hService = ::OpenService(hSCM, UltraVNCService::service_name, SERVICE_QUERY_CONFIG);
+			SC_HANDLE hService = ::OpenService(hSCM, SysDaemonService::service_name, SERVICE_QUERY_CONFIG);
 			if (hService) {
 				serviceInstalled = true;
 				::CloseServiceHandle(hService);

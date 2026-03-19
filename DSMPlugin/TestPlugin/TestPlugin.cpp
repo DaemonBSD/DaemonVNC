@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -19,7 +19,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 //
-// Testplugin is a sample that shows the rules that a DSM Plugin for UltraVNC
+// Testplugin is a sample that shows the rules that a DSM Plugin for SysDaemon
 // must follow (Fonctions to export, their signatures, design constraints...)
 //
 // WARNING: As it is still beta, some rules might change in the near future
@@ -42,7 +42,7 @@ PLUGINSTRUCT* pPlugin = NULL;  // struct (or class instance) that handles all Pl
 							   // Given as an example.
  
 // Internal Plugin vars, depending on what it does
-char  szExternalKey[255];	// To store the password/key transmitted via SetParams() by UltraVNC apps
+char  szExternalKey[255];	// To store the password/key transmitted via SetParams() by SysDaemon apps
 char  szLoaderType[32];     // To store the type of application that has loaded the plugin 
 BYTE* pLocalTransBuffer = NULL; // Local Transformation buffer (freed on VNC demand)
 BYTE* pLocalRestBuffer = NULL;  // Local Restoration buffer (freed on VNC demand)
@@ -127,28 +127,28 @@ TESTPLUGIN_API int Reset(void)
 // to acquire additionnal parameters and to ensure their persistence if necessary.
 // Same thing for events/errors logging.
 // 
-// This function can be called 2 times, both from UltraVNC Viewer and UltraVNC Server:
+// This function can be called 2 times, both from SysDaemon Viewer and SysDaemon Server:
 // 
-// 1.If the user clicks on the Plugin's "config" button in UltraVNC Viewer and UltraVNC Server dialog boxes
+// 1.If the user clicks on the Plugin's "config" button in SysDaemon Viewer and SysDaemon Server dialog boxes
 //   In this case this function is called with hVNC != 0 (CASE 1)
 //
 //   -> szParams is a string formatted as follow: "Part1,Part2"
 //   Part1 = "NoPassword"
 //   Part2 = type of application that has loaded the plugin
-//     "viewer"     : for UltraVNC Viewer
-//     "server-svc" : for UltraVNC Server run as a service
-//     "server-app" : for UltraVNC Server run as an application
+//     "viewer"     : for SysDaemon Viewer
+//     "server-svc" : for SysDaemon Server run as a service
+//     "server-app" : for SysDaemon Server run as an application
 //
 //   -> The Plugin Config dialog box is displayed if any.
 // 
-// 2.When then plugin is Inited from UltraVNC Viewer or UltraVNC Server, right after Startup() call (CASE 2);
+// 2.When then plugin is Inited from SysDaemon Viewer or SysDaemon Server, right after Startup() call (CASE 2);
 //   In this case, this function is called with hVNC = 0 and
 //   szParams is a string formatted as follows: "part1,Part2"
 //   Part1 = The VNC password, if required by the GetParams() function return value
 //   Part2 = type of application that has loaded the plugin
-//      "viewer"     : for UltraVNC Viewer
-//      "server-svc" : for UltraVNC Server run as a service
-//      "server-app" : for UltraVNC Server run as an application
+//      "viewer"     : for SysDaemon Viewer
+//      "server-svc" : for SysDaemon Server run as a service
+//      "server-app" : for SysDaemon Server run as an application
 //   (this info can be used for application/environnement dependent
 //    operations (config saving...))
 //   
@@ -156,7 +156,7 @@ TESTPLUGIN_API int SetParams(HWND hVNC, char* szParams)
 {
 	// CASE 1
 	// Get the environnement (szLoaderType) value that is always sent from 
-	// UltraVNC Viewer or UltraVNC Server
+	// SysDaemon Viewer or SysDaemon Server
 	MyStrToken(szLoaderType, szParams, 2, ',');
 
 	// If hVNC != 0, display for instance the Plugin Config Dialog box 
@@ -183,8 +183,8 @@ TESTPLUGIN_API int SetParams(HWND hVNC, char* szParams)
 // But we use this method to know if the plugin needs the VNC password
 // as a parameter to do its job correctly (for login step).
 // Thus this function is called once before the SetParams() function is called
-//  - Return "VNCPasswordNeeded" if VNC password must be transmitted by the UltraVNC app
-//  - Return any other Plugin parameters value otherwise (not used in UltraVNC Viewer and UltraVNC Server for now)
+//  - Return "VNCPasswordNeeded" if VNC password must be transmitted by the SysDaemon app
+//  - Return any other Plugin parameters value otherwise (not used in SysDaemon Viewer and SysDaemon Server for now)
 TESTPLUGIN_API char* GetParams(void)
 {
 	if (strlen(szExternalKey) > 0)
@@ -233,7 +233,7 @@ TESTPLUGIN_API BYTE* TransformBuffer(BYTE* pDataBuffer, int nDataLen, int* pnTra
 //
 // 1. If pRestoredDataBuffer is NULL, the function must return the pointer to current
 //    LocalRestBuffer that is going to receive the Transformed data to restore
-//    from UltraVNC Viewer or UltraVNC Server's socket.
+//    from SysDaemon Viewer or SysDaemon Server's socket.
 //    This buffer must be of the size of transformed data, calculated from nDataLen
 //    and this size must be given back in pnRestoredDataLen.
 //
@@ -242,7 +242,7 @@ TESTPLUGIN_API BYTE* TransformBuffer(BYTE* pDataBuffer, int nDataLen, int* pnTra
 //    local pLocalRestBuffer (nDataLen long) and put the result in pRestoredDataBuffer.
 //    The length of the resulting data is given back in pnTransformedDataLen
 //
-// Explanation: When UltraVNC Viewer or UltraVNC Server wants to restore some data, it does the following:
+// Explanation: When SysDaemon Viewer or SysDaemon Server wants to restore some data, it does the following:
 // - Calls RestoreBuffer with NULL to get the buffer (and its length) to store incoming transformed data
 // - Reads incoming transformed data from socket directly into the buffer given (and of given length)
 // - Calls RestoreBuffer again to actually restore data into the given destination buffer.

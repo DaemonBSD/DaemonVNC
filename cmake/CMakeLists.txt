@@ -1,10 +1,10 @@
-# // This file is part of UltraVNC
-# // https://github.com/ultravnc/UltraVNC
+# // This file is part of SysDaemon
+# // https://github.com/ultravnc/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
 # //
-# // SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+# // SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 # // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 # //
 
@@ -65,7 +65,7 @@ endif()
 set(TOOL_VERSION ${TOOL_MAJOR_VERSION}.${TOOL_MINOR_VERSION}.${TOOL_PATCH_VERSION}.${TOOL_TWEAK_VERSION})
 message(STATUS "TOOL_VERSION: ${TOOL_VERSION}")
 
-project(UltraVNC VERSION ${TOOL_VERSION})
+project(SysDaemon VERSION ${TOOL_VERSION})
 enable_language(CXX)
 enable_language(C)
 if(WIN32)
@@ -83,7 +83,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     #add_compile_definitions("NOMINMAX")
     set(CMAKE_MFC_FLAG 2)
 endif()
-if( ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64" OR ${CMAKE_SYSTEM_PROCESSOR} STREQUAL "AMD64" )
+if( "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "AMD64" )
     add_compile_definitions("_X64")
 endif()
 
@@ -123,5 +123,5 @@ add_subdirectory(uvnc_settings)
 add_subdirectory(uvnckeyboardhelper)
 add_subdirectory(vnchooks)
 add_subdirectory(vncviewer)
-#add_subdirectory(winvnc)
+add_subdirectory(winvnc)
 add_subdirectory(workgrpdomnt4)

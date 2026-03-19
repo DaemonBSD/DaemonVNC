@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2000-2002 Const Kaplinsky. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2009 D. R. Commander. All Rights Reserved.
@@ -155,10 +155,10 @@ typedef struct {
  * The format string below can be used in sprintf or sscanf to generate or
  * decode the version string respectively.
  */
-#define rfbProtocolVersionFormat "RFB %03d.%03d\n"
+#define rfbProtocolVersionFormat "DMN %03d.%03d\n"
 #define rfbProtocolMajorVersion 3
 #define rfbProtocolMinorVersion 8
-//#define rfbProtocolMinorVersion 4 // Reserved to UltraVNC ! (as well as "6")
+//#define rfbProtocolMinorVersion 4 // Reserved to SysDaemon ! (as well as "6")
 
 //adzm 2010-09
 /*
@@ -167,7 +167,7 @@ typedef struct {
  The 'base' minor version was 4, eg 3.4
  If MS-Logon is NOT enabled:
    2 is added to the base (3.6, 3.16 if SC_PROMPT)
-   Note that recent UltraVNC Servers simply send rfbMsLogon as an auth type which makes this entirely unnecessary
+   Note that recent SysDaemon Servers simply send rfbMsLogon as an auth type which makes this entirely unnecessary
  If SC_PROMPT is enabled:
    10 is added to the base (3.14, 3.16 if NOT MS-Logon)
 
@@ -176,7 +176,7 @@ typedef struct {
  Now the server sends the version, and the viewer negotiates the version to send back.
 
  The viewer handles the minor version as thus:
- (note that 'File Transfer' is a generic term for various UltraVNC features, such as chat, etc)
+ (note that 'File Transfer' is a generic term for various SysDaemon features, such as chat, etc)
  4 - MS-Logon, File Transfer
  6 - File Transfer
  14 - MS-Logon, File Transfer, SC_PROMPT
@@ -192,12 +192,12 @@ typedef struct {
 
  RFB 3.8 changes:
   MS-Logon is part of the authentication enum, and has been for a while. we don't need it in the RFB version any longer.
-  SC_PROMPT is definitely a strange beast, and one that is unique enough to UltraVNC that I think we can continue
+  SC_PROMPT is definitely a strange beast, and one that is unique enough to SysDaemon that I think we can continue
     the way we have been. So for SC_PROMPT, we can just send RFB 003.018\n. We really want to know about this
     before the connection continues further.
 
  In summary, server will now always send 3.8 unless it needs to send 3.18 for SC_PROMPT.
-   in both situations, the old UltraVNC Viewer will reply with 3.4
+   in both situations, the old SysDaemon Viewer will reply with 3.4
    the server can easily disable the SC_PROMPT stuff if the viewer does not indicate that it can support it.
  Downside is that old viewers will no longer have File Transfer and Text Chat available,
    but that kind of stuff should have been negotiated via pseudoencodings anyway!
@@ -220,15 +220,15 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
 
 // adzm 2010-09
 /*
- pre-RFB 3.8 -- rfbUltraVNC_SecureVNCPlugin extension
+ pre-RFB 3.8 -- rfbSysDaemon_SecureVNCPlugin extension
 
  If using SecureVNC Plugin (or any plugins that use the integrated plugin architecture) the unofficial 1.0.8.2 version sends
- the auth type rfbUltraVNC_SecureVNCPlugin.
+ the auth type rfbSysDaemon_SecureVNCPlugin.
 
  The intention of this auth type is to act as a 'master' and once complete, allow other authentication types to occur
  over the now-encrypted communication channel.
 
- So, server sends 32-bit network order int for rfbUltraVNC_SecureVNCPlugin and the loop begins:
+ So, server sends 32-bit network order int for rfbSysDaemon_SecureVNCPlugin and the loop begins:
    server sends 16-bit little-endian challenge length, followed by the challenge
    viewer responds with 16-bit little-endian response length, followed by the response
    this continues until the plugin says to stop the loop. Currently the SecureVNC plugin only
@@ -247,7 +247,7 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
 
  Now we send a byte for # of supported auth types, and then a byte for each auth type.
 
- rfbUltraVNC is not being used for anything, although rfbUltraVNC_SecureVNCPlugin has been established somewhat.
+ rfbSysDaemon is not being used for anything, although rfbSysDaemon_SecureVNCPlugin has been established somewhat.
  Like a lot of these things, most of the values in the authentication range will end up going unused.
  
  Rather than complicate things further, I hereby declare this scheme: the top 4-bit will define the 'owner'
@@ -262,7 +262,7 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
  reserved:                    0x4F
  reserved:                    0x5F
  reserved:                    0x6F
- UltraVNC:                    0x7F
+ SysDaemon:                    0x7F
  TightVNC:                    0x8F
  reserved:                    0x9F
  reserved:                    0xAF
@@ -281,30 +281,30 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
 #define rfbRSAAESne 6
 #define rfbRSAAES_256 129
 #define rfbRSAAESne_256 130
-#define rfbUltraVNC 17
-// adzm 2010-09 - After rfbUltraVNC, auth repeats via rfbVncAuthContinue
+#define rfbSysDaemon 17
+// adzm 2010-09 - After rfbSysDaemon, auth repeats via rfbVncAuthContinue
 #define rfbVeNCypt 19
 
-#define rfbUltraVNC_SCPrompt 0x68
-#define rfbUltraVNC_SessionSelect 0x69
+#define rfbSysDaemon_SCPrompt 0x68
+#define rfbSysDaemon_SessionSelect 0x69
 // adzm 2010-09 - Ultra subtypes
-#define rfbUltraVNC_MsLogonIAuth 0x70
+#define rfbSysDaemon_MsLogonIAuth 0x70
 
 	// MS-Logon I never seems to be used anymore -- the old code would say if (m_ms_logon) AuthMsLogon (II) else AuthVnc
 	// and within AuthVnc would be if (m_ms_logon) { /* MS-Logon code */ }. That could never be hit since the first case
 	// would always match!
 
-#define rfbUltraVNC_MsLogonIIAuth 0x71
+#define rfbSysDaemon_MsLogonIIAuth 0x71
 //Handshake needed to change for a possible security leak
 //Only new viewers can connect
-#define rfbUltraVNC_SecureVNCPluginAuth 0x72
-#define rfbUltraVNC_SecureVNCPluginAuth_new 0x73
+#define rfbSysDaemon_SecureVNCPluginAuth 0x72
+#define rfbSysDaemon_SecureVNCPluginAuth_new 0x73
 #define rfbClientInitExtraMsgSupport 0x74
 #define rfbClientInitExtraMsgSupportNew 0x75
 
 //adzm 2010-05-10 - for backwards compatibility with pre-3.8
 #define rfbLegacy_SecureVNCPlugin 17
-#define rfbLegacy_MsLogon 0xfffffffa // UltraVNC MS-Logon with (hopefully) better security
+#define rfbLegacy_MsLogon 0xfffffffa // SysDaemon MS-Logon with (hopefully) better security
 
 // please see ABOVE these definitions for more discussion on authentication
 
@@ -337,7 +337,7 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
 #define rfbVncAuthTooMany 2
 #define rfbVncAuthFailedEx 3 //adzm 2010-05-11 - Send an explanatory message for the failure (if any)
 
-// adzm 2010-09 - rfbUltraVNC or other auths may send this to restart authentication (perhaps over a now-secure channel)
+// adzm 2010-09 - rfbSysDaemon or other auths may send this to restart authentication (perhaps over a now-secure channel)
 #define rfbVncAuthContinue 0xFFFFFFFF
 
 

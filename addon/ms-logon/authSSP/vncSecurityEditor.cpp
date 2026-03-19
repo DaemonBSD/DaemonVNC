@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2004 Martin Scharpf. All Rights Reserved.
 //
@@ -114,7 +114,7 @@ AUTHSSP_API void vncEditSecurity(HWND hwnd, HINSTANCE hInstance) {
 		g_hInst = hInstance;
 		// Convert ISecurityInformation implementation into property pages
 		vncSecurityInfo* psi = 
-			new vncSecurityInfo(L"UltraVNC Server", L"UltraVNC Server");
+			new vncSecurityInfo(L"SysDaemon Server", L"SysDaemon Server");
 		psi->AddRef();
 		
 			HPROPSHEETPAGE hpsp[1];
@@ -126,7 +126,7 @@ AUTHSSP_API void vncEditSecurity(HWND hwnd, HINSTANCE hInstance) {
 			ZeroMemory(&psh, sizeof psh);
 			psh.dwSize		= sizeof psh;
 			psh.hwndParent	= hwnd;
-			psh.pszCaption	= _T("UltraVNC Security Editor");
+			psh.pszCaption	= _T("SysDaemon Security Editor");
 			psh.nPages		= sizeof hpsp / sizeof *hpsp;
 			psh.phpage		= hpsp;
 			

@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2000-2002 Const Kaplinsky. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2002 RealVNC Ltd. All Rights Reserved.
@@ -692,7 +692,7 @@ void vncBuffer::ScaleRect(rfb::Rect &rect)
 
 	// TrueColor Case.
 	// Pixels Blending (takes the "medium" pixel of each m_Scale*m_nScale square)
-	// This TrueColor Pixel blending routine comes from the Harakan's UltraVNC Server with Server Side Scaling
+	// This TrueColor Pixel blending routine comes from the Harakan's SysDaemon Server with Server Side Scaling
 	// Extension. It replaces my own buggy Blending function that given *ugly* results.
 	if (m_nScale == 1 && !m_videodriverused && !m_fGreyPalette)
 	{

@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2005 Sean E. Covel All Rights Reserved.
 //
@@ -124,7 +124,7 @@ PLUGIN_API int Startup(void)
 		//get the local version of 'Program Files'
 	GetEnvVar(PROGRAMFILES, sProgramFiles, BufSize);
 
-		//add 'UltraVNC' to it.
+		//add 'SysDaemon' to it.
 	if (_snprintf(defaultKeyFile, sizeof(defaultKeyFile),"%s%s%s",sProgramFiles,sDefault,sDefaultKeyName) < 0)
 		PrintLog((DEST,"_snprintf failed - defaultKeyFile too small"));
 	if (_snprintf(defaultGenFile, sizeof(defaultGenFile),"%s%s%s",sProgramFiles,sDefault,sDefaultGenKey) < 0)
@@ -262,28 +262,28 @@ return 1;
 // to acquire additionnal parameters and to ensure their persistence if necessary.
 // Same thing for events/errors logging.
 // 
-// This function can be called 2 times, both from UltraVNC Viewer and UltraVNC Server:
+// This function can be called 2 times, both from SysDaemon Viewer and SysDaemon Server:
 // 
-// 1.If the user clicks on the Plugin's "config" button in UltraVNC Viewer and UltraVNC Server dialog boxes
+// 1.If the user clicks on the Plugin's "config" button in SysDaemon Viewer and SysDaemon Server dialog boxes
 //   In this case this function is called with hVNC != 0 (CASE 1)
 //
 //   -> szParams is a string formatted as follow: "Part1,Part2"
 //   Part1 = "NoPassword"
 //   Part2 = type of application that has loaded the plugin
-//     "viewer"     : for UltraVNC Viewer
-//     "server-svc" : for UltraVNC Server run as a service
-//     "server-app" : for UltraVNC Server run as an application
+//     "viewer"     : for SysDaemon Viewer
+//     "server-svc" : for SysDaemon Server run as a service
+//     "server-app" : for SysDaemon Server run as an application
 //
 //   -> The Plugin Config dialog box is displayed if any.
 // 
-// 2.When then plugin is Inited from UltraVNC Viewer or UltraVNC Server, right after Startup() call (CASE 2);
+// 2.When then plugin is Inited from SysDaemon Viewer or SysDaemon Server, right after Startup() call (CASE 2);
 //   In this case, this function is called with hVNC = 0 and
 //   szParams is a string formatted as follows: "part1,Part2"
 //   Part1 = The VNC password, if required by the GetParams() function return value
 //   Part2 = type of application that has loaded the plugin
-//      "viewer"     : for UltraVNC Viewer
-//      "server-svc" : for UltraVNC Server run as a service
-//      "server-app" : for UltraVNC Server run as an application
+//      "viewer"     : for SysDaemon Viewer
+//      "server-svc" : for SysDaemon Server run as a service
+//      "server-app" : for SysDaemon Server run as an application
 //   (this info can be used for application/environnement dependent
 //    operations (config saving...))
 //   
@@ -351,7 +351,7 @@ PrintLog((DEST,"Set Params"));
 #endif  
 
     // Get the environnement (szLoaderType) value that is always sent from 
-    // UltraVNC Viewer or UltraVNC Server
+    // SysDaemon Viewer or SysDaemon Server
     MyStrToken(szLoaderType, szParams, 2, ',');
 
 	GetEnvVar(PROGRAMFILES, sProgramFiles, BufSize);
@@ -373,7 +373,7 @@ PrintLog((DEST,"Set Params"));
 		char defaultKeyFile[BufSize];
 		char defaultGenFile[BufSize];
 
-			//add 'UltraVNC' to it.
+			//add 'SysDaemon' to it.
 		if (_snprintf(defaultKeyFile, sizeof(defaultKeyFile),"%s%s%s",sProgramFiles,sDefault,sDefaultKeyName) < 0)
 			PrintLog((DEST,"_snprintf failed - defaultKeyFile too small"));
 		if (_snprintf(defaultGenFile, sizeof(defaultGenFile),"%s%s%s",sProgramFiles,sDefault,sDefaultGenKey) < 0)
@@ -437,9 +437,9 @@ PrintLog((DEST,"Set Params"));
         MyStrToken(szExternalKey, szParams, 1, ',');
         
         // The second parameter is the type of application that has loaded the plugin
-        // "viewer"     : for UltraVNC Viewer
-        // "server-svc" : for UltraVNC Server run as a service
-        // "server-app" : for UltraVNC Server run as an application
+        // "viewer"     : for SysDaemon Viewer
+        // "server-svc" : for SysDaemon Server run as a service
+        // "server-app" : for SysDaemon Server run as an application
         // this info can be used for application/environnement dependent operations (config saving...)
         MyStrToken(szLoaderType, szParams, 2, ',');
 //#endif
@@ -679,7 +679,7 @@ PLUGIN_API BYTE* TransformBuffer(BYTE* pDataBuffer, int nDataLen, int* pnTransfo
 //
 // 1. If pRestoredDataBuffer is NULL, the function must return the pointer to current
 //    LocalRestBuffer that is going to receive the Transformed data to restore
-//    from UltraVNC Viewer or UltraVNC Server's socket.
+//    from SysDaemon Viewer or SysDaemon Server's socket.
 //    This buffer must be of the size of transformed data, calculated from nDataLen
 //    and this size must be given back in pnRestoredDataLen.
 //
@@ -688,7 +688,7 @@ PLUGIN_API BYTE* TransformBuffer(BYTE* pDataBuffer, int nDataLen, int* pnTransfo
 //    local pLocalRestBuffer (nDataLen long) and put the result in pRestoredDataBuffer.
 //    The length of the resulting data is given back in pnTransformedDataLen
 //
-// Explanation: Actually, when UltraVNC Viewer or UltraVNC Server wants to restore some data, it does the following:
+// Explanation: Actually, when SysDaemon Viewer or SysDaemon Server wants to restore some data, it does the following:
 // - Calls RestoreBuffer with NULL to get the buffer (and its length) to store incoming transformed data
 // - Reads incoming transformed data from socket directly into the buffer given (and of given length)
 // - Calls RestoreBuffer again to actually restore data into the given destination buffer.
@@ -1005,9 +1005,9 @@ DWORD keyLen = 0;
 					keyLen = KEYLEN_40BIT;
 			}
 			// Button Generate Key
-			// Generates a file in \UltraVNC\new_rc4.key
+			// Generates a file in \SysDaemon\new_rc4.key
 			// You will need to copy it to the client AND the server as 
-			// UltraVNC\rc4.key
+			// SysDaemon\rc4.key
 
 			// Save the path in case they changed it!
 #ifdef _WITH_REGISTRY

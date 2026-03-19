@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -15,7 +15,7 @@
 #include <shlobj.h>
 #include <direct.h>
 #include <fstream>
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 #include "common/win32_helpers.h"
 using namespace helper;
 extern HINSTANCE m_hInstResDLL;
@@ -34,7 +34,7 @@ void SessionDialog::SaveConnection(HWND hwnd, bool saveAs)
 	sprintf_s(fname, "%.15s-%d.vnc", m_host_dialog, (disp > 0 && disp < 100) ? disp : m_port);
 	char buffer[_MAX_PATH];
 	getAppData(buffer);
-	strcat_s(buffer,"\\UltraVNC");
+	strcat_s(buffer,"\\SysDaemon");
 	_mkdir(buffer);
 
 	if ( saveAs) {
@@ -707,7 +707,7 @@ void SessionDialog::IfHostExistLoadSettings(char *hostname)
 	sprintf_s(fname, "%.15s-%d.vnc", tmphost, (disp > 0 && disp < 100) ? disp : port);
 	char buffer[_MAX_PATH];
 	getAppData(buffer);
-	strcat_s(buffer,"\\UltraVNC\\");
+	strcat_s(buffer,"\\SysDaemon\\");
 	strcat_s(buffer,fname);
 	FILE *file = fopen(buffer, "r");
 	strcpy_s(customConfigFile, buffer);

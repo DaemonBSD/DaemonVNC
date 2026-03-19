@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -27,7 +27,7 @@
 #include "omnithread/omnithread.h"
 #include "VNCviewerApp32.h"
 #include "shellscalingapi.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 
 // All logging is done via the log object
 Log vnclog;
@@ -373,7 +373,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR szCmdLin
 	info.cb = sizeof(CR_INSTALL_INFO);
 	info.pszAppName = _T("UVNC");
 	info.pszAppVersion = _T("1.4.4.0-dev");
-	info.pszEmailSubject = _T("UltraVNC Viewer 1.4.4.0-dev Error Report");
+	info.pszEmailSubject = _T("SysDaemon Viewer 1.4.4.0-dev Error Report");
 	info.pszEmailTo = _T("uvnc@skynet.be");
 	info.uPriorities[CR_SMAPI] = 1; // Third try send report over Simple MAPI    
 	// Install all available exception handlers

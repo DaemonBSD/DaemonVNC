@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -12,7 +12,7 @@
 //===========================================================================
 //	FullScreen Titlebar
 //	2004 - All rights reservered
-//  2019 - modified for UltraVNC
+//  2019 - modified for SysDaemon
 //===========================================================================
 //
 //	Project/Product :	FullScreenTitlebar
@@ -41,7 +41,7 @@ extern Log vnclog;
 #include "multimon.h"
 #include <commctrl.h>
 #include "VNCOptions.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 
 using namespace helper;
 extern HINSTANCE m_hInstResDLL;
@@ -485,7 +485,7 @@ LRESULT CALLBACK CTitleBar::WndProc(HWND hwnd, UINT iMsg,
 					if (TitleBarThis->Fit == TRUE)
 						::SendMessage(TitleBarThis->Parent, tbWM_PHOTO, 0, 0);
 					else
-						yesUVNCMessageBox(m_hInstResDLL, TitleBarThis->Parent, _T("Function only supported in 1:1 mode"), _T("UltraVNC Viewer - Snapshot"), MB_ICONINFORMATION);
+						yesUVNCMessageBox(m_hInstResDLL, TitleBarThis->Parent, _T("Function only supported in 1:1 mode"), _T("SysDaemon Viewer - Snapshot"), MB_ICONINFORMATION);
 				if(LOWORD(wParam) == tbIDC_SWITCHMONITOR)
 					::SendMessage(TitleBarThis->Parent, tbWM_SWITCHMONITOR, 0, 0);
 

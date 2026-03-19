@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -185,7 +185,7 @@ debug( const char *fmt, ... )
     va_list args;
 	memset(myoutput2,0,256);
 	va_start( args, fmt );
-	sprintf_s(myoutput, "UltraVNC> ");
+	sprintf_s(myoutput, "SysDaemon> ");
 	vsprintf_s( myoutput, fmt, args );
 	va_end( args );
 	strncpy_s(myoutput2,myoutput,strlen(myoutput)-1);
@@ -242,7 +242,7 @@ main_test()// int argc, char **argv )
 		Clean_viewer_List();
 	
 
-		debug("Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.\n");
+		debug("Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.\n");
 		debug("\n");
 		debug("\n");
 		debug("The Repeater is free software; you can redistribute it and/or modify\n");

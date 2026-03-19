@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -61,29 +61,29 @@ IniFile::ReadString(const char*key1, const char*key2,char *value,int valuesize)
 void
 IniFile::ReadPassword(char *value,int valuesize)
 {
-	GetPrivateProfileStruct("UltraVNC","passwd",value,8,strIniFile);
+	GetPrivateProfileStruct("SysDaemon","passwd",value,8,strIniFile);
 }
 
 void
 IniFile::ReadPasswordViewOnly(char *value,int valuesize) //PGM
 { 
-	GetPrivateProfileStruct("UltraVNC","passwd2",value,8,strIniFile); //PGM
+	GetPrivateProfileStruct("SysDaemon","passwd2",value,8,strIniFile); //PGM
 }
 
 bool
 IniFile::WritePassword(char *value)
 {
 	if (strlen(value) == 0)
-		return (FALSE != WritePrivateProfileStruct("UltraVNC", "passwd", NULL, 8, strIniFile));
-	return (FALSE != WritePrivateProfileStruct("UltraVNC","passwd", value,8,strIniFile));
+		return (FALSE != WritePrivateProfileStruct("SysDaemon", "passwd", NULL, 8, strIniFile));
+	return (FALSE != WritePrivateProfileStruct("SysDaemon","passwd", value,8,strIniFile));
 }
 
 bool 
 IniFile::WritePasswordViewOnly(char*value)
 { 
 	if (strlen(value) == 0)
-		return (FALSE != WritePrivateProfileStruct("UltraVNC", "passwd2", NULL, 8, strIniFile));
-	return (FALSE != WritePrivateProfileStruct("UltraVNC","passwd2", value,8,strIniFile));
+		return (FALSE != WritePrivateProfileStruct("SysDaemon", "passwd2", NULL, 8, strIniFile));
+	return (FALSE != WritePrivateProfileStruct("SysDaemon","passwd2", value,8,strIniFile));
 } 
 
 bool IniFile::IsWritable()
@@ -98,11 +98,11 @@ bool IniFile::IsWritable()
 void
 IniFile::ReadHash(char* value, int valuesize)
 {
-	GetPrivateProfileStruct("UltraVNC", "hash", value, valuesize, strIniFile);
+	GetPrivateProfileStruct("SysDaemon", "hash", value, valuesize, strIniFile);
 }
 
 bool
 IniFile::WriteHash(char* value, int valuesize)
 {
-	return (FALSE != WritePrivateProfileStruct("UltraVNC", "hash", value, valuesize, strIniFile));
+	return (FALSE != WritePrivateProfileStruct("SysDaemon", "hash", value, valuesize, strIniFile));
 }

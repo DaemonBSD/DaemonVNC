@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -17,7 +17,7 @@
 #include "res/resource.h"
 #include "common/win32_helpers.h"
 
-HWND LowLevelHook::g_hwndVNCViewer=NULL;
+HWND LowLevelHook::g_hwndSysViewer=NULL;
 DWORD LowLevelHook::g_VncProcessID=0;
 //BOOL  LowLevelHook::g_fHookActive=FALSE;
 HHOOK LowLevelHook::g_HookID=0;
@@ -30,7 +30,7 @@ BOOL LowLevelHook::Initialize(HWND hwndMain)
 {
         HINSTANCE hInstance = NULL ;
 
-        g_hwndVNCViewer = NULL ;
+        g_hwndSysViewer = NULL ;
         //g_fHookActive = GetCurrentScrollLockState() ;
         g_VncProcessID = 0 ;
         g_HookID = 0 ;
@@ -38,15 +38,15 @@ BOOL LowLevelHook::Initialize(HWND hwndMain)
         g_fCheckScrollLock = TRUE;
 
         //Store our window's handle
-        g_hwndVNCViewer = hwndMain;
-        if (g_hwndVNCViewer==NULL)
+        g_hwndSysViewer = hwndMain;
+        if (g_hwndSysViewer==NULL)
                 return FALSE;
 
 
         //Get the HInstacne of this window
         //(required because LowLevel-Keyboard-Hook must be global, 
         // and need the HMODULE parameter in SetWindowsHookEx)
-        hInstance = helper::SafeGetWindowInstance(g_hwndVNCViewer);
+        hInstance = helper::SafeGetWindowInstance(g_hwndSysViewer);
         if (hInstance==NULL)
                 return FALSE;
 
@@ -54,7 +54,7 @@ BOOL LowLevelHook::Initialize(HWND hwndMain)
         //Store the ProcessID of the VNC window.
         //this will prevent the keyboard hook procedure to interfere
         //with keypressed in other processes' windows
-        GetWindowThreadProcessId(g_hwndVNCViewer,&g_VncProcessID);
+        GetWindowThreadProcessId(g_hwndSysViewer,&g_VncProcessID);
 
 		// adzm 2009-09-25 - Install the hook on a different thread. We recieve the hook callbacks via the message pump, so
 		// by using it on the main connection thread, it could be delayed due to File Transfers, etc. So now we have a dedicated
@@ -190,7 +190,7 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                     }
 				}
 
-                //only if this is "our" process (UltraVNC Viewer's process)
+                //only if this is "our" process (SysDaemon Viewer's process)
                 //we should intecept the key-presses
 				// adzm 2009-09-25 - Call CheckScrollLock() which will query the scroll lock state if necessary
                 if (ProcessID==g_VncProcessID) {
@@ -201,7 +201,7 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                                 //      Simulate a "Request Refresh" from the System Menu
                         case VK_SNAPSHOT:
                                 if (fKeyDown && CheckScrollLock()) {
-                                        PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_REQUEST_REFRESH,0);
+                                        PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_REQUEST_REFRESH,0);
                                         fHandled = TRUE;
                                 }
                                 break ;
@@ -211,7 +211,7 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                                 //      Simulate a "FullScreen" from the System Menu
                         case VK_PAUSE:
                                 if (fKeyDown && CheckScrollLock()) {
-                                        PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_FULLSCREEN,0);
+                                        PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_FULLSCREEN,0);
                                         fHandled = TRUE;
                                 }
                                 break ;
@@ -223,9 +223,9 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                         case VK_RCONTROL:
                                 if (CheckScrollLock()) {
                                         if(fKeyDown)
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_CONN_CTLDOWN,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_CONN_CTLDOWN,0);
                                         else
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_CONN_CTLUP,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_CONN_CTLUP,0);
                                         fHandled = TRUE;
                                 }
                                 break;
@@ -236,36 +236,36 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                         case VK_RMENU:
                                 if (CheckScrollLock()) {
                                         if(fKeyDown)
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_CONN_ALTDOWN,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_CONN_ALTDOWN,0);
                                         else
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_CONN_ALTUP,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_CONN_ALTUP,0);
                                         fHandled = TRUE;
                                 }
                                 break;
                         case VK_LWIN:
                                 if (CheckScrollLock()) {
                                         if(fKeyDown)
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_VK_LWINDOWN,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_VK_LWINDOWN,0);
                                         else
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_VK_LWINUP,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_VK_LWINUP,0);
                                         fHandled = TRUE;
                                 }
                                 break;
 						case VK_RWIN:
                                 if (CheckScrollLock()) {
                                         if(fKeyDown)
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_VK_RWINDOWN,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_VK_RWINDOWN,0);
                                         else
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_VK_RWINUP,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_VK_RWINUP,0);
                                         fHandled = TRUE;
                                 }
                                 break;
 						case VK_APPS:
                                 if (CheckScrollLock()) {
                                         if(fKeyDown)
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_VK_APPSDOWN,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_VK_APPSDOWN,0);
                                         else
-                                                PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,ID_VK_APPSUP,0);
+                                                PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,ID_VK_APPSUP,0);
                                         fHandled = TRUE;
                                 }
                                 break; 
@@ -288,12 +288,12 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
 
 
                                 //SPACEBAR = When key interception is Active, no special handling is required for 'spacebar'.
-                                //But when key interception is turned off, I want ALT+SPACE to open the UltraVNC Viewer's System Menu.
+                                //But when key interception is turned off, I want ALT+SPACE to open the SysDaemon Viewer's System Menu.
                         case VK_SPACE:
                                 if (!CheckScrollLock()) {
                                         if (pkbdllhook->flags & LLKHF_ALTDOWN) {
                                                 if(!fKeyDown)
-                                                        PostMessage(g_hwndVNCViewer,WM_SYSCOMMAND,0xF100,0x20); 
+                                                        PostMessage(g_hwndSysViewer,WM_SYSCOMMAND,0xF100,0x20); 
 
                                                 fHandled = TRUE;
                                         }
@@ -303,7 +303,7 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
 
                                 
                                 //TAB = If the user presses ALT+TAB, we must block the TAB key (fHandled=TRUE),
-                                //Otherwise windows (on the UltraVNC Viewer's side) will switch to another application.
+                                //Otherwise windows (on the SysDaemon Viewer's side) will switch to another application.
                                 //But because we block the TAB key, the 'ClientConnection' window won't know to send
                                 //a TAB key to the VNCServer. so we simulate a TAB key pressed. 
                                 //(The ALT key down was already sent to the VNCServer when the user pressed ALT)
@@ -311,7 +311,7 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                                 if (CheckScrollLock()) {
                                         if (pkbdllhook->flags & LLKHF_ALTDOWN) {
                                                 if(fKeyDown)
-                                                        PostMessage(g_hwndVNCViewer,WM_KEYDOWN,VK_TAB,0);
+                                                        PostMessage(g_hwndSysViewer,WM_KEYDOWN,VK_TAB,0);
 
                                                 /* Implementation Note:
                                                    Don't send the Key-UP event, it confuses Windows on the server side.
@@ -326,7 +326,7 @@ LRESULT CALLBACK LowLevelHook::VncLowLevelKbHookProc(INT nCode, WPARAM wParam, L
                                 break;
 
                                 //ESCAPE = ALT+ESC is also a way to switch application, so we block the ESCAPE key,
-                                //Otherwise windows (on the UltraVNC Viewer's side) will switch to another application.
+                                //Otherwise windows (on the SysDaemon Viewer's side) will switch to another application.
                                 //Transmitting the ALT+ESCAPE combination to a VNCServer running Windows doesn't work
                                 //very well, so for now, we'll just block the ALT+ESCAPE combination.
                                 //(CTRL+ESC work OK, BTW)

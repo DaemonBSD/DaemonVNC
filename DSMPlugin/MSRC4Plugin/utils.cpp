@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2005 Sean E. Covel All Rights Reserved.
 //
@@ -417,9 +417,9 @@ int FindKey(const char* sPluginName, const char* sDefaultKeyName, const char* sV
 #ifdef _WITH_REGISTRY  
 	if (*hKeyFile == INVALID_HANDLE_VALUE) 
 	{
-		// ** THIRD if the key wasn't found, try Program Files\UltraVNC
+		// ** THIRD if the key wasn't found, try Program Files\SysDaemon
 #ifdef _WITH_LOG  
-		PrintLog((DEST,"Looking for ProgramFiles\\UltraVNC"));
+		PrintLog((DEST,"Looking for ProgramFiles\\SysDaemon"));
 #endif  
 		if (_snprintf(keyFile, sizeof(keyFile),"%s\\ULTRAVNC\\%s",sProgramFiles,sDefaultKeyName) < 0)
 		{  

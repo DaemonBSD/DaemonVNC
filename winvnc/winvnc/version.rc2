@@ -1,10 +1,10 @@
-﻿// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+﻿// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -41,14 +41,14 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "UltraVNC - Remote Control for all"
-            VALUE "CompanyName", "uvnc bv"
-            VALUE "FileDescription", "UltraVNC Server"
+            VALUE "Comments", "SysDaemon - Remote Control for all"
+            VALUE "CompanyName", "SysDaemon Corp"
+            VALUE "FileDescription", "SysDaemon Server"
             VALUE "FileVersion", APS_FULLVERSION_STR
             VALUE "InternalName", "WinVNC.exe"
-            VALUE "LegalCopyright", "Copyright © 2002-" STRINGIZE(APS_DATEYEAR) " UltraVNC Team Members. All Rights Reserved."
+            VALUE "LegalCopyright", "Copyright © 2002-" STRINGIZE(APS_DATEYEAR) " SysDaemon Team Members. All Rights Reserved."
             VALUE "OriginalFilename", "WinVNC.exe"
-            VALUE "ProductName", "UltraVNC Server"
+            VALUE "ProductName", "SysDaemon Server"
             VALUE "ProductVersion", APS_FULLVERSION_STR
         END
     END

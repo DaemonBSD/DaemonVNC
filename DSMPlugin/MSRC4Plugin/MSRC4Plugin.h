@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2005 Sean E. Covel All Rights Reserved.
 //
@@ -47,7 +47,7 @@
 
 #ifdef _WITH_REGISTRY
 				// Registry key locations
-#define MSRC4_KEY_NAME_VIEWER _T("Software\\ORL\\VNCViewer\\DSMPlugins\\MSRC4")
+#define MSRC4_KEY_NAME_VIEWER _T("Software\\ORL\\SysViewer\\DSMPlugins\\MSRC4")
 #define MSRC4_KEY_NAME_SERVER _T("Software\\ORL\\WinVNC3\\DSMPlugins\\MSRC4")
 
 #endif
@@ -57,7 +57,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 // Internal Plugin vars, depending on what it does
-char  szExternalKey[255];   // To store the password/key transmitted via SetParams() by UltraVNC apps
+char  szExternalKey[255];   // To store the password/key transmitted via SetParams() by SysDaemon apps
 char  szLoaderType[52];     // To store the type of application that has loaded the plugin 
 
 BYTE* pLocalTransBuffer = NULL; // Local Transformation buffer (freed on VNC demand)

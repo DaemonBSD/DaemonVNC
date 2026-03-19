@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999 AT&T Laboratories Cambridge. All Rights Reserved.
 //
@@ -598,7 +598,7 @@ void KeyMap::PCtoX(BYTE virtKey, DWORD keyData, ClientConnection* clientCon)
        vnclog.Print(8, _T("Ctrl-Alt pressed:\n"));
 
         // We must release Control and Alt (AltGr) if they were both pressed, so the character
-        //   is seen without them by the VNC Server
+        //   is seen without them by the Daemon Helper
         // We don't release the Right Control; this allows German users
         //   to use it for doing Ctrl-AltGr-x, e.g. Ctl-@, etc
         lctrl.release(downKeysym);

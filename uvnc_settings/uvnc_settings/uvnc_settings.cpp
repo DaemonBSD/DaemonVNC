@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -78,7 +78,7 @@ LONG FTTimeout = 30;
 LONG SocketConnect=1;
 LONG HTTPConnect=1;
 LONG AutoPortSelect=1;
-LONG PortNumber=5900;
+LONG PortNumber=9050;
 LONG HttpPortNumber=5800;
 LONG IdleTimeout=0;
 LONG IdleInputTimeout=0;

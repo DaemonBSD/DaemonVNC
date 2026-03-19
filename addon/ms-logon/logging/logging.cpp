@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -40,7 +40,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 EventLogging::EventLogging()
 {
 	// returns a handle that links the source to the registry 
-	m_hEventLinker = RegisterEventSource(NULL,"UltraVNC");
+	m_hEventLinker = RegisterEventSource(NULL,"SysDaemon");
 
 }
 
@@ -71,7 +71,7 @@ void EventLogging::AddEventSourceToRegistry(LPCTSTR lpszSourceName)
     TCHAR szKey[255] =_T("SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application\\");
     TCHAR szServicePath[MAX_PATH];
 
-    lstrcat(szKey, _T("UltraVNC"));
+    lstrcat(szKey, _T("SysDaemon"));
 
     if(RegCreateKey(HKEY_LOCAL_MACHINE, szKey, &hk) != ERROR_SUCCESS)
     {

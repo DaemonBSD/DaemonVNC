@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2015 D. R. Commander. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2000-2002 Const Kaplinsky. All Rights Reserved.
@@ -493,7 +493,7 @@ vncClientUpdateThread::run_undetached(void* arg)
 						sz_rfbPalmVNCReSizeFrameBufferMsg,
 						rfbPalmVNCReSizeFrameBuffer);
 				}
-				else // eSVNC-UltraVNC Scaling
+				else // eSVNC-SysDaemon Scaling
 				{
 					rfbResizeFrameBufferMsg rsmsg;
 					memset(&rsmsg, 0, sizeof(rfbResizeFrameBufferMsg));
@@ -1182,33 +1182,33 @@ BOOL vncClientThread::AuthenticateClient(std::vector<CARD8>& current_auth, bool 
 	const bool bUseSessionSelect = false;
 
 	// obviously needs to be one that we suggested in the first place
-	bool bSecureVNCPluginActive = std::find(current_auth.begin(), current_auth.end(), rfbUltraVNC_SecureVNCPluginAuth_new) != current_auth.end();
-	bool bSCPromptActive = std::find(current_auth.begin(), current_auth.end(), rfbUltraVNC_SCPrompt) != current_auth.end();
-	bool bSessionSelectActive = std::find(current_auth.begin(), current_auth.end(), rfbUltraVNC_SessionSelect) != current_auth.end();
+	bool bSecureVNCPluginActive = std::find(current_auth.begin(), current_auth.end(), rfbSysDaemon_SecureVNCPluginAuth_new) != current_auth.end();
+	bool bSCPromptActive = std::find(current_auth.begin(), current_auth.end(), rfbSysDaemon_SCPrompt) != current_auth.end();
+	bool bSessionSelectActive = std::find(current_auth.begin(), current_auth.end(), rfbSysDaemon_SessionSelect) != current_auth.end();
 
 	if (current_auth.empty()) {
-		// send the UltraVNC auth type to identify ourselves as an UltraVNC Server, but only initially
-		auth_types.push_back(rfbUltraVNC);
+		// send the SysDaemon auth type to identify ourselves as an SysDaemon Server, but only initially
+		auth_types.push_back(rfbSysDaemon);
 		auth_types.push_back(rfbClientInitExtraMsgSupportNew);
 	}	
 
 	// encryption takes priority over everything, for now at least.
 	// would be useful to have a host list to configure these settings.
-	// Include the SecureVNCPluginAuth type for those that support it but are not UltraVNC Viewers
+	// Include the SecureVNCPluginAuth type for those that support it but are not SysDaemon Viewers
 	if (!bSecureVNCPluginActive && m_socket->IsUsePluginEnabled() && m_server->GetDSMPluginPointer()->IsEnabled() && m_socket->GetIntegratedPlugin() != NULL)
 	{
-		auth_types.push_back(rfbUltraVNC_SecureVNCPluginAuth_new);
-		auth_types.push_back(rfbUltraVNC_SecureVNCPluginAuth);
+		auth_types.push_back(rfbSysDaemon_SecureVNCPluginAuth_new);
+		auth_types.push_back(rfbSysDaemon_SecureVNCPluginAuth);
 	}
 	else if ((settings->getScPrompt() || settings->getScExit()) && !bSCPromptActive)
 	{
 		// adzm 2010-10 - Add the SCPrompt pseudo-auth
-		auth_types.push_back(rfbUltraVNC_SCPrompt);
+		auth_types.push_back(rfbSysDaemon_SCPrompt);
 	}
 	else if (bUseSessionSelect)
 	{
 		// adzm 2010-10 - Add the SessionSelect pseudo-auth
-		auth_types.push_back(rfbUltraVNC_SessionSelect);
+		auth_types.push_back(rfbSysDaemon_SessionSelect);
 	}		
 	else
 	{
@@ -1216,7 +1216,7 @@ BOOL vncClientThread::AuthenticateClient(std::vector<CARD8>& current_auth, bool 
 
 		if (!m_auth && m_ms_logon)
 		{
-			auth_types.push_back(rfbUltraVNC_MsLogonIIAuth);
+			auth_types.push_back(rfbSysDaemon_MsLogonIIAuth);
 		}
 		else
 		{
@@ -1266,21 +1266,21 @@ BOOL vncClientThread::AuthenticateClient(std::vector<CARD8>& current_auth, bool 
 	std::string auth_message;
 	switch (auth_accepted)
 	{
-	case rfbUltraVNC:
+	case rfbSysDaemon:
 		m_client->SetUltraViewer(true);
-		vnclog.Print(LL_LOGSCREEN, "UltraVNC Viewer");
+		vnclog.Print(LL_LOGSCREEN, "SysDaemon Viewer");
 		auth_success = true;
 		break;
-	case rfbUltraVNC_SecureVNCPluginAuth_new:
+	case rfbSysDaemon_SecureVNCPluginAuth_new:
 		auth_success = AuthSecureVNCPlugin(auth_message);
 		vnclog.Print(LL_LOGSCREEN, "AuthSecureVNCPlugin success = %d", auth_success);
 		break;
-	case rfbUltraVNC_SecureVNCPluginAuth:
+	case rfbSysDaemon_SecureVNCPluginAuth:
 		auth_success = AuthSecureVNCPlugin_old(auth_message);
 		auth_success = 0;
 		version_warning = 1;
 		break;
-	case rfbUltraVNC_MsLogonIIAuth:
+	case rfbSysDaemon_MsLogonIIAuth:
 		auth_success = AuthMsLogon(auth_message);
 		vnclog.Print(LL_LOGSCREEN, "MsLogonII success = %d", auth_success);
 		if (auth_success) {
@@ -1294,11 +1294,11 @@ BOOL vncClientThread::AuthenticateClient(std::vector<CARD8>& current_auth, bool 
 	case rfbNoAuth:
 		auth_success = TRUE;
 		break;
-	case rfbUltraVNC_SCPrompt:
+	case rfbSysDaemon_SCPrompt:
 		// adzm 2010-10 - Do the SCPrompt auth
 		auth_success = AuthSCPrompt(auth_message);
 		break;
-	case rfbUltraVNC_SessionSelect:
+	case rfbSysDaemon_SessionSelect:
 		// adzm 2010-10 - Do the SessionSelect auth
 		auth_success = AuthSessionSelect(auth_message);
 		break;
@@ -1319,10 +1319,10 @@ BOOL vncClientThread::AuthenticateClient(std::vector<CARD8>& current_auth, bool 
 		// continue the authentication if MS-Logon is enabled. any method of authentication should
 		// work out fine with this method. Currently we limit ourselves to only one layer beyond
 		// the plugin to avoid deep recursion, but that can easily be changed if necessary.
-		if (m_ms_logon && auth_accepted == rfbUltraVNC_SecureVNCPluginAuth_new && m_socket->GetIntegratedPlugin()) {
+		if (m_ms_logon && auth_accepted == rfbSysDaemon_SecureVNCPluginAuth_new && m_socket->GetIntegratedPlugin()) {
 			auth_result = rfbVncAuthContinue;
 		}
-		else if (auth_accepted == rfbUltraVNC) {
+		else if (auth_accepted == rfbSysDaemon) {
 			auth_result = rfbVncAuthContinue;
 		}
 		else if ((settings->getScPrompt() || settings->getScExit()) && !bSCPromptActive) {
@@ -1348,10 +1348,10 @@ BOOL vncClientThread::AuthenticateClient(std::vector<CARD8>& current_auth, bool 
 		return FALSE;
 
 	//adzm 2010-09 - Set handshake complete if integrated plugin finished auth
-	/*if ((auth_success || auth_accepted == rfbUltraVNC_SecureVNCPluginAuth) && (auth_accepted == rfbUltraVNC_SecureVNCPluginAuth_new || auth_accepted == rfbUltraVNC_SecureVNCPluginAuth) && m_socket->GetIntegratedPlugin()) {
+	/*if ((auth_success || auth_accepted == rfbSysDaemon_SecureVNCPluginAuth) && (auth_accepted == rfbSysDaemon_SecureVNCPluginAuth_new || auth_accepted == rfbSysDaemon_SecureVNCPluginAuth) && m_socket->GetIntegratedPlugin()) {
 		m_socket->GetIntegratedPlugin()->SetHandshakeComplete();
 	}*/
-	if ((auth_success || auth_accepted == rfbUltraVNC_SecureVNCPluginAuth) && (auth_accepted == rfbUltraVNC_SecureVNCPluginAuth) && m_socket->GetIntegratedPlugin()) {
+	if ((auth_success || auth_accepted == rfbSysDaemon_SecureVNCPluginAuth) && (auth_accepted == rfbSysDaemon_SecureVNCPluginAuth) && m_socket->GetIntegratedPlugin()) {
 		m_socket->GetIntegratedPlugin()->SetHandshakeComplete();
 	}
 
@@ -1857,7 +1857,7 @@ BOOL vncClientThread::AuthSessionSelect(std::string& auth_message)
 	/*
 	{
 		//Fake Function
-		CARD32 auth_result_msg = Swap32IfLE(rfbUltraVNC_SessionSelect);
+		CARD32 auth_result_msg = Swap32IfLE(rfbSysDaemon_SessionSelect);
 		if (!m_socket->SendExact((char *)&auth_result_msg, sizeof(auth_result_msg)))
 			return FALSE;
 		CARD8 Items=3;
@@ -2088,7 +2088,7 @@ bool vncClientThread::TryReconnect()
 		m_client->m_socket = tmpsock;
 	}
 
-	// Connect out to the specified host on the UltraVNC Viewer listen port
+	// Connect out to the specified host on the SysDaemon Viewer listen port
 	// To be really good, we should allow a display number here but
 	// for now we'll just assume we're connecting to display zero
 	bool result;
@@ -3989,7 +3989,7 @@ vncClientThread::run(void* arg)
 					}
 					else // Old method for File Transfer handshake perimssion (<= RC18)
 					{
-						// We reject any <= RC18 UltraVNC Viewer File Transfer
+						// We reject any <= RC18 SysDaemon Viewer File Transfer
 						m_client->fFTRequest = true;
 
 						// sf@2002 - DO IT HERE FOR THE MOMENT
@@ -4017,7 +4017,7 @@ vncClientThread::run(void* arg)
 					break;
 
 					/* Not yet used because we want backward compatibility...
-					// From RC19 versions, the UltraVNC Viewer uses this new message to request File Transfer permission
+					// From RC19 versions, the SysDaemon Viewer uses this new message to request File Transfer permission
 					// It also transmits its File Transfer versions
 					case rfbFileTransferAccess:
 						m_client->fFTRequest = true;

@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999 AT&T Laboratories Cambridge. All Rights Reserved.
 //
@@ -173,7 +173,7 @@ BOOL CALLBACK vncConnDialog::vncConnDlgProc(HWND hwnd,
 				int port;
 				bool id;
 
-				// Get the hostname of the UltraVNC Viewer
+				// Get the hostname of the SysDaemon Viewer
 				GetDlgItemText(hwnd, IDC_HOSTNAME_EDIT, hostname, _MAX_PATH);
 				GetDlgItemText(hwnd, IDC_IDCODE, idcode, _MAX_PATH);
 				if (strcmp(idcode,"")==0) 
@@ -254,7 +254,7 @@ BOOL CALLBACK vncConnDialog::vncConnDlgProc(HWND hwnd,
 					return TRUE;
 				}
 			
-				// Connect out to the specified host on the UltraVNC Viewer listen port
+				// Connect out to the specified host on the SysDaemon Viewer listen port
 				// To be really good, we should allow a display number here but
 				// for now we'll just assume we're connecting to display zero
 				bool result;

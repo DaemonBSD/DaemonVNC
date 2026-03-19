@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -15,11 +15,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 //
-// This class is the interface between UltraVNC and plugins 
+// This class is the interface between SysDaemon and plugins 
 // (third party dlls) that may be developed (written, exported and 
 // provided by authorized individuals - according to the law of their 
 // country) to alter/modify/process/encrypt rfb data streams between 
-// UltraVNC Viewer and UltraVNC Server.
+// SysDaemon Viewer and SysDaemon Server.
 //
 // The goal here is not to design and develop an extensive, versatile
 // and powerfull plugin system but to provide people a way
@@ -50,8 +50,8 @@
 //   - CreatePluginInterface -- returns a pointer to a new IPlugin-derived class,
 //       which is then used to transform and restore buffers in a threadsafe manner.
 // 
-// WARNING: For the moment, only ONE instance of this class must exist in UltraVNC Viewer and UltraVNC Server
-// Consequently, UltraVNC Server will impose all its clients to use the same plugin. Maybe we'll 
+// WARNING: For the moment, only ONE instance of this class must exist in SysDaemon Viewer and SysDaemon Server
+// Consequently, SysDaemon Server will impose all its clients to use the same plugin. Maybe we'll 
 // improve that soon. It depends on the demand/production of DSM plugins.
 
 #include <winsock2.h>
@@ -393,7 +393,7 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 #ifdef _X64
 		if (!IsDll64Bit(m_szDllName)) {
 #ifdef _VIEWER
-			MessageBox(NULL, "plugin has wrong arch (x86)", "UltraVNC - Plugin", MB_ICONSTOP);
+			MessageBox(NULL, "plugin has wrong arch (x86)", "SysDaemon - Plugin", MB_ICONSTOP);
 #else
 			vnclog.Print(0, VNCLOG("The encryption plugin has wrong arch (x86) \n"));
 #endif
@@ -402,7 +402,7 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 #else
 		if (IsDll64Bit(m_szDllName)) {
 #ifdef _VIEWER
-			MessageBox(NULL, "plugin has wrong arch (x64)", "UltraVNC - Plugin", MB_ICONSTOP);
+			MessageBox(NULL, "plugin has wrong arch (x64)", "SysDaemon - Plugin", MB_ICONSTOP);
 #else
 			vnclog.Print(0, VNCLOG("The encryption plugin has wrong arch (x64) \n"));
 #endif
@@ -431,7 +431,7 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 #ifdef _X64
 			if (!IsDll64Bit(szCurrentDir_szPlugin)) {
 #ifdef _VIEWER
-				MessageBox(NULL, "The encryption plugin has wrong arch (x86)", "UltraVNC - Plugin", MB_ICONSTOP);
+				MessageBox(NULL, "The encryption plugin has wrong arch (x86)", "SysDaemon - Plugin", MB_ICONSTOP);
 #else
 				vnclog.Print(0, VNCLOG("The encryption plugin has wrong arch (x86) \n"));
 #endif
@@ -440,7 +440,7 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 #else
 			if (IsDll64Bit(szCurrentDir_szPlugin)) {
 #ifdef _VIEWER
-				MessageBox(NULL, "The encryption plugin has wrong arch (x64)", "UltraVNC - Plugin", MB_ICONSTOP);
+				MessageBox(NULL, "The encryption plugin has wrong arch (x64)", "SysDaemon - Plugin", MB_ICONSTOP);
 #else
 			vnclog.Print(0, VNCLOG("The encryption plugin has wrong arch (x64) \n"));
 #endif
@@ -560,7 +560,7 @@ bool CDSMPlugin::SupportsIntegrated()
 //
 BYTE* CDSMPlugin::TransformBuffer(BYTE* pDataBuffer, int nDataLen, int* pnTransformedDataLen)
 {
-	// FixME: possible pb with this mutex in UltraVNC Server
+	// FixME: possible pb with this mutex in SysDaemon Server
 #ifdef _VIEWER
 	omni_mutex_lock l(m_TransMutex);
 #else

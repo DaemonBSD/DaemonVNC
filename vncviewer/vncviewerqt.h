@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -21,20 +21,20 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class VNCViewerQt;
+class SysViewerQt;
 }
 QT_END_NAMESPACE
 
-class VNCViewerQt : public QMainWindow
+class SysViewerQt : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit VNCViewerQt(QWidget *parent = nullptr);
-    ~VNCViewerQt();
+    explicit SysViewerQt(QWidget *parent = nullptr);
+    ~SysViewerQt();
 
 private:
-    Ui::VNCViewerQt *ui;
+    Ui::SysViewerQt *ui;
 };
 #endif // VNCVIEWERQT_H
 

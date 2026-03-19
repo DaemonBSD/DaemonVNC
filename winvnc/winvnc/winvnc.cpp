@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999 AT&T Laboratories Cambridge. All Rights Reserved.
 //
@@ -14,7 +14,7 @@
 
 // 24/11/97		WEZ
 
-// WinMain and main WndProc for the new version of UltraVNC Server
+// WinMain and main WndProc for the new version of SysDaemon Server
 ////////////////////////////
 // System headers
 #include "stdhdrs.h"
@@ -34,7 +34,7 @@
 #include "VirtualDisplay.h"
 #define LOCALIZATION_MESSAGES
 #include "Localization.h" // Act : add localization on messages
-#include "UltraVNCService.h"
+#include "SysDaemonService.h"
 #include "ScSelect.h"
 #include "SettingsManager.h"
 #include <commctrl.h>
@@ -58,7 +58,7 @@ char winvncFolder[MAX_PATH];
 //adzm 2009-06-20
 char* g_szRepeaterHost = NULL;
 
-// sf@2007 - New shutdown order handling stuff (with uvnc_service)
+// sf@2007 - New shutdown order handling stuff (with sysdaemon_sv)
 bool			fShutdownOrdered = false;
 static HANDLE		hShutdownEvent = NULL;
 HANDLE		hShutdownEventcad = NULL;
@@ -91,7 +91,7 @@ void Shellexecuteforuiaccess();
 //HACK to use name in autoreconnect from service with dyn dns
 char dnsname[255];
 extern bool PreConnect;
-// UltraVNC Server winvnc.exe will also be used for helper exe
+// SysDaemon Server sysdaemon.exe will also be used for helper exe
 // This allow us to minimize the number of seperate exe
 #define u16 unsigned short
 #define u32 unsigned int
@@ -269,10 +269,10 @@ void extractConfig(char* szCmdLine)
 		SHGetFolderPathA(NULL, CSIDL_COMMON_APPDATA, NULL, 0, programdataPath);
 		SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, appdataPath);
 		SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, appdataFolder);
-		strcat_s(programdataPath, "\\UltraVNC");
+		strcat_s(programdataPath, "\\SysDaemon");
 		strcat_s(programdataPath, "\\");
 		strcat_s(programdataPath, INIFILE_NAME);
-		strcat_s(appdataPath, "\\UltraVNC");
+		strcat_s(appdataPath, "\\SysDaemon");
 		strcat_s(appdataPath, "\\");
 		strcat_s(appdataPath, INIFILE_NAME);
 
@@ -434,7 +434,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 		char* szCmdLine = szCmdLine2;
 	#endif // SC_20
 		// look up the current service name in the registry.
-		//serviceHelpers::ExistServiceName(progname, UltraVNCService::service_name);
+		//serviceHelpers::ExistServiceName(progname, SysDaemonService::service_name);
 
 		// Make the command-line lowercase and parse it
 		size_t i;
@@ -580,14 +580,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 			if (strncmp(&szCmdLine[i], winvncRebootSafeHelper, strlen(winvncRebootSafeHelper)) == 0)
 			{
 				Sleep(3000);
-				UltraVNCService::Reboot_in_safemode_elevated();
+				SysDaemonService::Reboot_in_safemode_elevated();
 				return return2(0);
 			}
 
 			if (strncmp(&szCmdLine[i], winvncRebootForceHelper, strlen(winvncRebootForceHelper)) == 0)
 			{
 				Sleep(3000);
-				UltraVNCService::Reboot_with_force_reboot_elevated();
+				SysDaemonService::Reboot_with_force_reboot_elevated();
 				return return2(0);
 			}
 			if (strncmp(&szCmdLine[i], winvncSecurityEditorHelper, strlen(winvncSecurityEditorHelper)) == 0)
@@ -630,13 +630,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 
 			if (strncmp(&szCmdLine[i], winvncRebootSafe, strlen(winvncRebootSafe)) == 0)
 			{
-				UltraVNCService::Reboot_in_safemode();
+				SysDaemonService::Reboot_in_safemode();
 				return return2(0);
 			}
 
 			if (strncmp(&szCmdLine[i], winvncRebootForce, strlen(winvncRebootForce)) == 0)
 			{
-				UltraVNCService::Reboot_with_force_reboot();
+				SysDaemonService::Reboot_with_force_reboot();
 				return return2(0);
 			}
 
@@ -683,15 +683,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 				}
 				// if a service name is supplied, and it differs except in case from
 				// the default, use the supplied service name instead
-				if (*pServiceName && (_strcmpi(pServiceName, UltraVNCService::service_name) != 0))
+				if (*pServiceName && (_strcmpi(pServiceName, SysDaemonService::service_name) != 0))
 				{
-					strncpy_s(UltraVNCService::service_name, 256, pServiceName, 256);
-					UltraVNCService::service_name[255] = 0;
+					strncpy_s(SysDaemonService::service_name, 256, pServiceName, 256);
+					SysDaemonService::service_name[255] = 0;
 				}
-				UltraVNCService::install_service();
+				SysDaemonService::install_service();
 				Sleep(2000);
 				char command[MAX_PATH + 32]; // 29 January 2008 jdp
-				_snprintf_s(command, sizeof command, "net start \"%s\"", UltraVNCService::service_name);
+				_snprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 				WinExec(command, SW_HIDE);
 				return return2(0);
 			}
@@ -721,14 +721,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 						*pQuote = 0;
 				}
 
-				if (*pServiceName && (_strcmpi(pServiceName, UltraVNCService::service_name) != 0))
+				if (*pServiceName && (_strcmpi(pServiceName, SysDaemonService::service_name) != 0))
 				{
-					strncpy_s(UltraVNCService::service_name, 256, pServiceName, 256);
-					UltraVNCService::service_name[255] = 0;
+					strncpy_s(SysDaemonService::service_name, 256, pServiceName, 256);
+					SysDaemonService::service_name[255] = 0;
 				}
-				_snprintf_s(command, sizeof command, "net stop \"%s\"", UltraVNCService::service_name);
+				_snprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 				WinExec(command, SW_HIDE);
-				UltraVNCService::uninstall_service();
+				SysDaemonService::uninstall_service();
 				return return2(0);
 			}
 	#endif // SC_20
@@ -764,7 +764,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 	#ifndef SC_20
 			if (strncmp(&szCmdLine[i], winvncStartService, strlen(winvncStartService)) == 0)
 			{
-				UltraVNCService::start_service(szCmdLine);
+				SysDaemonService::start_service(szCmdLine);
 				return return2(0);
 			}
 	#endif // SC_20
@@ -1279,9 +1279,9 @@ DWORD WINAPI imp_desktop_thread(LPVOID lpParam)
 	return 0;
 }
 
-// This is the main routine for UltraVNC Server when running as an application
+// This is the main routine for SysDaemon Server when running as an application
 // (under Windows 95 or Windows NT)
-// Under NT, UltraVNC Server can also run as a service. The WinVNCServerMain routine,
+// Under NT, SysDaemon Server can also run as a service. The WinVNCServerMain routine,
 // defined in the vncService header, is used instead when running as a service.
 
 int WinVNCAppMain()
@@ -1293,11 +1293,11 @@ int WinVNCAppMain()
 
 	vnclog.Print(-1, VNCLOG("WinVNCAPPMain-----Application started\n"));
 #ifdef CRASH_ENABLED
-	LPVOID lpvState = Install(NULL,  "rudi.de.vos@skynet.be", "UltraVNC");
+	LPVOID lpvState = Install(NULL,  "rudi.de.vos@skynet.be", "SysDaemon");
 #endif
 
 	// Set this process to be the last application to be shut down.
-	// Check for previous instances of UltraVNC Server!
+	// Check for previous instances of SysDaemon Server!
 	auto  instancehan = std::make_unique<vncInstHandler>();
 	if (!allowMultipleInstances) // this allow to overwrite the multiple instance check
 	{

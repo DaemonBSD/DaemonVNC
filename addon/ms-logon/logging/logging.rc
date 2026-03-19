@@ -49,14 +49,14 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Logging for UltraVNC MS-Logon"
-            VALUE "CompanyName", "UltraVNC"
-            VALUE "FileDescription", "Logging for UltraVNC MS-Logon"
+            VALUE "Comments", "Logging for SysDaemon MS-Logon"
+            VALUE "CompanyName", "SysDaemon"
+            VALUE "FileDescription", "Logging for SysDaemon MS-Logon"
             VALUE "FileVersion", "1.6.0.0"
             VALUE "InternalName", "logging"
-            VALUE "LegalCopyright", "Copyright � 2002-2025 UltraVNC Team Members. All Rights Reserved."
+            VALUE "LegalCopyright", "Copyright � 2002-2025 SysDaemon Team Members. All Rights Reserved."
             VALUE "OriginalFilename", "logging.dll"
-            VALUE "ProductName", "UltraVNC logging"
+            VALUE "ProductName", "SysDaemon logging"
             VALUE "ProductVersion", "1.6.0.0"
         END
     END

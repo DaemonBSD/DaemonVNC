@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -12,7 +12,7 @@
 #include "stdhdrs.h"
 #include "vncviewer.h"
 #include "../common/Hyperlinks.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 
 HBITMAP
     DoGetBkGndBitmap(IN CONST UINT uBmpResId )
@@ -123,7 +123,7 @@ static LRESULT CALLBACK AboutDlgProc(HWND hwnd, UINT iMsg,
             ConvertStaticToHyperlink(hwnd, IDC_UVNCCOM);
             char version[50]{};
             char title[256]{};
-            strcpy_s(title, "UltraVNC Viewer - ");
+            strcpy_s(title, "SysDaemon Viewer - ");
             strcat_s(title, GetVersionFromResource(version));
             SetDlgItemText(hwnd, IDC_UVVERSION, title);
 

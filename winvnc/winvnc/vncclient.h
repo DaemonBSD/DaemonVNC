@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2000-2002 Const Kaplinsky. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2002 RealVNC Ltd. All Rights Reserved.
@@ -67,7 +67,7 @@ typedef UINT (WINAPI *pSendinput)(UINT,LPINPUT,INT);
 
 class vncClientUpdateThread;
 
-#define FT_PROTO_VERSION_OLD 1  // <= RC18 UltraVNC Server "fOldFTPRotocole" version
+#define FT_PROTO_VERSION_OLD 1  // <= RC18 SysDaemon Server "fOldFTPRotocole" version
 #define FT_PROTO_VERSION_2   2  // base File Transfer Protocol
 #define FT_PROTO_VERSION_3   3  // new File Transfer Protocol session messages
 

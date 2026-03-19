@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -12,7 +12,7 @@
 #include "stdhdrs.h"
 #include "vncviewer.h"
 #include "../common/Hyperlinks.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 
 char *infomsg2;
 int g_error_nr2;
@@ -46,7 +46,7 @@ static LRESULT CALLBACK MessageDlgProc2(HWND hwnd, UINT iMsg,
 			ConvertStaticToHyperlink(hwnd, IDC_WEBDOWNLOAD);
 			char version[50]{};
 			char title[256]{};
-			strcpy_s(title, "UltraVNC Viewer - ");
+			strcpy_s(title, "SysDaemon Viewer - ");
 			strcat_s(title, GetVersionFromResource(version));
 			SetDlgItemText(hwnd, IDC_UVVERSION2, title);
 			return TRUE;
@@ -65,7 +65,7 @@ static LRESULT CALLBACK MessageDlgProc2(HWND hwnd, UINT iMsg,
 			ShellExecute(GetDesktopWindow(), "open", "https://uvnc.com/", "", 0, SW_SHOWNORMAL);
 		}
 		if (LOWORD(wParam) == IDC_GIT) {
-			ShellExecute(GetDesktopWindow(), "open", "https://github.com/ultravnc/UltraVNC", "", 0, SW_SHOWNORMAL);
+			ShellExecute(GetDesktopWindow(), "open", "https://github.com/ultravnc/SysDaemon", "", 0, SW_SHOWNORMAL);
 		}
 		if (LOWORD(wParam) == IDC_WEBDOWNLOAD) {
 			ShellExecute(GetDesktopWindow(), "open", "https://uvnc.com/downloads/ultravnc.html", "", 0, SW_SHOWNORMAL);

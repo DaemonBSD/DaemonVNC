@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -109,9 +109,9 @@ bool yesnoUVNCMessageBox(HINSTANCE hInst, HWND m_hWnd, char* szHeader, char* bod
     TASKDIALOGCONFIG tdc = { sizeof(TASKDIALOGCONFIG) };
     int nClickedBtn;
 #ifdef _VIEWER
-    LPCWSTR szTitle = L"UltraVNC Viewer";
+    LPCWSTR szTitle = L"SysDaemon Viewer";
 #else
-    LPCWSTR szTitle = L"UltraVNC Server";
+    LPCWSTR szTitle = L"SysDaemon Server";
 #endif
     TASKDIALOG_BUTTON aCustomButtons[] = {
         { 1000, w_okStr},
@@ -155,9 +155,9 @@ bool yesUVNCMessageBox(HINSTANCE hInst, HWND m_hWnd, char* body, char* szHeader,
     TASKDIALOGCONFIG tdc = { sizeof(TASKDIALOGCONFIG) };
     int nClickedBtn;
 #ifdef _VIEWER
-    LPCWSTR szTitle = L"UltraVNC Viewer";
+    LPCWSTR szTitle = L"SysDaemon Viewer";
 #else
-    LPCWSTR szTitle = L"UltraVNC Server";
+    LPCWSTR szTitle = L"SysDaemon Server";
 #endif
 
     tdc.cbSize = sizeof(tdc);

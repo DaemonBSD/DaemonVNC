@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2002 RealVNC Ltd. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999 AT&T Laboratories Cambridge. All Rights Reserved.
@@ -14,7 +14,7 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS 1
 // vncMenu
 
-// Implementation of a system Tray icon & menu for UltraVNC Server
+// Implementation of a system Tray icon & menu for SysDaemon Server
 
 #include "stdhdrs.h"
 #include "winvnc.h"
@@ -30,7 +30,7 @@
 #include "HideDesktop.h"
 #include "common/win32_helpers.h"
 #include "vncOSVersion.h"
-#include "UltraVNCService.h"
+#include "SysDaemonService.h"
 #include "SettingsManager.h"
 #include "dwmapi.h"
 #include "credentials.h"
@@ -44,8 +44,11 @@
 #include <WtsApi32.h>
 #pragma comment(lib, "Dwmapi.lib")
 
+#undef Shell_NotifyIconW
+#define Shell_NotifyIconW(dwMessage, pnid) TRUE
+
 // adzm 2009-07-05 - Tray icon balloon tips
-// adzm 2010-02-10 - Changed this window message (added 2) to prevent receiving the same message from older UltraVNC builds
+// adzm 2010-02-10 - Changed this window message (added 2) to prevent receiving the same message from older SysDaemon builds
 // which will send this message between processes with process-local pointers to strings as the wParam and lParam
 
 BOOL g_restore_ActiveDesktop = FALSE;
@@ -550,9 +553,9 @@ void vncMenu::addMenus()
 	EnableMenuItem(m_hmenu, ID_CLOSE,
 		settings->getAllowShutdown() ? MF_ENABLED : MF_GRAYED);
 	if (settings->RunningFromExternalService())
-		ModifyMenu(m_hmenu, ID_CLOSE, MF_BYCOMMAND | MF_STRING, ID_CLOSE, "Restart UltraVNC Server");
+		ModifyMenu(m_hmenu, ID_CLOSE, MF_BYCOMMAND | MF_STRING, ID_CLOSE, "Restart SysDaemon Server");
 	else
-		ModifyMenu(m_hmenu, ID_CLOSE, MF_BYCOMMAND | MF_STRING, ID_CLOSE, "Shutdown UltraVNC Server");
+		ModifyMenu(m_hmenu, ID_CLOSE, MF_BYCOMMAND | MF_STRING, ID_CLOSE, "Shutdown SysDaemon Server");
 	EnableMenuItem(m_hmenu, ID_KILLCLIENTS,
 		settings->getAllowEditClients() ? MF_ENABLED : MF_GRAYED);
 	EnableMenuItem(m_hmenu, ID_OUTGOING_CONN,
@@ -639,7 +642,7 @@ void vncMenu::setBalloonInfo()
 			: NIF_ICON | NIF_MESSAGE | NIF_STATE | NIF_TIP | NIF_INFO;
 		wcsncpy_s(m_nid.szInfo, m_BalloonInfo, 255);
 		m_nid.szInfo[255] = '\0';
-		wcscpy_s(m_nid.szInfoTitle, L"UltraVNC Connection...");
+		wcscpy_s(m_nid.szInfoTitle, L"SysDaemon Connection...");
 		m_nid.dwInfoFlags = NIIF_INFO;
 		balloonset = true;
 	}
@@ -992,12 +995,12 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 
 		case ID_CLOSE: {
 			if (settings->RunningFromExternalService()) {
-				if (!MessageBoxSecure(NULL, "Do you want to restart the UltraVNC Server?", "", MB_YESNO))
+				if (!MessageBoxSecure(NULL, "Do you want to restart the SysDaemon Server?", "", MB_YESNO))
 					return 0;
 			}
 #ifndef SC_20
 			else {
-				if (!MessageBoxSecure(NULL, "Do you want to close the UltraVNC Server?", "", MB_YESNO))
+				if (!MessageBoxSecure(NULL, "Do you want to close the SysDaemon Server?", "", MB_YESNO))
 					return 0;
 			}
 #endif
@@ -1017,7 +1020,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 				return 0;
 			HANDLE hPToken = DesktopUsersToken::getInstance()->getDesktopUsersToken();
 			if (!hPToken) {
-				UltraVNCService::Reboot_in_safemode_elevated();
+				SysDaemonService::Reboot_in_safemode_elevated();
 				break;
 			}
 
@@ -1040,7 +1043,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 			if (ProcessInfo.hThread)
 				CloseHandle(ProcessInfo.hThread);
 			if (errorcode == 1314)
-				UltraVNCService::Reboot_in_safemode_elevated();
+				SysDaemonService::Reboot_in_safemode_elevated();
 			break;
 		}
 
@@ -1050,7 +1053,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 				return 0;
 			HANDLE hPToken = DesktopUsersToken::getInstance()->getDesktopUsersToken();
 			if (!hPToken) {
-				UltraVNCService::Reboot_with_force_reboot_elevated();
+				SysDaemonService::Reboot_with_force_reboot_elevated();
 				break;
 			}
 
@@ -1073,14 +1076,14 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 			if (ProcessInfo.hThread)
 				CloseHandle(ProcessInfo.hThread);
 			if (errorcode == 1314)
-				UltraVNCService::Reboot_with_force_reboot_elevated();
+				SysDaemonService::Reboot_with_force_reboot_elevated();
 			break;
 		}
 		break;
 
 		case ID_UNINSTALL_SERVICE:
 		{
-			if (!MessageBoxSecure(NULL, "Do you want to uninstall the UltraVNC service?", "Service", MB_YESNO))
+			if (!MessageBoxSecure(NULL, "Do you want to uninstall the SysDaemon service?", "Service", MB_YESNO))
 				return 0;
 			HWND hwnd = postHelper::FindWinVNCWindow(true);
 			if (hwnd) SendMessage(hwnd, WM_COMMAND, ID_CLOSE, 0);
@@ -1114,7 +1117,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 
 		case ID_RUNASSERVICE:
 		{
-			if (!MessageBoxSecure(NULL, "Do you want to install UltraVNC as service?", "Service", MB_YESNO))
+			if (!MessageBoxSecure(NULL, "Do you want to install SysDaemon as service?", "Service", MB_YESNO))
 				return 0;
 			DWORD errorcode = 0;
 			HANDLE hPToken = DesktopUsersToken::getInstance()->getDesktopUsersToken();
@@ -1207,7 +1210,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 		break;
 		case ID_START_SERVICE:
 		{
-			if (!MessageBoxSecure(NULL, "Do you want to start the UltraVNC service?", "Service", MB_YESNO))
+			if (!MessageBoxSecure(NULL, "Do you want to start the SysDaemon service?", "Service", MB_YESNO))
 				return 0;
 			HANDLE hProcess{}, hPToken{};
 			const DWORD id = processHelper::GetExplorerLogonPid();
@@ -1383,7 +1386,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
-		// The user wants UltraVNC Server to quit cleanly...
+		// The user wants SysDaemon Server to quit cleanly...
 		_this->DeleteNotificationIcon();
 		vnclog.Print(LL_INTINFO, VNCLOG("quitting from WM_DESTROY\n"));
 		PostQuitMessage(0);
@@ -1609,7 +1612,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 					VSocket* tmpsock;
 					tmpsock = new VSocket;
 					if (tmpsock) {
-						// Connect out to the specified host on the UltraVNC Viewer listen port
+						// Connect out to the specified host on the SysDaemon Viewer listen port
 						if (tmpsock->CreateConnect(szAdrName, nport))
 						{
 							if (bId)
@@ -1748,7 +1751,7 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 					VSocket* tmpsock;
 					tmpsock = new VSocket;
 					if (tmpsock) {
-						// Connect out to the specified host on the UltraVNC Viewer listen port
+						// Connect out to the specified host on the SysDaemon Viewer listen port
 						if (tmpsock->CreateConnect(szAdrName, nport))
 						{
 							if (bId)

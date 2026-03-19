@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -565,7 +565,7 @@ void vnctouch::rfb_gii_init_valuator(rfbGIIValuatorEventMsg *val, int cnt)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Switch x and y coordinates
-// UltraVNC Windows: our touch "driver" does not switch touch coordinates
+// SysDaemon Windows: our touch "driver" does not switch touch coordinates
 // MOUSE coordinates are switched by windows!!
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 void vnctouch::doczka_vertical()
@@ -574,7 +574,7 @@ void vnctouch::doczka_vertical()
 	if (cc->m_si.framebufferWidth < cc->m_si.framebufferHeight)
 	{
 		// Switch x and y coordinates
-		// UltraVNC Windows: our touch "driver" does not switch touch coordinates
+		// SysDaemon Windows: our touch "driver" does not switch touch coordinates
 		// MOUSE coordinates are switched by windows!!
 		int tmppos;
 		for (i = 0; i < MAXPOINTS; ++i) {

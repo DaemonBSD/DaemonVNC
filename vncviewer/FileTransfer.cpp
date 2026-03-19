@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -16,7 +16,7 @@
 // DialogBox which allows the user to browse Client ans Server disks-directories,
 // and select some files to transfer between Client and Server.
 //
-// The GUI is very basic because I don't want to include MFC Classes in UltraVNC...
+// The GUI is very basic because I don't want to include MFC Classes in SysDaemon...
 // I use only Windows SDK.
 //
 //
@@ -47,7 +47,7 @@
 #include <vector>
 #include "common/win32_helpers.h"
 #include "shlwapi.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 #include <limits>
 
 using namespace helper;
@@ -602,8 +602,8 @@ void FileTransfer::ProcessFileTransferMsg(void)
 		}
 		else
 		{
-			// We want the viewer to be backward compatible with UltraVNC Server running the old File Transfer Protocol
-            m_ServerFTProtocolVersion = FT_PROTO_VERSION_OLD; // Old permission method -> it's a <= RC18 UltraVNC Server
+			// We want the viewer to be backward compatible with SysDaemon Server running the old File Transfer Protocol
+            m_ServerFTProtocolVersion = FT_PROTO_VERSION_OLD; // Old permission method -> it's a <= RC18 SysDaemon Server
 			m_nBlockSize = 4096; // Old packet size value...
 			ShowWindow(GetDlgItem(hWnd, IDC_RENAME_B), SW_HIDE);
 
@@ -636,8 +636,8 @@ void FileTransfer::RequestPermission()
 	ft.contentType = rfbAbortFileTransfer; 
 	// ft.contentParam = 0; 
 	ft.contentParam = rfbFileTransferVersion; // Old viewer will send 0
-	// New method can't be used yet as we want backward compatibility (new UltraVNC Viewer File Transfer must 
-	// work with old UltraVNC Server File Transfer
+	// New method can't be used yet as we want backward compatibility (new SysDaemon Viewer File Transfer must 
+	// work with old SysDaemon Server File Transfer
 	// ft.contentType = rfbFileTransferAccess; 
 	// ft.contentParam = rfbFileTransferVersion;
 	ft.length = 0;
@@ -2288,7 +2288,7 @@ bool FileTransfer::ReceiveFileChunk(UINT nLen, int nSize)
 	SetGauge(hWnd, m_dwTotalNbBytesWritten);
 	PseudoYield(GetParent(hWnd));
 
-	// We still support the *dirty* old "Abort" method (for backward compatibility with UltraVNC Server <= RC18)
+	// We still support the *dirty* old "Abort" method (for backward compatibility with SysDaemon Server <= RC18)
 	if (UsingOldProtocol())
 	{
 		// Every 10 packets, test if the transfer must be stopped
@@ -3416,7 +3416,7 @@ BOOL CALLBACK FileTransfer::FileTransferDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM
 				szRemoteName[128-2]='.';
 				szRemoteName[128-1]=0x00;
 			}	
-			_snprintf_s(szTitle, lTitleBufSize-1," %s < %s>  -  UltraVNC", sz_H35,szRemoteName);
+			_snprintf_s(szTitle, lTitleBufSize-1," %s < %s>  -  SysDaemon", sz_H35,szRemoteName);
 			SetWindowText(hWnd, szTitle);
 
 			// Create all the columns of the Files ListViews

@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -29,8 +29,8 @@
 
 static char service_path[MAX_PATH];
 static char service_file[MAX_PATH];
-char service_name[256]="uvnc_service";
-char *app_name = "UltraVNC";
+char service_name[256]="sysdaemon_sv";
+char *app_name = "SysDaemon";
 #define VNCDEPENDENCIES    "Tcpip\0\0"
 
 
@@ -41,7 +41,7 @@ void set_service_description()
 	DWORD	dw;
 	HKEY hKey;
 	char tempName[256];
-    char desc[] = "UltraVNC Server provides secure remote desktop sharing";
+    char desc[] = "SysDaemon Server provides secure remote desktop sharing";
 	_snprintf(tempName,  sizeof tempName, "SYSTEM\\CurrentControlSet\\Services\\%s", service_name);
 	RegCreateKeyEx(HKEY_LOCAL_MACHINE,
 						tempName,
@@ -79,11 +79,11 @@ static int pad()
 
     strcpy(service_path, "\"");
     strcat(service_path, dir);
-	strcat(service_path, "\\winvnc.exe");
+	strcat(service_path, "\\sysdaemon.exe");
     strcat(service_path, "\" -service");
 
     strcpy(service_file, dir);
-	strcat(service_file, "\\winvnc.exe");
+	strcat(service_file, "\\sysdaemon.exe");
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@ int install_service(void) {
 	pad();
 	if (!existFile(service_file))
 	{
-		 MessageBoxSecure(NULL, "Verify that winvnc.exe and uvnc_settings are in the same folder\n can not create the uvnc_service",
+		 MessageBoxSecure(NULL, "Verify that sysdaemon.exe and uvnc_settings are in the same folder\n can not create the sysdaemon_sv",
             app_name, MB_ICONERROR);
 		return 1;
 	}
@@ -121,7 +121,7 @@ int install_service(void) {
             app_name, MB_ICONERROR);
         return 1;
     }
-    //"UltraVNC Server provides secure remote desktop sharing"
+    //"SysDaemon Server provides secure remote desktop sharing"
     service=CreateService(scm,service_name, service_name, SERVICE_ALL_ACCESS,
                           SERVICE_WIN32_OWN_PROCESS,
                           SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, service_path,
@@ -138,7 +138,7 @@ int install_service(void) {
 		if (myerror==ERROR_SERVICE_EXISTS)
 		{
 			//MessageBoxSecure(NULL, "Failed: Already exist",
-            //"UltraVNC", MB_ICONERROR);
+            //"SysDaemon", MB_ICONERROR);
 			CloseServiceHandle(scm);
 			return 1;
 		}
@@ -201,7 +201,7 @@ int uninstall_service(void) {
     }
     if(serviceStatus.dwCurrentState!=SERVICE_STOPPED) {
         //MessageBoxSecure(NULL, "The service is still running, disable it first",
-        //    "UltraVNC", MB_ICONERROR);
+        //    "SysDaemon", MB_ICONERROR);
         CloseServiceHandle(service);
         CloseServiceHandle(scm);
 		Sleep(2500);uninstall_service();

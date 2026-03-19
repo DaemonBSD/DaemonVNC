@@ -49,14 +49,14 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Cross-domain Windows authentication for UltraVNC"
-            VALUE "CompanyName", "UltraVNC"
-            VALUE "FileDescription", "MS-Logon II for UltraVNC"
+            VALUE "Comments", "Cross-domain Windows authentication for SysDaemon"
+            VALUE "CompanyName", "SysDaemon"
+            VALUE "FileDescription", "MS-Logon II for SysDaemon"
             VALUE "FileVersion", "1.6.0.0"
             VALUE "InternalName", "authSSP"
-            VALUE "LegalCopyright", "Copyright � 2002-2025 UltraVNC Team Members. All Rights Reserved."
+            VALUE "LegalCopyright", "Copyright � 2002-2025 SysDaemon Team Members. All Rights Reserved."
             VALUE "OriginalFilename", "authSSP.dll"
-            VALUE "ProductName", "UltraVNC authSSP"
+            VALUE "ProductName", "SysDaemon authSSP"
             VALUE "ProductVersion", "1.6.0.0"
         END
     END

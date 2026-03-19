@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2000-2002 Const Kaplinsky. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2002 RealVNC Ltd. All Rights Reserved.
@@ -509,10 +509,10 @@ vncServer::Authenticated(vncClientId clientid)
 		if (settings->getScPrompt()) {
 			wchar_t szInfo[256] = { 0 };
 			if (client->GetRepeaterID() && (strlen(client->GetRepeaterID()) > 0)) {
-				_snwprintf_s(szInfo, 255, L"UltraVNC is controling your device. \r Remote access from ID: %hs", client->GetRepeaterID());
+				_snwprintf_s(szInfo, 255, L"SysDaemon is controling your device. \r Remote access from ID: %hs", client->GetRepeaterID());
 			}
 			else {
-				_snwprintf_s(szInfo, 255, L"UltraVNC is controling your device. \r Remote access from ip address %hs", client->GetClientNameName());
+				_snwprintf_s(szInfo, 255, L"SysDaemon is controling your device. \r Remote access from ip address %hs", client->GetClientNameName());
 			}
 			vncMenu::NotifyBalloon(szInfo);
 		}
@@ -534,10 +534,10 @@ vncServer::Authenticated(vncClientId clientid)
 			else if (settings->getNotificationSelection() == 0) {
 				wchar_t szInfo[256] = { 0 };
 				if (client->GetRepeaterID() && (strlen(client->GetRepeaterID()) > 0)) {
-					_snwprintf_s(szInfo, 255, L"UltraVNC is controling your device. \r Remote access from ID: %hs", client->GetRepeaterID());
+					_snwprintf_s(szInfo, 255, L"SysDaemon is controling your device. \r Remote access from ID: %hs", client->GetRepeaterID());
 				}
 				else {
-					_snwprintf_s(szInfo, 255, L"UltraVNC is controling your device. \r Remote access from ip address %hs", client->GetClientNameName());
+					_snwprintf_s(szInfo, 255, L"SysDaemon is controling your device. \r Remote access from ip address %hs", client->GetClientNameName());
 				}
 				vncMenu::NotifyBalloon(szInfo);
 			}
@@ -636,7 +636,7 @@ void vncServer::TextChatClient(LPSTR szClientName)
 	vnclog.Print(LL_INTINFO, VNCLOG("KillClient() from name done\n"));
 }
 
-bool vncServer::IsUltraVNCViewer()
+bool vncServer::IsSysDaemonViewer()
 {
 	vncClientList::iterator i;
 	omni_mutex_lock l(m_clientsLock, 19);
@@ -966,7 +966,7 @@ vncServer::RemoveClient(vncClientId clientid)
 
 	// Are there any authorised clients connected?
 	if (m_authClients.empty() && (m_desktop != NULL)) {
-		// sf@2007 - Do not lock/logoff even if required when UltraVNC Server autorestarts (on desktop change (Windows XP FUS / Windows Vista))
+		// sf@2007 - Do not lock/logoff even if required when SysDaemon Server autorestarts (on desktop change (Windows XP FUS / Windows Vista))
 		if (!settings->AutoRestartFlag() && !OS_Shutdown) {
 			// Are there locksettings set?
 			if (settings->getLockSettings() == 1 || settings->getClearconsole()) {
@@ -1786,7 +1786,7 @@ BOOL vncServer::SetDSMPlugin(BOOL bForceReload)
 			strcpy_s(szParams, "NoPassword");
 
 		// The second parameter tells the plugin the kind of program is using it
-		// (in UltraVNC Server : "server-app" or "server-svc"
+		// (in SysDaemon Server : "server-app" or "server-svc"
 		strcat_s(szParams, ",");
 		strcat_s(szParams, settings->RunningFromExternalService() ? "server-svc" : "server-app");
 		if (m_pDSMPlugin->SetPluginParams(NULL, szParams, settings->getDSMPluginConfig(), NULL)) {
@@ -1952,7 +1952,7 @@ void vncServer::actualRetryThread()
 		vnclog.Print(LL_INTINFO, VNCLOG("Attempting AutoReconnect....\n"));
 		retrysock = new VSocket;
 		if (retrysock) {
-			// Connect out to the specified host on the UltraVNC Viewer listen port
+			// Connect out to the specified host on the SysDaemon Viewer listen port
 			bool result;
 			if (settings->getIPV6())
 				result = retrysock->CreateConnect(m_szAutoReconnectAdr, m_AutoReconnectPort);

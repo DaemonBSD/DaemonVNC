@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -30,7 +30,7 @@
 #include <string>
 #include <windowsx.h>
 #include "winvnc.h"
-#include "UltraVNCService.h"
+#include "SysDaemonService.h"
 #include "HelperFunctions.h"
 
 
@@ -94,7 +94,7 @@ bool PropertiesDialog::InitDialog(HWND hwnd)
 	const long lTitleBufSize = 256;
 	char szTitle[lTitleBufSize];
 
-	_snprintf_s(szTitle, lTitleBufSize - 1, "UltraVNC Server - Settings - Config file: %s", configFile);
+	_snprintf_s(szTitle, lTitleBufSize - 1, "SysDaemon Server - Settings - Config file: %s", configFile);
 	SetWindowText(hwnd, szTitle);
 
 	showAdminPanel = false;
@@ -969,7 +969,7 @@ void PropertiesDialog::ShowImpersonateDialog()
 		MessageBoxSecure(NULL, sz_ID_NO_PASSWORD_WARN, sz_ID_WINVNC_WARNIN, MB_OK | MB_ICONEXCLAMATION);
 
 		// The password is empty, so if OK was used then redisplay the box,
-		// otherwise, if CANCEL was used, close down UltraVNC Server
+		// otherwise, if CANCEL was used, close down SysDaemon Server
 		if (result == IDCANCEL) {
 			vnclog.Print(LL_INTERR, VNCLOG("No password - QUITTING\n"));
 			PostQuitMessage(0);
@@ -1199,12 +1199,12 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 		return TRUE;
 #ifndef SC_20
 	case IDC_INSTALL_SERVICE:
-		UltraVNCService::install_service();
+		SysDaemonService::install_service();
 		Sleep(3000);
 		setServiceStatusText(hwnd);
 		break;
 	case IDC_UNINSTALL_SERVICE:
-		UltraVNCService::uninstall_service();
+		SysDaemonService::uninstall_service();
 		Sleep(3000);
 		setServiceStatusText(hwnd);
 		break;
@@ -1212,7 +1212,7 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 	case IDC_START_SERVICE:
 	{
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net start \"%s\"", UltraVNCService::service_name);
+		_snprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 		Sleep(3000);
 		setServiceStatusText(hwnd);
@@ -1221,7 +1221,7 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 	case IDC_STOP_SERVICE:
 	{
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net stop \"%s\"", UltraVNCService::service_name);
+		_snprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 		Sleep(3000);
 		setServiceStatusText(hwnd);
@@ -1423,8 +1423,8 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 		isRunningPw = true;
 		DlgChangePassword* dlgChangePassword = new DlgChangePassword();
 		if (dlgChangePassword->ShowDlg(NULL, (strlen(settings->getPasswd()) == 0) 
-			? "UltraVNC Server - Set Password"
-			: "UltraVNC Server - Change Password", 8)) {
+			? "SysDaemon Server - Set Password"
+			: "SysDaemon Server - Change Password", 8)) {
 			char password[1024];
 			strcpy_s(password, dlgChangePassword->getPassword());
 			if (strlen(password) == 0) {
@@ -1450,8 +1450,8 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 		isRunningPwVo = true;
 		DlgChangePassword* dlgChangePassword = new DlgChangePassword();
 		if (dlgChangePassword->ShowDlg(NULL, (strlen(settings->getPasswd()) == 0) 
-					? "UltraVNC Server - Set View-only Password"
-					: "UltraVNC Server - Change View-only Password", 8)) {
+					? "SysDaemon Server - Set View-only Password"
+					: "SysDaemon Server - Change View-only Password", 8)) {
 			char password[1024];
 			strcpy_s(password, dlgChangePassword->getPassword());
 			if (strlen(password) == 0) {
@@ -1476,8 +1476,8 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 		isRunningPwaAdm = true;
 		DlgChangePassword* dlgChangePassword = new DlgChangePassword();
 		if (dlgChangePassword->ShowDlg(NULL, settings->isAdminPasswordSet() 
-					? "UltraVNC Server - Change Admin Password" 
-					: "UltraVNC Server - Set Admin Password", 128)) {
+					? "SysDaemon Server - Change Admin Password" 
+					: "SysDaemon Server - Set Admin Password", 128)) {
 			char password[1024];
 			strcpy_s(password, dlgChangePassword->getPassword());
 			settings->setAdminPasswordHash(password);

@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -89,12 +89,12 @@ void DlgChangePassword::onOK(HWND hwnd)
 	GetDlgItemText(hwnd, IDC_PASSWORD_1, (LPSTR)&passwd, 1024);
 	GetDlgItemText(hwnd, IDC_PASSWORD_2, (LPSTR)&passwd2, 1024);
 	if ((strlen(passwd) == 0 || strcmp(passwd, "~~~~~~~~") == 0) && settings->getAuthRequired() != false) {
-		helper::yesUVNCMessageBox(hInstResDLL, hwnd, "Password can not be empty.", "UltraVNC warning", MB_ICONWARNING);
+		helper::yesUVNCMessageBox(hInstResDLL, hwnd, "Password can not be empty.", "SysDaemon warning", MB_ICONWARNING);
 		SetFocus(GetDlgItem(hwnd, IDC_PASSWORD_1));
 		return;
 	}
 	if ((strcmp(passwd, passwd2) != 0 || strcmp(passwd, "~~~~~~~~") == 0)) {
-		helper::yesUVNCMessageBox(hInstResDLL, hwnd, "The verification passwords is not the same.", "UltraVNC warning", MB_ICONWARNING);
+		helper::yesUVNCMessageBox(hInstResDLL, hwnd, "The verification passwords is not the same.", "SysDaemon warning", MB_ICONWARNING);
 		SetFocus(GetDlgItem(hwnd, IDC_PASSWORD_2));
 		return;
 	}

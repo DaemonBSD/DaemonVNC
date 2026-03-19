@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 //
 
@@ -21,7 +21,7 @@
 #include <sys/stat.h>
 #include <direct.h>
 #include "Snapshot.h"
-#include "UltraVNCHelperFunctions.h"
+#include "SysDaemonHelperFunctions.h"
 using namespace helper;
 extern HINSTANCE m_hInstResDLL;
 
@@ -271,7 +271,7 @@ void VNCOptions::setDefaultOptionsFileName(TCHAR * optionfile)
 		CloseHandle(m_hDestFile);
 		return;
 	}
-	const char* APPDIR = "UltraVNC";
+	const char* APPDIR = "SysDaemon";
 	if (SHGetFolderPath(0, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, optionfile) == S_OK) {
 		strcat_s(optionfile, MAX_PATH, "\\");
 		strcat_s(optionfile, MAX_PATH, APPDIR);
@@ -297,7 +297,7 @@ TCHAR* VNCOptions::getDefaultOptionsFileName()
 
 void VNCOptions::setDefaultDocumentPath()
 {
-	const char* APPDIR = "UltraVNC";
+	const char* APPDIR = "SysDaemon";
 	if (SHGetFolderPath(0, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, m_document_folder) == S_OK) {
 		strcat_s(m_document_folder, MAX_PATH, "\\");
 		strcat_s(m_document_folder, MAX_PATH, APPDIR);

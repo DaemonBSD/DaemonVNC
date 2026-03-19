@@ -1,10 +1,10 @@
-// This file is part of UltraVNC
-// https://github.com/ultravnc/UltraVNC
+// This file is part of SysDaemon
+// https://github.com/ultravnc/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// SPDX-FileCopyrightText: Copyright (C) 2002-2025 UltraVNC Team Members. All Rights Reserved.
+// SPDX-FileCopyrightText: Copyright (C) 2002-2025 SysDaemon Team Members. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999-2002 Vdacc-VNC & eSVNC Projects. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 2002 RealVNC Ltd. All Rights Reserved.
 // SPDX-FileCopyrightText: Copyright (C) 1999 AT&T Laboratories Cambridge. All Rights Reserved.
@@ -30,7 +30,7 @@ typedef unsigned char  CARD8;
 #define FLASH_PORT_OFFSET 5400
 #define INCOMING_PORT_OFFSET 5500
 #define HTTP_PORT_OFFSET 5800	// we don't use this in Venice
-#define RFB_PORT_OFFSET 5900
+#define RFB_PORT_OFFSET 9050
 
 #define PORT_TO_DISPLAY(p)  ( (p) - RFB_PORT_OFFSET )
 #define HPORT_TO_DISPLAY(p) ( (p) - HTTP_PORT_OFFSET )
