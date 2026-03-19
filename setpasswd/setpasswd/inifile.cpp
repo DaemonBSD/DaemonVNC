@@ -37,10 +37,10 @@ char WORKDIR[MAX_PATH];
 		if (p == NULL) return;
 		*p = '\0';
 		}
-	strcpy_s(myInifile,"");
-	strcat_s(myInifile,WORKDIR);//set the directory
-	strcat_s(myInifile,"\\");
-	strcat_s(myInifile,INIFILE_NAME);
+	strcpy_s(myInifile, MAX_PATH, "");
+	strcat_s(myInifile, MAX_PATH, WORKDIR);//set the directory
+	strcat_s(myInifile, MAX_PATH, "\\");
+	strcat_s(myInifile, MAX_PATH, INIFILE_NAME);
 }
 
 void

@@ -256,7 +256,7 @@ void SysDaemonZ::createDDict()
 	GetModuleFileName(NULL, file, MAX_PATH);
 	char* p = strrchr(file, '\\');
 	*p = '\0';
-	strcat_s(file, "\\dict");
+	strcat_s(file, MAX_PATH, "\\dict");
 	struct stat st;
 	if (stat(file, &st) != 0)
 		goto error;

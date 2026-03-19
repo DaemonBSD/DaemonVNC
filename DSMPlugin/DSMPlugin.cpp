@@ -69,7 +69,7 @@
 #ifndef _VIEWER
 #include "../winvnc/winvnc/vnclog.h"
 extern VNCLog vnclog;
-#define VNCLOG(s)	(__FUNCTION__ " : " s)
+#define VNCLOG(s)	(s)
 #endif
 
 //
@@ -133,11 +133,11 @@ CDSMPlugin::CDSMPlugin()
 	m_pTransBuffer = NULL;
 	m_pRestBuffer = NULL;
 
-	sprintf_s(m_szPluginName, "Unknown");
-	sprintf_s(m_szPluginVersion, "0.0.0");
-	sprintf_s(m_szPluginDate, "12-12-2002");
-	sprintf_s(m_szPluginAuthor, "Someone");
-	sprintf_s(m_szPluginFileName, "Plugin.dsm"); // No path, just the filename
+	sprintf_s(m_szPluginName, 128, "Unknown");
+	sprintf_s(m_szPluginVersion, 16, "0.0.0");
+	sprintf_s(m_szPluginDate, 16, "12-12-2002");
+	sprintf_s(m_szPluginAuthor, 64, "Someone");
+	sprintf_s(m_szPluginFileName, 128, "Plugin.dsm"); // No path, just the filename
 
 	m_hPDll = NULL;
 
@@ -305,8 +305,8 @@ int CDSMPlugin::ListPlugins(HWND hComboBox)
 		return 0;
 	if (strlen(szCurrentDir) < 1)
 		return 0;
-    if (szCurrentDir[strlen(szCurrentDir) - 1] != '\\') strcat_s(szCurrentDir, "\\");
-	strcat_s(szCurrentDir, "*.dsm"); // The DSMplugin dlls must have this extension
+    if (szCurrentDir[strlen(szCurrentDir) - 1] != '\\') strcat_s(szCurrentDir, MAX_PATH, "\\");
+	strcat_s(szCurrentDir, MAX_PATH, "*.dsm"); // The DSMplugin dlls must have this extension
 	
 	ff = FindFirstFile(szCurrentDir, &fd);
 	if (ff == INVALID_HANDLE_VALUE)
@@ -351,7 +351,7 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 		{
 			strcpy_s(szDllCopyName, 260, szPlugin);
 			szDllCopyName[strlen(szPlugin) - 4] = '\0'; //remove the ".dsm" extension
-			sprintf_s(szDllCopyName, "%s-tmp.d%d", szDllCopyName, i++);
+			snprintf(szDllCopyName, 260, "%s-tmp.d%d", szDllCopyName, i++);
 			//fDllCopyCreated = (FALSE != CopyFile(szPlugin, szDllCopyName, false));
 			// Note: Let's be really dirty; Overwrite if it's possible only (dll not loaded). 
 			// This way if for some reason (abnormal process termination) the dll wasn't previously 
@@ -371,25 +371,25 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 				dwRetVal = GetTempPath(dwBufSize, lpPathBuffer);
 				if (dwRetVal > dwBufSize || (dwRetVal == 0))
 				{
-					strcpy_s(lpPathBuffer, szCurrentDir);
+					strcpy_s(lpPathBuffer, MAX_PATH, szCurrentDir);
 				}
 				else
 				{
 
 				}
 
-				strcpy_s(szCurrentDir_szPlugin, szCurrentDir);
-				strcat_s(szCurrentDir_szPlugin, "\\");
-				strcat_s(szCurrentDir_szPlugin, szPlugin);
+				strcpy_s(szCurrentDir_szPlugin, MAX_PATH, szCurrentDir);
+				strcat_s(szCurrentDir_szPlugin, MAX_PATH, "\\");
+				strcat_s(szCurrentDir_szPlugin, MAX_PATH, szPlugin);
 
-				strcpy_s(szCurrentDir_szDllCopyName, lpPathBuffer);
+				strcpy_s(szCurrentDir_szDllCopyName, MAX_PATH, lpPathBuffer);
 				//strcat_s(szCurrentDir_szDllCopyName,"\\");
-				strcat_s(szCurrentDir_szDllCopyName, szDllCopyName);
+				strcat_s(szCurrentDir_szDllCopyName, MAX_PATH, szDllCopyName);
 				fDllCopyCreated = (FALSE != CopyFile(szCurrentDir_szPlugin, szCurrentDir_szDllCopyName, false));
 			}
 			if (i > 99) break; // Just in case...
 		}
-		strcpy_s(m_szDllName, szCurrentDir_szDllCopyName);
+		strcpy_s(m_szDllName, MAX_PATH, szCurrentDir_szDllCopyName);
 #ifdef _X64
 		if (!IsDll64Bit(m_szDllName)) {
 #ifdef _VIEWER
@@ -425,9 +425,9 @@ bool CDSMPlugin::LoadPlugin(char* szPlugin, bool fAllowMulti)
 					char* p = strrchr(szCurrentDir, '\\');
 					*p = '\0';
 				}
-			strcpy_s(szCurrentDir_szPlugin,szCurrentDir);
-			strcat_s(szCurrentDir_szPlugin,"\\");
-			strcat_s(szCurrentDir_szPlugin,szPlugin);
+			strcpy_s(szCurrentDir_szPlugin, MAX_PATH, szCurrentDir);
+			strcat_s(szCurrentDir_szPlugin, MAX_PATH, "\\");
+			strcat_s(szCurrentDir_szPlugin, MAX_PATH, szPlugin);
 #ifdef _X64
 			if (!IsDll64Bit(szCurrentDir_szPlugin)) {
 #ifdef _VIEWER
@@ -705,7 +705,7 @@ void ConfigHelper::SetConfigHelper(DWORD dwFlags, char* szPassphrase)
 		Base64::encode(szPassphrase, szEncoded);
 	}
 
-	_sprintf_s_s(m_szConfig, 512 - 1 - 1, _TRUNCATE, "SecureVNC;0;0x%08x;%s", dwFlags, szEncoded);
+	_snprintf_s(m_szConfig, 512, _TRUNCATE, "SecureVNC;0;0x%08x;%s", dwFlags, szEncoded);
 }
 
 ConfigHelper::ConfigHelper(const char* szConfig)

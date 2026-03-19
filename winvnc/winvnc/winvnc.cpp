@@ -691,7 +691,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 				SysDaemonService::install_service();
 				Sleep(2000);
 				char command[MAX_PATH + 32]; // 29 January 2008 jdp
-				_sprintf_s_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
+				sprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 				WinExec(command, SW_HIDE);
 				return return2(0);
 			}
@@ -726,7 +726,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					strcpy_s_s(SysDaemonService::service_name, 256, pServiceName, 256);
 					SysDaemonService::service_name[255] = 0;
 				}
-				_sprintf_s_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
+				sprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 				WinExec(command, SW_HIDE);
 				SysDaemonService::uninstall_service();
 				return return2(0);

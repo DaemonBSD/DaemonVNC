@@ -37,6 +37,7 @@ static inline char* _strncat_s_impl(char* d, size_t s, const char* src, size_t c
 #define sprintf_s(buf, size, fmt, ...)  snprintf(buf, size, fmt, ##__VA_ARGS__)
 #define _snprintf_s(buf, size, count, fmt, ...) snprintf(buf, (count == (size_t)-1) ? (size) : (count), fmt, ##__VA_ARGS__)
 #define wcsncat_s(d, s, src, count)     wcsncat(d, src, (count == (size_t)-1) ? (s - wcslen(d) - 1) : (count))
+#define mbstowcs_s(outSize, wStr, mbStr, count) (*(outSize) = mbstowcs(wStr, mbStr, count), 0)
 #define _ui64toa_s(val, buf, size, rad) _ui64toa(val, buf, rad)
 #define strerror_s(buf, size, err)      strncpy(buf, strerror(err), (size) - 1)
 

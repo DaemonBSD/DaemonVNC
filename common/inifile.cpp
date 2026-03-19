@@ -19,7 +19,7 @@ IniFile::IniFile()
 
 void IniFile::setIniFile(char* iniFile)
 {
-	strcpy_s(strIniFile, iniFile);
+	strcpy_s(strIniFile, MAX_PATH, iniFile);
 }
 
 IniFile::~IniFile()
