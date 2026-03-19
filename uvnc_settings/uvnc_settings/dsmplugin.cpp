@@ -583,7 +583,7 @@ void ConfigHelper::SetConfigHelper(DWORD dwFlags, char* szPassphrase)
 		Base64::encode(szPassphrase, szEncoded);
 	}
 
-	_sprintf_s_s(m_szConfig, 512 - 1 - 1, _TRUNCATE, "SecureVNC;0;0x%08x;%s", dwFlags, szEncoded);
+	_snprintf_s(m_szConfig, 512, _TRUNCATE, "SecureVNC;0;0x%08x;%s", dwFlags, szEncoded);
 }
 
 ConfigHelper::ConfigHelper(const char* szConfig)

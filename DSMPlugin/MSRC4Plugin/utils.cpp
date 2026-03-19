@@ -38,7 +38,7 @@ BOOL GetEnvVar(LPTSTR lpName, LPTSTR buffer, DWORD nSize)
 
 
 		//if (pEnvVar != 0)
-		//	strcpy_s_s(buffer,nSize, pEnvVar, nSize);
+		//	strncpy(, ,  < (+1) ?  : (+1)); [ <  ?  : -1] = 0;
 
 		// GetEnvironmentVariable() was returning strings with additional variables in the string.
 		//      ex) programfiles = "%systemdisk%\program files" (or some such thing...)

@@ -457,7 +457,7 @@ int main(int argc, char* argv[])
 	memset(passwd2, 0, 8);
 	if (argc == 2)
 	{		
-		strcpy_s(passwd, argv[1], MAXPWLEN);
+		strncpy(passwd, argv[1], MAXPWLEN); passwd[MAXPWLEN] = 0;
 		if (strcmp(passwd, "-secure") == 0){
 			std::cout << "Usage: [-secure] password\n";
 			return 0;
@@ -468,12 +468,12 @@ int main(int argc, char* argv[])
 	}
 	else if (argc == 3)
 	{
-		strcpy_s(passwd2, argv[1], MAXPWLEN);
+		strncpy(passwd2, argv[1], MAXPWLEN); passwd2[MAXPWLEN] = 0;
 		if (strcmp(passwd2, "-secure") != 0){
 			std::cout << "Usage: [-secure] password\n";
 			return 0;
 		}
-		strcpy_s(passwd, argv[2], MAXPWLEN);
+		strncpy(passwd, argv[2], MAXPWLEN); passwd[MAXPWLEN] = 0;
 		if (strlen(passwd) == 0) return 0;
 		vncEncryptPasswd(passwd, epasswd, true);
 		myIniFile.WriteInt((char *)"admin", (char*)"Secure", 1);

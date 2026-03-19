@@ -46,7 +46,7 @@ char WORKDIR[MAX_PATH];
 void
 IniFile::IniFileSetTemp(char *lpCmdLine)
 {
-	strcpy_s(myInifile,lpCmdLine);
+	strcpy_s(myInifile, MAX_PATH, lpCmdLine);
 }
 
 IniFile::~IniFile()

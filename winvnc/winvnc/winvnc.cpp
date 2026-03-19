@@ -834,7 +834,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 
 						pszId = new char[end - start + 1];
 
-						strcpy_s_s(pszId, end - start + 1, &(szCmdLine[start]), end - start);
+						strncpy(, ,  < (+1) ?  : (+1)); [ <  ?  : -1] = 0;
 						pszId[end - start] = 0;
 						pszId = _strupr(pszId);
 					}
@@ -878,7 +878,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					pszId = new char[end - start + 1];
 					if (pszId != 0)
 					{
-						strcpy_s_s(pszId, end - start + 1, &(szCmdLine[start]), end - start);
+						strncpy(, ,  < (+1) ?  : (+1)); [ <  ?  : -1] = 0;
 						pszId[end - start] = 0;
 						pszId = _strupr(pszId);
 					}
@@ -925,14 +925,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					char* name = new char[end - start + 1];
 					char* name2 = new char[end - start + 1];
 					if (name != 0) {
-						strcpy_s_s(name, end - start + 1, &(szCmdLine[start]), end - start);
+						strncpy(, ,  < (+1) ?  : (+1)); [ <  ?  : -1] = 0;
 						name[end - start] = 0;
 						strcpy_s(name2, end - start + 1, name);
 						//detect braceletes in IPv6 address or remove port number from name
 						char* bs = strchr(name, '[');
 						char* be = strchr(name, ']');
 						if (bs && be) {
-							strcpy_s_s(name2, end - start + 1, be + 1, strlen(be));
+							strncpy(, ,  < (+1) ?  : (+1)); [ <  ?  : -1] = 0);
 							*be = '\0';
 							strcpy_s(name, end - start + 1, bs + 1);
 						}
@@ -1096,7 +1096,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					}
 					g_szRepeaterHost = new char[end - start + 1];
 					if (g_szRepeaterHost != 0) {
-						strcpy_s_s(g_szRepeaterHost, end - start + 1, &(szCmdLine[start]), end - start);
+						strncpy(, ,  < (+1) ?  : (+1)); [ <  ?  : -1] = 0;
 						g_szRepeaterHost[end - start] = 0;
 
 						// We can not contact a runnning service, permissions, so we must store the settings

@@ -26,6 +26,7 @@
 #include <tchar.h>
 #include <wchar.h>
 #include <math.h>
+#include <initguid.h>
 #include <objbase.h>
 #include <activeds.h>
 #include <dsgetdc.h>

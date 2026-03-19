@@ -23,10 +23,10 @@ namespace rdr {
     char str_[len];
     Exception(const char* s=0, const char* e="rdr::Exception") {
       str_[0] = 0;
-      strncat_s(str_, e, len-1);
+      strncat_s(str_, len, e, len-1);
       if (s) {
-        strncat_s(str_, ": ", len-1-strlen(str_));
-        strncat_s(str_, s, len-1-strlen(str_));
+        strncat_s(str_, len, ": ", len-1-strlen(str_));
+        strncat_s(str_, len, s, len-1-strlen(str_));
       }
     }
     virtual const char* str() const { return str_; }
@@ -36,17 +36,17 @@ namespace rdr {
     int err;
     SystemException(const char* s, int err_) : err(err_) {
       str_[0] = 0;
-      strncat_s(str_, "rdr::SystemException: ", len-1);
-      strncat_s(str_, s, len-1-strlen(str_));
-      strncat_s(str_, ": ", len-1-strlen(str_));
+      strncat_s(str_, len, "rdr::SystemException: ", len-1);
+      strncat_s(str_, len, s, len-1-strlen(str_));
+      strncat_s(str_, len, ": ", len-1-strlen(str_));
 	  char errorbuffer[1024];
-	  strcpy_s(errorbuffer, strerror(err), 1023);
-      strncat_s(str_, errorbuffer, len-1-strlen(str_));
-      strncat_s(str_, " (", len-1-strlen(str_));
+	  strcpy_s(errorbuffer, 1024, strerror(err));
+      strncat_s(str_, len, errorbuffer, len-1-strlen(str_));
+      strncat_s(str_, len, " (", len-1-strlen(str_));
       char buf[20];
-      sprintf_s(buf,"%d",err);
-      strncat_s(str_, buf, len-1-strlen(str_));
-      strncat_s(str_, ")", len-1-strlen(str_));
+      sprintf_s(buf, 20, "%d", err);
+      strncat_s(str_, len, buf, len-1-strlen(str_));
+      strncat_s(str_, len, ")", len-1-strlen(str_));
     }
   }; 
 
