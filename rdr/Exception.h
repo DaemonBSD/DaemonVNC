@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -40,7 +40,7 @@ namespace rdr {
       strncat_s(str_, s, len-1-strlen(str_));
       strncat_s(str_, ": ", len-1-strlen(str_));
 	  char errorbuffer[1024];
-	  strerror_s(errorbuffer, 1024, err);
+	  strcpy_s(errorbuffer, strerror(err), 1023);
       strncat_s(str_, errorbuffer, len-1-strlen(str_));
       strncat_s(str_, " (", len-1-strlen(str_));
       char buf[20];

@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -35,7 +35,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32 NDEBUG _WINDOWS _USRDLL
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenSSL::SSL)
 target_link_libraries(${PROJECT_NAME} PRIVATE OpenSSL::Crypto)
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/ultravnc)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon)
 if (MSVC)
-    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()

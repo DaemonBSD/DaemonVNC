@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -11,13 +11,13 @@
 
 #include "stdhdrs.h"
 #include "vncEncodeZlib.h"
-#include "../../common/UltraVncZ.h"
+#include "../../common/SysDaemonZ.h"
 //------------------------------------------------------------------
 vncEncodeZlib::vncEncodeZlib()
 {
 	m_queueEnable = false;
 	must_be_zipped = false;
-	ultraVncZ = new UltraVncZ();
+	sysDaemonZ = new SysDaemonZ();
 	m_buffer = NULL;
 	m_Queuebuffer = NULL;
 	m_QueueCompressedbuffer = NULL;
@@ -51,7 +51,7 @@ vncEncodeZlib::~vncEncodeZlib()
 	if (dataSize != 0) {
 		vnclog.Print(LL_INTINFO, VNCLOG("Zlib Xor encoder efficiency: %.3f%%\n"),(double)((double)((dataSize - transmittedSize) * 100) / dataSize));
 	}
-	delete ultraVncZ;
+	delete sysDaemonZ;
 }
 //------------------------------------------------------------------
 void vncEncodeZlib::Init()
@@ -82,7 +82,7 @@ UINT vncEncodeZlib::NumCodedRects(const rfb::Rect &rect)
 {
 	const int rectW = rect.br.x - rect.tl.x;
 	const int rectH = rect.br.y - rect.tl.y;
-	int aantal=(( rectH - 1 ) / (ultraVncZ->maxSize(rectW * rectH) / rectW ) + 1 );
+	int aantal=(( rectH - 1 ) / (sysDaemonZ->maxSize(rectW * rectH) / rectW ) + 1 );
 	m_queueEnable=false;
 	if (m_use_lastrect && aantal>1 && m_allow_queue) {
 		m_queueEnable=true;
@@ -92,7 +92,7 @@ UINT vncEncodeZlib::NumCodedRects(const rfb::Rect &rect)
 	// update. ( ZLIB_MAX_SIZE(rectW) / rectW ) is the number of lines in 
 	// each maximum size rectangle.
 	// When solid is enabled, most of the pixels are removed
-	return (( rectH - 1 ) / (ultraVncZ->maxSize(rectW * rectH) / rectW ) + 1 );
+	return (( rectH - 1 ) / (sysDaemonZ->maxSize(rectW * rectH) / rectW ) + 1 );
 }
 //------------------------------------------------------------------
 inline UINT vncEncodeZlib::EncodeRect(BYTE *source, VSocket *outConn, BYTE *dest, const rfb::Rect &rect, bool allow_queue)
@@ -109,7 +109,7 @@ inline UINT vncEncodeZlib::EncodeRect(BYTE *source, VSocket *outConn, BYTE *dest
 	partialRect.left = rect.tl.x;
 	partialRect.top = rect.tl.y;
 	partialRect.bottom = rect.br.y;
-	maxLines = ultraVncZ->maxSize(rectW * rectH) / rectW ;
+	maxLines = sysDaemonZ->maxSize(rectW * rectH) / rectW ;
 	linesRemaining = rectH;
 	while ( linesRemaining > 0 ) {
 		int linesToComp;
@@ -167,7 +167,7 @@ inline UINT vncEncodeZlib::EncodeOneRect(BYTE *source, BYTE *dest, const RECT &r
 
 	avail_in = rawDataSize;
 	Translate(source, m_buffer, rect);
-	if (rawDataSize < ultraVncZ->minSize())
+	if (rawDataSize < sysDaemonZ->minSize())
 		return vncEncoder::EncodeRect(source, dest, rect);
 
 	if (rawDataSize < 1000 && m_queueEnable) {
@@ -177,7 +177,7 @@ inline UINT vncEncodeZlib::EncodeOneRect(BYTE *source, BYTE *dest, const RECT &r
 		return 0;
 	}
 	surh->encoding = Swap32IfLE(m_use_zstd ? rfbEncodingZstd : rfbEncodingZlib);
-	totalCompDataLen = ultraVncZ->compress(m_compresslevel, avail_in, maxCompSize, m_buffer, (dest + sz_rfbFramebufferUpdateRectHeader + sz_rfbZlibHeader));
+	totalCompDataLen = sysDaemonZ->compress(m_compresslevel, avail_in, maxCompSize, m_buffer, (dest + sz_rfbFramebufferUpdateRectHeader + sz_rfbZlibHeader));
 	if (totalCompDataLen == 0)
 		return vncEncoder::EncodeRect(source, dest, rect);	
 	rfbZlibHeader *zlibh=(rfbZlibHeader *)(dest+sz_rfbFramebufferUpdateRectHeader);
@@ -220,7 +220,7 @@ void vncEncodeZlib::SendZlibrects(VSocket *outConn)
 	m_nNbRects=0;
 	m_Queuelen=0;
 	must_be_zipped=false;
-	maxCompSize = ultraVncZ->compress(m_compresslevel, rawDataSize, maxCompSize, m_Queuebuffer, m_QueueCompressedbuffer);
+	maxCompSize = sysDaemonZ->compress(m_compresslevel, rawDataSize, maxCompSize, m_Queuebuffer, m_QueueCompressedbuffer);
 	if (maxCompSize == 0)
 		return;
 	int rawDataSize1=rawDataSize/65535;
@@ -254,7 +254,7 @@ void vncEncodeZlib::LastRect(VSocket *outConn)
 //------------------------------------------------------------------
 void vncEncodeZlib::set_use_zstd(bool enabled)
 {
-	ultraVncZ->set_use_zstd(enabled);
+	sysDaemonZ->set_use_zstd(enabled);
 	vncEncoder::set_use_zstd(enabled);
 }
 //------------------------------------------------------------------

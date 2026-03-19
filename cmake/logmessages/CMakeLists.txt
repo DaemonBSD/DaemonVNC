@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -50,7 +50,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE "CXX" )
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" OR "${CMAKE_CXX_COMPILER_FRONTEND_VARIANT}" STREQUAL "MSVC")
     target_link_options(${PROJECT_NAME} PRIVATE "/NOENTRY")
 endif()
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/ultravnc)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon)
 if (MSVC)
-    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()

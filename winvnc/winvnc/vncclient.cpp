@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -1915,7 +1915,7 @@ void GetIPString(char* buffer, int buflen)
 
 	if (gethostname(namebuf, 256) != 0)
 	{
-		strncpy_s(buffer, buflen, "Host name unavailable", buflen);
+		strcpy_s_s(buffer, buflen, "Host name unavailable", buflen);
 		return;
 	}
 	if (settings->getIPV6()) {
@@ -1960,7 +1960,7 @@ void GetIPString(char* buffer, int buflen)
 					WSAAddressToString(sockaddr_ip, (DWORD)p->ai_addrlen, NULL, ipstringbuffer, &ipbufferlength);
 					char			szText[256];
 					memset(szText, 0, 256);
-					strncpy_s(szText, ipstringbuffer, ipbufferlength - 4);
+					strcpy_s_s(szText, ipstringbuffer, ipbufferlength - 4);
 					strcat_s(szText, "-");
 					int len = strlen(buffer);
 					int len2 = strlen(szText);
@@ -1980,7 +1980,7 @@ void GetIPString(char* buffer, int buflen)
 		ph = gethostbyname(namebuf);
 		if (!ph)
 		{
-			strncpy_s(buffer, buflen, "IP address unavailable", buflen);
+			strcpy_s_s(buffer, buflen, "IP address unavailable", buflen);
 			return;
 		}
 
@@ -2103,7 +2103,7 @@ bool vncClientThread::TryReconnect()
 			char finalidcode[_MAX_PATH];
 			//adzm 2010-08 - this was sending uninitialized data over the wire
 			ZeroMemory(finalidcode, sizeof(finalidcode));
-			strncpy_s(finalidcode, m_client->GetRepeaterID(), sizeof(finalidcode) - 1);
+			strcpy_s_s(finalidcode, m_client->GetRepeaterID(), sizeof(finalidcode) - 1);
 
 			m_socket->Send(finalidcode, 250);
 

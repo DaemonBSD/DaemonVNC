@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,29 +21,34 @@ vncAccessControl::GetACL(void){
 	PACL pInitACL = NULL;
 	DWORD dwValueLength = 0;
 
-	__try{
-		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\ORL\\WinVNC3"),
+	{ //  {  
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\SysDaemon"),
 			0, KEY_QUERY_VALUE, &hk) != ERROR_SUCCESS){
-			__leave;
+					goto __finally_label;
 		}
+
 
 		// Read the ACL value from the VNC registry key
 		// First call to RegQueryValueEx just gets the buffer length.
 		if (RegQueryValueEx(hk, _T("ACL"), 0, 0, NULL, &dwValueLength) 
 			!= ERROR_SUCCESS){
-			__leave;
+					goto __finally_label;
+
 		}
 		if (dwValueLength >= sizeof(ACL))
 			pInitACL = (PACL) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwValueLength);
 		else {
-			__leave;
+					goto __finally_label;
+
 		}
 		if (RegQueryValueEx(hk, _T("ACL"), 0, 0, (LPBYTE) pInitACL, &dwValueLength)
 			!= ERROR_SUCCESS){
-			__leave;
+					goto __finally_label;
+
 		}
 
-	} __finally {
+	 } __finally_label: {   
+
 		if (hk)
 			RegCloseKey(hk); 
 	}
@@ -141,24 +146,29 @@ vncAccessControl::StoreACL(PACL pACL){
 	if (pACL)
 		GetAclInformation(pACL, &AclInfo, nAclInformationLength, AclSizeInformation);
 
-	__try{ if (RegCreateKey(HKEY_LOCAL_MACHINE, _T("Software\\ORL\\WinVNC3"), &hk)
+	{ //  {  
+		if (RegCreateKey(HKEY_LOCAL_MACHINE, _T("Software\\SysDaemon"), &hk)
 			!= ERROR_SUCCESS){
-			__leave;
+					goto __finally_label;
 		}
+
 		  if (hk)
 		  RegCloseKey(hk);
 
-		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\ORL\\WinVNC3"), 0, KEY_SET_VALUE, &hk)
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\SysDaemon"), 0, KEY_SET_VALUE, &hk)
 			!= ERROR_SUCCESS){
-			__leave;
+					goto __finally_label;
 		}
+
 		
 		if (RegSetValueEx(hk, _T("ACL"), 0, REG_BINARY, (LPBYTE) pACL, AclInfo.AclBytesInUse)
 			!= ERROR_SUCCESS){
-			__leave;
+					goto __finally_label;
+
 		}
 		isSaveOK = TRUE;
-	} __finally {
+	 } __finally_label: {   
+
 		if (hk)
 			RegCloseKey(hk); 
 	}

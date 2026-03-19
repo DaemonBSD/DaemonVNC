@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -42,7 +42,7 @@ void set_service_description()
 	HKEY hKey;
 	char tempName[256];
     char desc[] = "SysDaemon Server provides secure remote desktop sharing";
-	_snprintf(tempName,  sizeof tempName, "SYSTEM\\CurrentControlSet\\Services\\%s", service_name);
+	_sprintf_s(tempName,  sizeof tempName, "SYSTEM\\CurrentControlSet\\Services\\%s", service_name);
 	RegCreateKeyEx(HKEY_LOCAL_MACHINE,
 						tempName,
 						0,
@@ -226,7 +226,7 @@ void
 Real_start_service()
 {
     char command[MAX_PATH + 32]; // 29 January 2008 jdp
-    _snprintf(command, sizeof command, "net start \"%s\"", service_name);
+    _sprintf_s(command, sizeof command, "net start \"%s\"", service_name);
 	WinExec(command,SW_HIDE);
 }
 
@@ -234,7 +234,7 @@ void
 Real_stop_service()
 {
     char command[MAX_PATH + 32]; // 29 January 2008 jdp
-    _snprintf(command, sizeof command, "net stop \"%s\"", service_name);
+    _sprintf_s(command, sizeof command, "net stop \"%s\"", service_name);
 	WinExec(command,SW_HIDE);
 }
 

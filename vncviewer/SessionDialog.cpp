@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -322,9 +322,9 @@ BOOL CALLBACK SessDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (_this->m_pCC->m_port == 5900)
 					_tcscpy_s(szHost, _this->m_pCC->m_host);
 				else if (_this->m_pCC->m_port > 5900 && _this->m_pCC->m_port <= 5999)
-					_snprintf_s(szHost, 250, TEXT("%s:%d"), _this->m_pCC->m_host, _this->m_pCC->m_port - 5900);
+					_sprintf_s_s(szHost, 250, TEXT("%s:%d"), _this->m_pCC->m_host, _this->m_pCC->m_port - 5900);
 				else
-					_snprintf_s(szHost, 250, TEXT("%s::%d"), _this->m_pCC->m_host, _this->m_pCC->m_port);
+					_sprintf_s_s(szHost, 250, TEXT("%s::%d"), _this->m_pCC->m_host, _this->m_pCC->m_port);
 
 				SetDlgItemText(hwnd, IDC_HOSTNAME_EDIT, szHost);
 				//AaronP
@@ -530,9 +530,9 @@ void SessionDialog::InitDlgProc(bool loadhost, bool initMruNeeded)
 			if (m_pCC->m_port == 5900)
 				_tcscpy_s(szHost, m_pCC->m_host);
 			else if (m_pCC->m_port > 5900 && m_pCC->m_port <= 5999)
-				_snprintf_s(szHost, 250, TEXT("%s:%d"), m_pCC->m_host, m_pCC->m_port - 5900);
+				_sprintf_s_s(szHost, 250, TEXT("%s:%d"), m_pCC->m_host, m_pCC->m_port - 5900);
 			else
-				_snprintf_s(szHost, 250, TEXT("%s::%d"), m_pCC->m_host, m_pCC->m_port);
+				_sprintf_s_s(szHost, 250, TEXT("%s::%d"), m_pCC->m_host, m_pCC->m_port);
 			SetDlgItemText(hwnd, IDC_HOSTNAME_EDIT, szHost);
 		}
 		else if (initMruNeeded)

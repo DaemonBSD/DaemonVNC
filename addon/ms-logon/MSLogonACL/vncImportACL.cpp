@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -43,12 +43,12 @@ void vncImportACL::GetOldACL(){
 	HKEY hk = NULL; 
 	DWORD dwValueLength = SECURITY_DESCRIPTOR_MIN_LENGTH;
 	
-	__try{
+	 { {
 		
 		if (ERROR_SUCCESS != RegOpenKeyEx( HKEY_LOCAL_MACHINE,
 			_T("Software\\ORL\\WinVNC3"),
 			0, KEY_QUERY_VALUE, &hk )){
-			__leave;
+					goto __finally_label;
 		}
 		// Read the ACL value from the VNC registry key
 		// First call to RegQueryValueEx just gets the buffer length.
@@ -58,7 +58,7 @@ void vncImportACL::GetOldACL(){
             0,						// value type , not needed here
 			NULL,					// 
             &dwValueLength)){       // length of value data 
-			__leave;
+					goto __finally_label;
 		}
 		pOldACL = (PACL) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwValueLength);
 		
@@ -68,10 +68,12 @@ void vncImportACL::GetOldACL(){
             0,										// value type 
 			(LPBYTE) pOldACL,
             &dwValueLength)){						// length of value data 
-			__leave;
+					goto __finally_label;
+
 		}
 
-	} __finally {
+	 } __finally_label: {   
+
 		if (hk)
 			RegCloseKey(hk); 
 	}
@@ -216,19 +218,20 @@ bool vncImportACL::SetACL(PACL pACL){
 	if (pACL)
 		GetAclInformation(pACL, &AclInformation, nAclInformationLength, AclSizeInformation);
 
-	__try{
+	 { {
 		//if (ERROR_SUCCESS != RegOpenKeyEx( HKEY_LOCAL_MACHINE,
 		//	_T("Software\\ORL\\WinVNC3"),
 		//	0, KEY_SET_VALUE, &hk )){
 		//	_ftprintf(stderr, _T("Error %d: RegOpenKeyEx\n"), GetLastError());
-		//	__leave;
+		//			goto __finally_label;
 		//}
 		
 		if (ERROR_SUCCESS != RegCreateKeyEx( HKEY_LOCAL_MACHINE,
 			_T("Software\\ORL\\WinVNC3"),
 			0, NULL, 0, KEY_SET_VALUE, NULL, &hk, &dwDisposition )){
 			_ftprintf(stderr, _T("Error %d: RegOpenKeyEx\n"), GetLastError());
-			__leave;
+					goto __finally_label;
+
 		}
 
 		// Add the ACL value to the VNC registry key
@@ -239,11 +242,13 @@ bool vncImportACL::SetACL(PACL pACL){
 			(LPBYTE) pACL,
             AclInformation.AclBytesInUse)){
 			_ftprintf(stderr, _T("Error %d: RegSetValueEx\n"), GetLastError());
-			__leave;
+					goto __finally_label;
+
 		}
 		isSaveOK = true;
 		_ftprintf(stderr, _T("RegSetValueEx passed\n"));
-	} __finally {
+	 } __finally_label: {   
+
 		if (hk)
 			RegCloseKey(hk); 
 	}

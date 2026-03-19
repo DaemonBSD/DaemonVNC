@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -615,10 +615,10 @@ int GetKeyLen(HCRYPTKEY hKey)
 	// Check the imported key's length
 			CryptGetKeyParam(hKey, KP_KEYLEN, pbDataBuf, &pdwDataLen, 0);
 
-			if (_snprintf(pKeyLN, sizeof(pKeyLN),"%2.2x",pbDataBuf[0]) < 0)
+			if (_sprintf_s(pKeyLN, sizeof(pKeyLN),"%2.2x",pbDataBuf[0]) < 0)
 			{  
 #ifdef _WITH_LOG  
-					PrintLog((DEST,"_snprintf failed - pKeyLN too small"));
+					PrintLog((DEST,"_sprintf_s failed - pKeyLN too small"));
 #endif 
 			}  
 

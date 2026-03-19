@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -991,7 +991,7 @@ bool VSocket::GetPeerAddress4(char *address, int size)
 	if (getpeername(sock4, (struct sockaddr *) &addr, &addrsize) != 0)
 		return false;
 
-	_snprintf_s(address, size, size, "%s:%d",inet_ntoa(addr.sin_addr),ntohs(addr.sin_port));
+	_sprintf_s_s(address, size, size, "%s:%d",inet_ntoa(addr.sin_addr),ntohs(addr.sin_port));
 
 	return true;
 }
@@ -1007,7 +1007,7 @@ bool VSocket::GetPeerAddress6(char *address, int size)
 	if (getpeername(sock6, (struct sockaddr *) &addr, &addrsize) != 0)
 		return false;
 	inet_ntop(AF_INET6, &addr.sin6_addr, straddr, sizeof(straddr));
-	_snprintf_s(address, size, size, "%s:%d", straddr, ntohs(addr.sin6_port));
+	_sprintf_s_s(address, size, size, "%s:%d", straddr, ntohs(addr.sin6_port));
 
 	return true;
 }
@@ -1023,7 +1023,7 @@ bool VSocket::GetPeerAddress(char *address, int size)
     if (getpeername(sock, (struct sockaddr *) &addr, &addrsize) != 0)
         return false;
 
-    _snprintf_s(address, size, size, "%s:%d",
+    _sprintf_s_s(address, size, size, "%s:%d",
               inet_ntoa(addr.sin_addr),
               ntohs(addr.sin_port));
 

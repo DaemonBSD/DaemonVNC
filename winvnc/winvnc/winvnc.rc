@@ -42,13 +42,6 @@ IDB_EXPAND              BITMAP                  "res/down.bmp"
 // Dialog
 //
 
-IDD_TEXTCHAT_DLG DIALOGEX 0, 0, 308, 177
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "SysDaemon Server - Chat"
-FONT 11, "MS Shell Dlg", 400, 0, 0x0
-BEGIN
-    EDITTEXT        IDC_INPUTAREA_EDIT,4,135,255,39,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | NOT WS_BORDER | WS_VSCROLL,WS_EX_STATICEDGE
-    PUSHBUTTON      "SEND",IDC_SEND_B,264,135,39,16,BS_MULTILINE
     PUSHBUTTON      "MINIMIZE",IDC_HIDE_B,264,152,39,11
     PUSHBUTTON      "CLOSE",IDCANCEL,264,164,39,11
     CONTROL         "",IDC_CHATAREA_EDIT,"RICHEDIT",TCS_HOTTRACK | TCS_RAGGEDRIGHT | TCS_FOCUSONBUTTONDOWN | TCS_MULTISELECT | WS_VSCROLL | WS_TABSTOP,4,4,300,122,WS_EX_STATICEDGE
@@ -66,7 +59,6 @@ BEGIN
     LTEXT           "Currently Connected Clients",IDC_STATIC,5,4,105,8
     LISTBOX         IDC_VIEWERS_LISTBOX,7,16,103,93,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
     PUSHBUTTON      "KILL CLIENT",IDC_KILL_B,118,17,62,14
-    PUSHBUTTON      "CHAT CLIENT",IDC_TEXTCHAT_B,118,35,62,14,BS_MULTILINE
     LTEXT           "Pending Clients",IDC_STATIC,185,4,105,8
     LISTBOX         IDC_PENDING_LISTBOX,187,16,103,93,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
 END
@@ -192,13 +184,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_TEXTCHAT_DLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 303
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 172
-    END
 
     IDD_LIST_DLG, DIALOG
     BEGIN
@@ -419,10 +404,6 @@ BEGIN
     0
 END
 
-IDD_TEXTCHAT_DLG AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
 
 IDD_MSLOGON AFX_DIALOG_LAYOUT
 BEGIN
@@ -517,13 +498,11 @@ BEGIN
     ID_CADPERMISSION        "Permission denied on cad.exe, SysDaemon must be installed in ""program files"" else special cad permission is refused."
     ID_CANNOT_EDIT_DEFAULT_PREFS 
                             "You do not have sufficient privileges to edit the default local SysDaemon Server settings."
-    ID_CHAT_WITH_S_ULTRAVNC "SysDaemon Server - Chat with <%s>"
 END
 
 STRINGTABLE
 BEGIN
     ID_SERV_SUCCESS_UNREG   "The SysDaemon Server service has been unregistered"
-    ID_ULTRAVNC_TEXTCHAT    "The selected client is not an SysDaemon Viewer!\nIt presumably does not support Text Chat\n"
     ID_ULTRAVNC_WARNING     "SysDaemon Warning"
     ID_UNABLE_INST          "Unable to install SysDaemon Server service"
     ID_UNABLE_PROC_MSLOGON  "Unable to process MS-Logon"
@@ -801,7 +780,6 @@ BEGIN
     CONTROL         "Windows 8 keyboardhelper",IDC_WIN8_HELPER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,184,30,110,10
     CONTROL         "International keys",IDC_UNICODE_INPUTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,184,18,74,10
     CONTROL         "Collaborative",IDC_COLLABO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,184,42,58,10
-    CONTROL         "Enable",IDC_FILETRANSFER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,67,36,10
     CONTROL         "User impersonation (for Service only)",IDC_FTUSERIMPERSONATION_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,79,133,10
     GROUPBOX        "File Transfer",IDC_STATIC,7,56,344,41

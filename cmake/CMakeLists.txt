@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -74,8 +74,8 @@ endif()
 
 set(CMAKE_CXX_STANDARD 14)
 if (MINGW)
-    set(CMAKE_C_FLAGS "-Wno-write-strings")
-    set(CMAKE_CXX_FLAGS "-Wno-write-strings -Wno-conversion-null")
+    set(CMAKE_C_FLAGS "-Wno-write-strings -include ${CMAKE_SOURCE_DIR}/../common/secure_crt_compat.h")
+    set(CMAKE_CXX_FLAGS "-Wno-write-strings -Wno-conversion-null -include ${CMAKE_SOURCE_DIR}/../common/secure_crt_compat.h")
 endif()
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     add_compile_definitions("_CRT_SECURE_NO_WARNINGS")
@@ -91,12 +91,12 @@ option(asan "Build with address sanitizer enabled.")
 if (asan)
     add_compile_options(-fsanitize=address)
     add_link_options(-fsanitize=address)
-    install(FILES "c:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/Hostx64/x64/clang_rt.asan_dynamic-x86_64.dll" DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES "c:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/Hostx64/x64/clang_rt.asan_dynamic-x86_64.dll" DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()
 
 if (MINGW)
-    install(FILES /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libstdc++-6.dll DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
-    install(FILES /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libgcc_s_seh-1.dll DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libstdc++-6.dll DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
+    install(FILES /usr/lib/gcc/x86_64-w64-mingw32/13-win32/libgcc_s_seh-1.dll DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()
 
 add_subdirectory(authadmin)

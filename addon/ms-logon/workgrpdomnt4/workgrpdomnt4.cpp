@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -99,12 +99,12 @@ HMODULE LoadSecurityDll() {
    if (!hModule)
       return NULL;
 
-   __try {
+    {  {
 
       _AcceptSecurityContext = (ACCEPT_SECURITY_CONTEXT_FN) 
             GetProcAddress(hModule, "AcceptSecurityContext");
       if (!_AcceptSecurityContext)
-         __leave;
+         		goto __finally_label;
 
 #ifdef UNICODE
       _AcquireCredentialsHandle = (ACQUIRE_CREDENTIALS_HANDLE_FN)
@@ -114,7 +114,7 @@ HMODULE LoadSecurityDll() {
             GetProcAddress(hModule, "AcquireCredentialsHandleA");
 #endif
       if (!_AcquireCredentialsHandle)
-         __leave;
+         		goto __finally_label;
 
       // CompleteAuthToken is not present on Windows 9x Secur32.dll
       // Do not check for the availablity of the function if it is NULL;
@@ -124,17 +124,17 @@ HMODULE LoadSecurityDll() {
       _DeleteSecurityContext = (DELETE_SECURITY_CONTEXT_FN) 
             GetProcAddress(hModule, "DeleteSecurityContext");
       if (!_DeleteSecurityContext)
-         __leave;
+         		goto __finally_label;
 
       _FreeContextBuffer = (FREE_CONTEXT_BUFFER_FN) 
             GetProcAddress(hModule, "FreeContextBuffer");
       if (!_FreeContextBuffer)
-         __leave;
+         		goto __finally_label;
 
       _FreeCredentialsHandle = (FREE_CREDENTIALS_HANDLE_FN) 
             GetProcAddress(hModule, "FreeCredentialsHandle");
       if (!_FreeCredentialsHandle)
-         __leave;
+         		goto __finally_label;
 
 #ifdef UNICODE
       _InitializeSecurityContext = (INITIALIZE_SECURITY_CONTEXT_FN)
@@ -144,7 +144,7 @@ HMODULE LoadSecurityDll() {
             GetProcAddress(hModule, "InitializeSecurityContextA");
 #endif
       if (!_InitializeSecurityContext)
-         __leave;
+         		goto __finally_label;
 
 #ifdef UNICODE
       _QuerySecurityPackageInfo = (QUERY_SECURITY_PACKAGE_INFO_FN)
@@ -154,11 +154,11 @@ HMODULE LoadSecurityDll() {
             GetProcAddress(hModule, "QuerySecurityPackageInfoA");
 #endif
       if (!_QuerySecurityPackageInfo)
-         __leave;
+         		goto __finally_label;
 
       fAllFunctionsLoaded = TRUE;
 
-   } __finally {
+    } __finally_label: { 
 
       if (!fAllFunctionsLoaded) {
          UnloadSecurityDll(hModule);
@@ -386,11 +386,11 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain, LPTSTR szUser, LPTSTR szPassword) {
    HMODULE     hModule    = NULL;
 
    SEC_WINNT_AUTH_IDENTITY ai;
-   __try {
+    {  {
 
       hModule = LoadSecurityDll();
       if (!hModule)
-         __leave;
+         		goto __finally_label;
 
       // Get max token size
       _QuerySecurityPackageInfo(_T("NTLM"), &pSPI);
@@ -424,14 +424,14 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain, LPTSTR szUser, LPTSTR szPassword) {
       // Prepare client message (negotiate) .
       cbOut = cbMaxToken;
       if (!GenClientContext(&asClient, &ai, NULL, 0, pClientBuf, &cbOut, &fDone))
-         __leave;
+         		goto __finally_label;
 
       // Prepare server message (challenge) .
       cbIn = cbOut;
       cbOut = cbMaxToken;
       if (!GenServerContext(&asServer, pClientBuf, cbIn, pServerBuf, &cbOut, 
             &fDone))
-         __leave;
+         		goto __finally_label;
          // Most likely failure: AcceptServerContext fails with SEC_E_LOGON_DENIED
          // in the case of bad szUser or szPassword.
          // Unexpected Result: Logon will succeed if you pass in a bad szUser and 
@@ -442,18 +442,18 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain, LPTSTR szUser, LPTSTR szPassword) {
       cbOut = cbMaxToken;
       if (!GenClientContext(&asClient, &ai, pServerBuf, cbIn, pClientBuf, &cbOut,
             &fDone))
-         __leave;
+         		goto __finally_label;
 
       // Prepare server message (authentication) .
       cbIn = cbOut;
       cbOut = cbMaxToken;
       if (!GenServerContext(&asServer, pClientBuf, cbIn, pServerBuf, &cbOut, 
             &fDone))
-         __leave;
+         		goto __finally_label;
 
       fResult = TRUE;
 
-   } __finally {
+    } __finally_label: { 
 
       // Clean up resources
       if (asClient.fHaveCtxtHandle)
@@ -676,7 +676,7 @@ if ( isNT )
 							{
 								size_t pnconv;
 								wcstombs_s( &pnconv, groupname, MAXLEN, ((LPLOCALGROUP_USERS_INFO_0_NT *) buf2)[i].grui0_name, MAXLEN );	
-								groupname[MAXLEN - 1] = '\0'; // because strncpy won't do this if overflow
+								groupname[MAXLEN - 1] = '\0'; // because strcpy_s won't do this if overflow
 #ifdef _MSC_VER
 								_strupr(groupname);
 								_strupr(groupin);
@@ -728,7 +728,7 @@ if ( isNT )
 							{
 								size_t pnconv;
 								wcstombs_s( &pnconv, groupname, MAXLEN, ((LPLOCALGROUP_USERS_INFO_0_NT *) buf2)[i].grui0_name, MAXLEN );	
-								groupname[MAXLEN - 1] = '\0'; // because strncpy won't do this if overflow
+								groupname[MAXLEN - 1] = '\0'; // because strcpy_s won't do this if overflow
 #ifdef _MSC_VER
 								_strupr(groupname);
 								_strupr(groupin);
@@ -770,7 +770,7 @@ if ( isNT )
 				byte *buf2 = 0;
 				rc = NetWkstaGetInfo95( 0 , 100 , &buf2 ) ;
 				if( rc ) printf( "NetWkstaGetInfoA() returned %lu \n", rc);
-				else  strncpy_s( domain, ((WKSTA_INFO_100_95 *) buf2)->wki100_langroup, MAXLEN );
+				else  strcpy_s_s( domain, ((WKSTA_INFO_100_95 *) buf2)->wki100_langroup, MAXLEN );
 				NetApiBufferFree( buf2 );
 				domain[MAXLEN - 1] = '\0';
 				NetApiBufferFree( buf );
@@ -782,8 +782,8 @@ if ( isNT )
 					{
 						for ( i = 0; i < read; ++ i )
 							{ 
-								strncpy_s( groupname, ((LPLOCALGROUP_USERS_INFO_0_95 *) buf2)[i].grui0_name, MAXLEN );
-								groupname[MAXLEN - 1] = '\0'; // because strncpy won't do this if overflow
+								strcpy_s_s( groupname, ((LPLOCALGROUP_USERS_INFO_0_95 *) buf2)[i].grui0_name, MAXLEN );
+								groupname[MAXLEN - 1] = '\0'; // because strcpy_s won't do this if overflow
 #ifdef _MSC_VER
 							_strupr(groupname);
 #else

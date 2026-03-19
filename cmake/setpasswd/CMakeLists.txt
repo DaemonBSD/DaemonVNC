@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -23,7 +23,7 @@ endforeach(file)
 target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/../setpasswd/setpasswd/setpasswd.rc")
 set_source_files_properties(${CMAKE_SOURCE_DIR}/../setpasswd/setpasswd/setpasswd.rc LANGUAGE RC)
 target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32 NDEBUG _CONSOLE)
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/ultravnc)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon)
 if (MSVC)
-    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()

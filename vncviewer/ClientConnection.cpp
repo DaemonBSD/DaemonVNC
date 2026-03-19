@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -275,7 +275,7 @@ ClientConnection::ClientConnection(VNCviewerApp *pApp, SOCKET sock)
 			if (svraddr.ss_family == AF_INET) {
 				struct sockaddr_in* s = (struct sockaddr_in*)&svraddr;
 				m_port = ntohs(s->sin_port);
-				_snprintf_s(m_host, 250, _T("%u.%u.%u.%u"),
+				_sprintf_s_s(m_host, 250, _T("%u.%u.%u.%u"),
 					(unsigned int)s->sin_addr.S_un.S_un_b.s_b1,
 					(unsigned int)s->sin_addr.S_un.S_un_b.s_b2,
 					(unsigned int)s->sin_addr.S_un.S_un_b.s_b3,
@@ -286,7 +286,7 @@ ClientConnection::ClientConnection(VNCviewerApp *pApp, SOCKET sock)
 #undef Byte
 				struct sockaddr_in6* s = (struct sockaddr_in6*)&svraddr;
 				m_port = ntohs(s->sin6_port);
-				_snprintf_s(m_host, 250, _T("%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x"),
+				_sprintf_s_s(m_host, 250, _T("%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x"),
 					s->sin6_addr.u.Byte[0],
 					s->sin6_addr.u.Byte[1],
 					s->sin6_addr.u.Byte[2],
@@ -315,7 +315,7 @@ ClientConnection::ClientConnection(VNCviewerApp *pApp, SOCKET sock)
 		int sasize = sizeof(svraddr);
 		if (getpeername(sock, (struct sockaddr*)&svraddr,
 			&sasize) != SOCKET_ERROR) {
-			_snprintf_s(m_host, 250, _T("%u.%u.%u.%u"),
+			_sprintf_s_s(m_host, 250, _T("%u.%u.%u.%u"),
 				(unsigned int)svraddr.sin_addr.S_un.S_un_b.s_b1,
 				(unsigned int)svraddr.sin_addr.S_un.S_un_b.s_b2,
 				(unsigned int)svraddr.sin_addr.S_un.S_un_b.s_b3,
@@ -447,8 +447,8 @@ void ClientConnection::Init(VNCviewerApp *pApp)
 	m_pIntegratedPluginInterface = NULL;
 
 	// ZlibHex
-	ultraVncZRaw = new UltraVncZ();
-	ultraVncZEncoded = new UltraVncZ();
+	sysDaemonZRaw = new SysDaemonZ();
+	sysDaemonZEncoded = new SysDaemonZ();
 
 	// Initialise a few fields that will be properly set when the
 	// connection has been negotiated
@@ -608,7 +608,7 @@ void ClientConnection::Init(VNCviewerApp *pApp)
 	mytouch->Set_ClientConnect(this);
 #endif
 
-	ultraVncZlib = new UltraVncZ();
+	sysDaemonZlib = new SysDaemonZ();
 	desktopsize_requested = true;
 	ShowToolbar = -1;
 	ExtDesktop = false;
@@ -1393,7 +1393,7 @@ void ClientConnection::GTGBS_CreateToolbar()
 	//adzm 2009-06-21 - show the proxy in the 'recent' box
 	if (m_fUseProxy && strlen(m_proxyhost) > 0) {
 		TCHAR proxyname[MAX_HOST_NAME_LEN];
-		_snprintf_s(proxyname, MAX_HOST_NAME_LEN-1, "%s:%li (%s:%li)", m_host, m_port, m_proxyhost, m_proxyport);
+		_sprintf_s_s(proxyname, MAX_HOST_NAME_LEN-1, "%s:%li (%s:%li)", m_host, m_port, m_proxyhost, m_proxyport);
 		SendMessage(m_logo_wnd, CB_ADDSTRING, 0, (LPARAM)proxyname);
 	}
     for (int i = 0; i < m_pMRU->NumItems(); i++) {
@@ -1751,7 +1751,7 @@ void ClientConnection::SetDSMPluginStuff()
 				AuthDialog ad;
 				if (ad.DoDialog(dtPass,m_host,m_port))
 				{
-					strncpy_s(m_clearPasswd, ad.m_passwd,254);
+					strcpy_s_s(m_clearPasswd, ad.m_passwd,254);
 				}
 			}
 			strcpy_s(szParams, m_clearPasswd);
@@ -2038,19 +2038,19 @@ void ClientConnection::Connect(bool cloud)
 		if (IsIpv6 && IsIpv4)
 		{
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv4: %s\nIPv6: %s \n", inet_ntoa(Ipv4Addr.sin_addr), ipstringbuffer);
+			_sprintf_s_s(szText, 256, "IPv4: %s\nIPv6: %s \n", inet_ntoa(Ipv4Addr.sin_addr), ipstringbuffer);
 			if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 		}
 		else if (IsIpv6)
 		{
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv6: %s \n", ipstringbuffer);
+			_sprintf_s_s(szText, 256, "IPv6: %s \n", ipstringbuffer);
 			if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 		}
 		else if (IsIpv4)
 		{
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv4: %s \n", inet_ntoa(Ipv4Addr.sin_addr));
+			_sprintf_s_s(szText, 256, "IPv4: %s \n", inet_ntoa(Ipv4Addr.sin_addr));
 			if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 		}
 
@@ -2066,7 +2066,7 @@ void ClientConnection::Connect(bool cloud)
 			{
 				int res;
 				char			szText[256];
-				_snprintf_s(szText, 256, "IPv6: %s \n", sz_L47);
+				_sprintf_s_s(szText, 256, "IPv6: %s \n", sz_L47);
 				if (m_hwndStatus)SetDlgItemText(m_hwndStatus, IDC_STATUS, szText);
 				if (m_hwndStatus)ShowWindow(m_hwndStatus, SW_SHOW);
 				if (m_hwndStatus)UpdateWindow(m_hwndStatus);
@@ -2102,7 +2102,7 @@ void ClientConnection::Connect(bool cloud)
 					if (m_hwndStatus)UpdateWindow(m_hwndStatus);
 					return;
 				}
-				_snprintf_s(szText, 256, "IPv6: %s \n", sz_L48);
+				_sprintf_s_s(szText, 256, "IPv6: %s \n", sz_L48);
 				if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 
 			}
@@ -2117,7 +2117,7 @@ void ClientConnection::Connect(bool cloud)
 				throw WarningException(sz_L44);
 			}
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv4: %s \n", sz_L47);
+			_sprintf_s_s(szText, 256, "IPv4: %s \n", sz_L47);
 			if (m_hwndStatus)SetDlgItemText(m_hwndStatus, IDC_STATUS, szText);
 			if (m_hwndStatus)ShowWindow(m_hwndStatus, SW_SHOW);
 			if (m_hwndStatus)UpdateWindow(m_hwndStatus);
@@ -2341,19 +2341,19 @@ void ClientConnection::ConnectProxy()
 		if (IsIpv6 && IsIpv4)
 		{
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv4: %s\nIPv6: %s \n", inet_ntoa(Ipv4Addr.sin_addr), ipstringbuffer);
+			_sprintf_s_s(szText, 256, "IPv4: %s\nIPv6: %s \n", inet_ntoa(Ipv4Addr.sin_addr), ipstringbuffer);
 			if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 		}
 		else if (IsIpv6)
 		{
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv6: %s \n", ipstringbuffer);
+			_sprintf_s_s(szText, 256, "IPv6: %s \n", ipstringbuffer);
 			if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 		}
 		else if (IsIpv4)
 		{
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv4: %s \n", inet_ntoa(Ipv4Addr.sin_addr));
+			_sprintf_s_s(szText, 256, "IPv4: %s \n", inet_ntoa(Ipv4Addr.sin_addr));
 			if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 		}
 
@@ -2369,7 +2369,7 @@ void ClientConnection::ConnectProxy()
 			{
 				int res;
 				char			szText[256];
-				_snprintf_s(szText, 256, "IPv6: %s \n", sz_L47);
+				_sprintf_s_s(szText, 256, "IPv6: %s \n", sz_L47);
 				if (m_hwndStatus)SetDlgItemText(m_hwndStatus, IDC_STATUS, szText);
 				if (m_hwndStatus)ShowWindow(m_hwndStatus, SW_SHOW);
 				if (m_hwndStatus)UpdateWindow(m_hwndStatus);
@@ -2399,7 +2399,7 @@ void ClientConnection::ConnectProxy()
 					if (m_hwndStatus)UpdateWindow(m_hwndStatus);
 					return;
 				}
-				_snprintf_s(szText, 256, "IPv6: %s \n", sz_L48);
+				_sprintf_s_s(szText, 256, "IPv6: %s \n", sz_L48);
 				if (m_hwndStatus) { SetDlgItemText(m_hwndStatus, IDC_STATUS, szText); Sleep(500); }
 
 			}
@@ -2414,7 +2414,7 @@ void ClientConnection::ConnectProxy()
 				throw WarningException(sz_L44);
 			}
 			char			szText[256];
-			_snprintf_s(szText, 256, "IPv4: %s \n", sz_L47);
+			_sprintf_s_s(szText, 256, "IPv4: %s \n", sz_L47);
 			if (m_hwndStatus)SetDlgItemText(m_hwndStatus, IDC_STATUS, szText);
 			if (m_hwndStatus)ShowWindow(m_hwndStatus, SW_SHOW);
 			if (m_hwndStatus)UpdateWindow(m_hwndStatus);
@@ -3278,7 +3278,7 @@ void ClientConnection::AuthSecureVNCPlugin()
 				{
 					if (ad.DoDialog(dtPass, m_host, m_port))
 						{
-							strncpy_s(passwd, ad.m_passwd,254);
+							strcpy_s_s(passwd, ad.m_passwd,254);
 							if (!bPassphraseRequired && strlen(passwd) > 8) {
 								passwd[8] = '\0';
 							}
@@ -3376,7 +3376,7 @@ void ClientConnection::AuthSecureVNCPlugin_old()
 
 					if (ad.DoDialog(dtPassUpgrade, m_host, m_port))
 					{
-						strncpy_s(passwd, ad.m_passwd,254);
+						strcpy_s_s(passwd, ad.m_passwd,254);
 						if (!bPassphraseRequired && strlen(passwd) > 8) {
 							passwd[8] = '\0';
 						}
@@ -3460,8 +3460,8 @@ void ClientConnection::AuthMsLogonII()
     {
 		vnclog.Print(0, _T("Command line MS-Logon.\n"));
 		strcpy_s(m_clearPasswd, m_pApp->m_options.m_clearPassword);
-		strncpy_s(passwd, m_clearPasswd, 64);
-		strncpy_s(user, m_cmdlnUser, 254);
+		strcpy_s_s(passwd, m_clearPasswd, 64);
+		strcpy_s_s(user, m_cmdlnUser, 254);
 		vncEncryptPasswdMs(m_encPasswdMs, passwd);
 		strcpy_s(m_ms_user, user);
 	}
@@ -3476,8 +3476,8 @@ void ClientConnection::AuthMsLogonII()
 	AuthDialog ad;
 	// adzm 2010-10 - RFB3.8 - the 'MS-Logon' param woudl always be true here
 	if (ad.DoDialog(dtUserPass, m_host, m_port)) {
-		strncpy_s(passwd, ad.m_passwd, 64);
-		strncpy_s(user, ad.m_user, 254);
+		strcpy_s_s(passwd, ad.m_passwd, 64);
+		strcpy_s_s(user, ad.m_user, 254);
 		vncEncryptPasswdMs(m_encPasswdMs, passwd);
 		strcpy_s(m_ms_user, user);
 	} else {
@@ -3555,9 +3555,9 @@ void ClientConnection::AuthMsLogonI()
 		if (ad.DoDialog(dtUserPassNotEncryption, m_host, m_port))
 		{
 //					flash = new BmpFlasher;
-			strncpy_s(passwd, ad.m_passwd,254);
-			strncpy_s(user, ad.m_user,254);
-			strncpy_s(domain, ad.m_domain,254);
+			strcpy_s_s(passwd, ad.m_passwd,254);
+			strcpy_s_s(user, ad.m_user,254);
+			strcpy_s_s(domain, ad.m_domain,254);
 			if (strlen(user)==0 ||!m_ms_logon_I_legacy)//need longer passwd for ms
 				{
 					if (strlen(passwd) == 0) {
@@ -3641,7 +3641,7 @@ void ClientConnection::AuthVnc()
 		AuthDialog ad;
 		if (ad.DoDialog(dtPass, m_host, m_port))
 		{
-			strncpy_s(passwd, ad.m_passwd,254);
+			strcpy_s_s(passwd, ad.m_passwd,254);
 			if (strlen(passwd) == 0)
 			{
 				vnclog.Print(0, _T("Password had zero length\n"));
@@ -4596,10 +4596,10 @@ ClientConnection::~ClientConnection()
     if (fis)
       delete fis;
 
-	if (ultraVncZRaw)
-		delete ultraVncZRaw;
-	if (ultraVncZEncoded)
-		delete ultraVncZEncoded;
+	if (sysDaemonZRaw)
+		delete sysDaemonZRaw;
+	if (sysDaemonZEncoded)
+		delete sysDaemonZEncoded;
 
 	if (m_pZRLENetRectBuf != NULL)
 		delete [] m_pZRLENetRectBuf;
@@ -4685,7 +4685,7 @@ ClientConnection::~ClientConnection()
 	}
 #endif
 	delete directx_output;
-	delete ultraVncZlib;
+	delete sysDaemonZlib;
 	DeleteCriticalSection(&crit);
 #ifdef _CLOUD
 	if (cloudThread)
@@ -5299,7 +5299,7 @@ void ClientConnection::ShowConnInfo()
 	char kbdname[9];
 	GetKeyboardLayoutName(kbdname);
 	TCHAR num[16];
-	_snprintf_s(
+	_sprintf_s_s(
 		buf,
 		2048,
 		_T("Connected to: %s\n\r\n\r")
@@ -6948,11 +6948,11 @@ void ClientConnection::WriteTransformed(char *buf, int bytes, CARD8 msgType, boo
 //adzm 2010-09
 void ClientConnection::WriteExact(char *buf, int bytes, CARD8 msgType)
 {
-	__try {
+	 { /* SEH */  {
 		EnterCriticalSection(&crit);
 		WriteTransformed(buf, bytes, msgType, false);
 	}
-	__finally {
+	 } __finally_label: {  {
 		LeaveCriticalSection(&crit);
 	}
 }
@@ -7526,23 +7526,23 @@ void ClientConnection::GetFriendlySizeString(__int64 Size, char* szText)
 	{
 		__int64 lRest = (Size % (1024*1024*1024));
 		Size /= (1024*1024*1024);
-		_snprintf_s(szText, 256, 256, "%u.%4.4lu Gb", (unsigned long)Size, (unsigned long)((__int64)(lRest) * 10000 / 1024 / 1024 / 1024));
+		_sprintf_s_s(szText, 256, 256, "%u.%4.4lu Gb", (unsigned long)Size, (unsigned long)((__int64)(lRest) * 10000 / 1024 / 1024 / 1024));
 	}
 	else if( Size > (1024*1024) )
 	{
 		unsigned long lRest = (Size % (1024*1024));
 		Size /= (1024*1024);
-		_snprintf_s(szText, 256, 256, "%u.%3.3lu Mb", (unsigned long)Size, (unsigned long)((__int64)(lRest) * 1000 / 1024 / 1024));
+		_sprintf_s_s(szText, 256, 256, "%u.%3.3lu Mb", (unsigned long)Size, (unsigned long)((__int64)(lRest) * 1000 / 1024 / 1024));
 	}
 	else if ( Size > 1024 )
 	{
 		unsigned long lRest = Size % (1024);
 		Size /= 1024;
-		_snprintf_s(szText, 256, 256, "%u.%2.2lu Kb", (unsigned long)Size, lRest * 100 / 1024);
+		_sprintf_s_s(szText, 256, 256, "%u.%2.2lu Kb", (unsigned long)Size, lRest * 100 / 1024);
 	}
 	else
 	{
-		_snprintf_s(szText, 256, 256, "%u bytes", (unsigned long)Size);
+		_sprintf_s_s(szText, 256, 256, "%u bytes", (unsigned long)Size);
 	}
 }
 
@@ -9312,11 +9312,11 @@ LRESULT CALLBACK ClientConnection::WndProchwnd(HWND hwnd, UINT iMsg, WPARAM wPar
 						char			szText[256];
 						if (ret != 0)
 						{
-							_snprintf_s(szText, 256,  "RegisterTouchWindow Success \n");
+							_sprintf_s_s(szText, 256,  "RegisterTouchWindow Success \n");
 						}
 						else
 						{
-							_snprintf_s(szText, 256,  "RegisterTouchWindow Failed with error code = %lu \n", err);
+							_sprintf_s_s(szText, 256,  "RegisterTouchWindow Failed with error code = %lu \n", err);
 						}
 						OutputDebugString(szText);
 #endif

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,7 +17,7 @@ class vncEncodeZlib;
 
 #include "vncencoder.h"
 
-class UltraVncZ;
+class SysDaemonZ;
 class vncEncodeZlib : public vncEncoder
 {
 // Fields
@@ -60,7 +60,7 @@ protected:
 	BOOL	m_queueEnable;
 	bool	m_allow_queue;
 	int		Firstrun;
-	UltraVncZ   *ultraVncZ;
+	SysDaemonZ   *sysDaemonZ;
 };
 
 #endif // _WINVNC_ENCODEZLIB

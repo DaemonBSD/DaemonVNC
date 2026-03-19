@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,7 +13,18 @@ project(winvnc LANGUAGES C CXX RC)
 
 find_package(JPEG REQUIRED)
 find_package(libjpeg-turbo CONFIG REQUIRED)
-find_package(ZLIB REQUIRED)
+if (NOT TARGET ZLIB::ZLIB)
+  if (ZLIB_LIBRARY AND ZLIB_INCLUDE_DIR)
+    add_library(ZLIB::ZLIB UNKNOWN IMPORTED)
+    set_target_properties(ZLIB::ZLIB PROPERTIES
+      IMPORTED_LOCATION "${ZLIB_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${ZLIB_INCLUDE_DIR}"
+    )
+    set(ZLIB_FOUND TRUE)
+  else()
+    find_package(ZLIB REQUIRED)
+  endif()
+endif()
 find_package(zstd CONFIG REQUIRED)
 find_package(LibLZMA REQUIRED)
 find_package(unofficial-sodium CONFIG REQUIRED)
@@ -23,7 +34,7 @@ set(${PROJECT_NAME}_SOURCES
     ../../ZipUnZip32/ZipUnzip32.cpp
     ../../common/Clipboard.cpp
     ../../common/Hyperlinks.cpp
-    ../../common/UltraVncZ.cpp
+    ../../common/SysDaemonZ.cpp
     ../../common/d3des.c
     ../../common/win32_helpers.cpp
     ../../lzo/minilzo.c
@@ -40,7 +51,7 @@ set(${PROJECT_NAME}_SOURCES
 	PropertiesDialog.cpp
     ScreenCapture.cpp
     SettingsManager.cpp
-    TextChat.cpp
+#    TextChat.cpp
     UdpEchoServer.cpp
     SysDaemonService.cpp
     VirtualDisplay.cpp
@@ -49,8 +60,8 @@ set(${PROJECT_NAME}_SOURCES
     cadthread.cpp
     credentials.cpp
     getinfo.cpp
-    inifile.cpp
-    initipp.cpp
+    ../../common/inifile.cpp
+#    initipp.cpp
     rfbRegion_X11.cxx
     rfbRegion_win32.cpp
     rfbUpdateTracker.cpp
@@ -132,7 +143,7 @@ target_link_libraries(${PROJECT_NAME}
     ws2_32
     wtsapi32
 )
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/ultravnc)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon)
 if (MSVC)
-    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()

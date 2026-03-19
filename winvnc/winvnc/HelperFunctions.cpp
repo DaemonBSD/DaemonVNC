@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -42,37 +42,37 @@ void Open_forum()
 
 void Open_github()
 {
-	ShellExecute(0, "open", "https://github.com/ultravnc", 0, 0, 1);
+	ShellExecute(0, "open", "https://github.com/sysdaemon", 0, 0, 1);
 }
 
 void Open_mastodon()
 {
-	ShellExecute(0, "open", "https://mastodon.social/@ultravnc", 0, 0, 1);
+	ShellExecute(0, "open", "https://mastodon.social/@sysdaemon", 0, 0, 1);
 }
 
 void Open_bluesky()
 {
-	ShellExecute(0, "open", "https://bsky.app/profile/ultravnc.bsky.social", 0, 0, 1);
+	ShellExecute(0, "open", "https://bsky.app/profile/sysdaemon.bsky.social", 0, 0, 1);
 }
 
 void Open_facebook()
 {
-	ShellExecute(0, "open", "https://www.facebook.com/ultravnc1", 0, 0, 1);
+	ShellExecute(0, "open", "https://www.facebook.com/sysdaemon1", 0, 0, 1);
 }
 
 void Open_xtwitter()
 {
-	ShellExecute(0, "open", "https://x.com/ultravnc1", 0, 0, 1);
+	ShellExecute(0, "open", "https://x.com/sysdaemon1", 0, 0, 1);
 }
 
 void Open_reddit()
 {
-	ShellExecute(0, "open", "https://www.reddit.com/r/ultravnc", 0, 0, 1);
+	ShellExecute(0, "open", "https://www.reddit.com/r/sysdaemon", 0, 0, 1);
 }
 
 void Open_openhub()
 {
-	ShellExecute(0, "open", "https://openhub.net/p/ultravnc", 0, 0, 1);
+	ShellExecute(0, "open", "https://openhub.net/p/sysdaemon", 0, 0, 1);
 }
 
 #ifndef SC_20
@@ -97,7 +97,7 @@ namespace serviceHelpers {
 
 	void Real_stop_service() {
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
+		_sprintf_s_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 	}
 
@@ -121,7 +121,7 @@ namespace serviceHelpers {
 
 	void Real_start_service() {
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
+		_sprintf_s_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 	}
 
@@ -269,7 +269,7 @@ namespace serviceHelpers {
 									if (servicePath.find(appPath.c_str()) != -1)
 									{
 										bResult = true;
-										strncpy_s(pszServiceName, 256, pServices[i].lpServiceName, 256);
+										strcpy_s_s(pszServiceName, 256, pServices[i].lpServiceName, 256);
 										pszServiceName[255] = 0;
 									}
 								}
@@ -789,7 +789,7 @@ namespace processHelper {
 		if (result && (strcmp(buffer, "") == 0) && !settings->RunningFromExternalService()) {
 			// Ensure buffer has enough space for "Default" + null terminator
 			if (size >= sizeof("Default")) {
-				strncpy_s(buffer, size, "Default", _TRUNCATE);  // Set buffer to "Default" safely
+				strcpy_s_s(buffer, size, "Default", _TRUNCATE);  // Set buffer to "Default" safely
 			}
 		}
 

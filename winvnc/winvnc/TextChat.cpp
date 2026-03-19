@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -299,7 +299,7 @@ void TextChat::PrintMessage(const char* szMessage,const char* szSender,DWORD dwC
 			SetTextFormat(false, false, 0xb4, "ＭＳ ゴシック", dwColor);
 		}
 
-		_snprintf_s(m_szTextBoxBuffer, TEXTMAXSIZE, MAXNAMESIZE-1 + 4, "<%s>: ", szSender);		
+		_sprintf_s_s(m_szTextBoxBuffer, TEXTMAXSIZE, MAXNAMESIZE-1 + 4, "<%s>: ", szSender);		
 		SendDlgItemMessage(m_hDlg, IDC_CHATAREA_EDIT,EM_REPLACESEL,FALSE,(LPARAM)m_szTextBoxBuffer); // Replace the selection with the message
 	}
 
@@ -320,7 +320,7 @@ void TextChat::PrintMessage(const char* szMessage,const char* szSender,DWORD dwC
 			SetTextFormat(false, false, 0xb4, "ＭＳ ゴシック", dwColor != GREY ? BLACK : GREY);
 		}
 
-		_snprintf_s(m_szTextBoxBuffer, TEXTMAXSIZE, TEXTMAXSIZE-1, "%s", szMessage);		
+		_sprintf_s_s(m_szTextBoxBuffer, TEXTMAXSIZE, TEXTMAXSIZE-1, "%s", szMessage);		
 		SendDlgItemMessage(m_hDlg, IDC_CHATAREA_EDIT,EM_REPLACESEL,FALSE,(LPARAM)m_szTextBoxBuffer); 
 	}
 
@@ -512,7 +512,7 @@ INT_PTR CALLBACK TextChat::TextChatDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM wPar
 			_this->m_hWnd = hWnd;
 			_this->m_hDlg = hWnd;
 
-			if (_snprintf_s(_this->m_szRemoteName, MAXNAMESIZE, MAXNAMESIZE-1,"%s", _this->m_pCC->GetClientNameName()) < 0 )
+			if (_sprintf_s_s(_this->m_szRemoteName, MAXNAMESIZE, MAXNAMESIZE-1,"%s", _this->m_pCC->GetClientNameName()) < 0 )
 			{
 				_this->m_szRemoteName[MAXNAMESIZE-4]='.';
 				_this->m_szRemoteName[MAXNAMESIZE-3]='.';
@@ -523,7 +523,7 @@ INT_PTR CALLBACK TextChat::TextChatDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM wPar
 			const long lTitleBufSize = 256;			
 			char szTitle[lTitleBufSize];
 			
-			_snprintf_s(szTitle,lTitleBufSize-1, sz_ID_CHAT_WITH_S_ULTRAVNC,_this->m_szRemoteName);
+			_sprintf_s_s(szTitle,lTitleBufSize-1, sz_ID_CHAT_WITH_S_ULTRAVNC,_this->m_szRemoteName);
 			SetWindowText(hWnd, szTitle);			
 
 			memset(_this->m_szLocalText, 0, TEXTMAXSIZE);

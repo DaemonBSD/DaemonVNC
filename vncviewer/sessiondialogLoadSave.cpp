@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -780,7 +780,7 @@ void SessionDialog::SetDefaults()
 	useAllMonitors =0;
 	requestedWidth = 0;
 	requestedHeight = 0;
-	_tcscpy_s(prefix, "ultravnc_");
+	_tcscpy_s(prefix, "sysdaemon_");
 	_tcscpy_s(imageFormat, ".jpeg");
 	fAutoAcceptIncoming = false;
 	fAutoAcceptNoDSM = false;

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -165,9 +165,9 @@ public:
 		memcpy(m_pref_passwdViewOnly, passwd, MAXPWLEN);
 	}
 
-	void setDSMPluginConfig(char* value) { strncpy_s(m_pref_DSMPluginConfig, sizeof(m_pref_DSMPluginConfig) - 1, value, _TRUNCATE); };
+	void setDSMPluginConfig(char* value) { strcpy_s_s(m_pref_DSMPluginConfig, sizeof(m_pref_DSMPluginConfig) - 1, value, _TRUNCATE); };
 	void setSzDSMPlugin(char* value) { 
-		strncpy_s(m_pref_szDSMPlugin, sizeof(m_pref_szDSMPlugin) - 1, value, _TRUNCATE); 
+		strcpy_s_s(m_pref_szDSMPlugin, sizeof(m_pref_szDSMPlugin) - 1, value, _TRUNCATE); 
 	};
 	void setUseDSMPlugin(BOOL value) { m_pref_UseDSMPlugin = value; };
 	void setDefaultScale(int value) { m_pref_DefaultScale = value; };

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -34,11 +34,11 @@ BOOL GetEnvVar(LPTSTR lpName, LPTSTR buffer, DWORD nSize)
 		pEnvVar = getenv(lpName);
 
 		if (pEnvVar != 0)
-			strncpy(buffer, pEnvVar, nSize);
+			strcpy_s(buffer, pEnvVar, nSize);
 
 
 		//if (pEnvVar != 0)
-		//	strncpy_s(buffer,nSize, pEnvVar, nSize);
+		//	strcpy_s_s(buffer,nSize, pEnvVar, nSize);
 
 		// GetEnvironmentVariable() was returning strings with additional variables in the string.
 		//      ex) programfiles = "%systemdisk%\program files" (or some such thing...)
@@ -421,10 +421,10 @@ int FindKey(const char* sPluginName, const char* sDefaultKeyName, const char* sV
 #ifdef _WITH_LOG  
 		PrintLog((DEST,"Looking for ProgramFiles\\SysDaemon"));
 #endif  
-		if (_snprintf(keyFile, sizeof(keyFile),"%s\\ULTRAVNC\\%s",sProgramFiles,sDefaultKeyName) < 0)
+		if (_sprintf_s(keyFile, sizeof(keyFile),"%s\\ULTRAVNC\\%s",sProgramFiles,sDefaultKeyName) < 0)
 		{  
 #ifdef _WITH_LOG  
-			PrintLog((DEST,"_snprintf failed - keyFile too small"));
+			PrintLog((DEST,"_sprintf_s failed - keyFile too small"));
 #endif  
 		}  
 		
@@ -442,10 +442,10 @@ int FindKey(const char* sPluginName, const char* sDefaultKeyName, const char* sV
 #ifdef _WITH_LOG  
 		PrintLog((DEST,"Looking for ProgramFiles\\OLR\\VNC"));
 #endif  
-		if (_snprintf(keyFile, sizeof(keyFile),"%s\\ORL\\VNC\\%s",sProgramFiles,sDefaultKeyName) < 0)
+		if (_sprintf_s(keyFile, sizeof(keyFile),"%s\\ORL\\VNC\\%s",sProgramFiles,sDefaultKeyName) < 0)
 		{  
 #ifdef _WITH_LOG  
-			PrintLog((DEST,"_snprintf failed - keyFile too small"));
+			PrintLog((DEST,"_sprintf_s failed - keyFile too small"));
 #endif 
 		}  
 		

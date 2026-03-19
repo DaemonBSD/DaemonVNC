@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -791,7 +791,7 @@ vncDesktop::Startup()
 		SYSTEMTIME lt;
 		GetLocalTime(&lt);
 		char str[MAX_PATH + 32]; // 29 January 2008 jdp 
-		_snprintf_s(str, sizeof str, "%02d_%02d_%02d_%02d_%02d", lt.wMonth, lt.wDay, lt.wHour, lt.wMinute, lt.wSecond);
+		_sprintf_s_s(str, sizeof str, "%02d_%02d_%02d_%02d_%02d", lt.wMonth, lt.wDay, lt.wHour, lt.wMinute, lt.wSecond);
 		strcat_s(str, "_vnc.avi");
 		AviGen = new CAVIGenerator(str, "c:\\temp", &m_bminfo.bmi.bmiHeader, 5);
 		HRESULT hr;

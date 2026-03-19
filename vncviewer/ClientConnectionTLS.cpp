@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -624,9 +624,9 @@ static bool GetCertificateThumbprint(PCCERT_CONTEXT pCert, char *hex, int hexsiz
 	DWORD size = sizeof(thumb);
 	if (!pCert || !CertGetCertificateContextProperty(pCert, CERT_HASH_PROP_ID, thumb, &size))
 		return false;
-	snprintf(hex, hexsize, "%02x", thumb[0]);
+	sprintf_s(hex, hexsize, "%02x", thumb[0]);
 	for (DWORD i = 1; i < size; i++)
-		snprintf(hex + strlen(hex), hexsize - strlen(hex), "-%02x", thumb[i]);
+		sprintf_s(hex + strlen(hex), hexsize - strlen(hex), "-%02x", thumb[i]);
 	return true;
 }
 

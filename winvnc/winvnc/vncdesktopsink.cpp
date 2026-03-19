@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -308,7 +308,7 @@ DesktopWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 						for (int i=0;i<4;i++)
 							{
 								strcpy_s(split[i],"     ");
-								strncpy_s(split[i],myptr,4);
+								strcpy_s_s(split[i],myptr,4);
 								myptr=myptr+5;
 							}
 						_this->UpdateFullScreen();

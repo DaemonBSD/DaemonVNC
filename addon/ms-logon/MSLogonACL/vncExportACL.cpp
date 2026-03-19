@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,13 +21,14 @@ bool vncExportACL::GetACL(PACL *pACL){
 	DWORD dwValueLength = SECURITY_DESCRIPTOR_MIN_LENGTH;
 	
 	_ftprintf(stderr, _T("== Entering GetACL\n"));
-	__try{
+	{ //  {  
+
 		
 		if (ERROR_SUCCESS != RegOpenKeyEx( HKEY_LOCAL_MACHINE,
 			_T("Software\\ORL\\WinVNC3"),
 			0, KEY_QUERY_VALUE, &hk )){
 			_ftprintf(stderr, _T("== Error %d: RegOpenKeyEx\n"), GetLastError());
-			__leave;
+					goto __finally_label;
 		}
 		// Read the ACL value from the VNC registry key
 		// First call to RegQueryValueEx just gets the buffer length.
@@ -39,7 +40,8 @@ bool vncExportACL::GetACL(PACL *pACL){
             &dwValueLength)){       // length of value data 
 			_ftprintf(stderr, _T("== Error %d: RegQueryValueEx 1\tValueLength = %d\n"), 
 				GetLastError(), dwValueLength);
-			__leave;
+					goto __finally_label;
+
 		}
 		*pACL = (PACL) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwValueLength);
 		
@@ -50,11 +52,12 @@ bool vncExportACL::GetACL(PACL *pACL){
 			(LPBYTE) *pACL,
             &dwValueLength)){						// length of value data 
 			_ftprintf(stderr, _T("== Error %d: RegQueryValueEx 2\n"), GetLastError());
-			__leave;
+					goto __finally_label;
 		}
 		_ftprintf(stderr, _T("== RegQueryValueEx passed\tdwValueLength = %d\n"), dwValueLength);
 
-	} __finally {
+	 } __finally_label: {   
+
 		if (hk)
 			RegCloseKey(hk); 
 	}

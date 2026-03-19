@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -188,7 +188,7 @@ debug( const char *fmt, ... )
 	sprintf_s(myoutput, "SysDaemon> ");
 	vsprintf_s( myoutput, fmt, args );
 	va_end( args );
-	strncpy_s(myoutput2,myoutput,strlen(myoutput)-1);
+	strcpy_s_s(myoutput2,myoutput,strlen(myoutput)-1);
 	win_log(myoutput2);
 }
 

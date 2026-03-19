@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -415,7 +415,7 @@ vncMenu::GetIPAddrString(char* buffer, int buflen) {
 	char namebuf[256];
 
 	if (gethostname(namebuf, 256) != 0) {
-		strncpy_s(buffer, buflen, "Host name unavailable", buflen);
+		strcpy_s_s(buffer, buflen, "Host name unavailable", buflen);
 		return;
 	};
 
@@ -458,7 +458,7 @@ vncMenu::GetIPAddrString(char* buffer, int buflen) {
 					WSAAddressToString(sockaddr_ip, (DWORD)p->ai_addrlen, NULL, ipstringbuffer, &ipbufferlength);
 					char			szText[256];
 					memset(szText, 0, 256);
-					strncpy_s(szText, ipstringbuffer, ipbufferlength - 4);
+					strcpy_s_s(szText, ipstringbuffer, ipbufferlength - 4);
 					strcat_s(szText, "-");
 					int len = strlen(buffer);
 					int len2 = strlen(szText);
@@ -476,7 +476,7 @@ vncMenu::GetIPAddrString(char* buffer, int buflen) {
 	 else {
 		 HOSTENT* ph = gethostbyname(namebuf);
 		 if (!ph) {
-			 strncpy_s(buffer, buflen, "IP address unavailable", buflen);
+			 strcpy_s_s(buffer, buflen, "IP address unavailable", buflen);
 			 return;
 		 };
 
@@ -951,43 +951,43 @@ LRESULT CALLBACK vncMenu::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lP
 			break;
 
 		case ID_VISITUSONLINE_GITHUB:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://github.com/ultravnc"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://github.com/sysdaemon"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_GITHUB);
 			break;
 
 		case ID_VISITUSONLINE_MASTODON:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://mastodon.social/@ultravnc"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://mastodon.social/@sysdaemon"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_MASTODON);
 			break;
 
 		case ID_VISITUSONLINE_BLUESKY:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://bsky.app/profile/ultravnc.bsky.social"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://bsky.app/profile/sysdaemon.bsky.social"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_BLUESKY);
 			break;
 
 		case ID_VISITUSONLINE_FACEBOOK:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://www.facebook.com/ultravnc1"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://www.facebook.com/sysdaemon1"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_FACEBOOK);
 			break;
 
 		case ID_VISITUSONLINE_XTWITTER:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://x.com/ultravnc1"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://x.com/sysdaemon1"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_XTWITTER);
 			break;
 
 		case ID_VISITUSONLINE_REDDIT:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://www.reddit.com/r/ultravnc"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://www.reddit.com/r/sysdaemon"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_REDDIT);
 			break;
 
 		case ID_VISITUSONLINE_OPENHUB:
-			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://openhub.net/p/ultravnc"));
+			if (settings->RunningFromExternalService() && OpenWebpageFromService("cmd /c start https://openhub.net/p/sysdaemon"));
 			else
 				OpenWebpageFromApp(ID_VISITUSONLINE_OPENHUB);
 			break;

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -22,7 +22,7 @@ class vncEncodeTight;
 #pragma once
 
 #include "vncencoder.h"
-#include "../../common/UltraVncZ.h"
+#include "../../common/SysDaemonZ.h"
 
 extern "C"
 {
@@ -95,7 +95,7 @@ protected:
 	int m_paletteNumColors, m_paletteMaxColors;
 	CARD32 m_monoBackground, m_monoForeground;
 	PALETTE m_palette;
-	UltraVncZ   ultraVncZTight[4]; 
+	SysDaemonZ   sysDaemonZTight[4]; 
 	int m_zsLevel[4];
 	BYTE *m_hdrBuffer;
 	int m_hdrBufferBytes;

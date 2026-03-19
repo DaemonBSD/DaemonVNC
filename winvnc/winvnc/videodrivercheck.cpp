@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -83,7 +83,7 @@ TEXT("\\StringFileInfo\\040904b0\\ProductVersion"),
 
    if( resultValue )
    {
-      strncpy_s(vBuffer, 512, (char *) lpBuffer, size);
+      strcpy_s_s(vBuffer, 512, (char *) lpBuffer, size);
       delete []versionInfo;
       return(TRUE);
    }

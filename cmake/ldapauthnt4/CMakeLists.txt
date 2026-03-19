@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,12 +25,8 @@ if (MINGW)
     target_link_options(${PROJECT_NAME} PRIVATE "-municode")
 endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
-target_link_libraries(${PROJECT_NAME}
-    activeds
-    adsiid
-    netapi32
-)
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/ultravnc)
+target_link_libraries(ldapauthnt4 PRIVATE activeds adsldpc uuid ole32 oleaut32 netapi32)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon)
 if (MSVC)
-    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()

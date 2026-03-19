@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -19,10 +19,10 @@
 
 #include "lzo/minilzo.h"
 
-bool ClientConnection::zlibDecompress(unsigned char *from_buf, unsigned char *to_buf, unsigned int count, unsigned int size, UltraVncZ * ultravncZ, bool zstd)
+bool ClientConnection::zlibDecompress(unsigned char *from_buf, unsigned char *to_buf, unsigned int count, unsigned int size, SysDaemonZ * sysdaemonZ, bool zstd)
 {
 	int inflateResult;
-	inflateResult = ultravncZ->decompress(count, size, from_buf, to_buf, zstd);
+	inflateResult = sysdaemonZ->decompress(count, size, from_buf, to_buf, zstd);
 	if ( inflateResult < 0 ) {
 		vnclog.Print(0, _T("zlib inflate error: %d\n"), inflateResult);
 		return false;
@@ -85,7 +85,7 @@ void ClientConnection::HandleZlibHexEncoding##bpp(int rx, int ry, int rw, int rh
                 nCompData = Swap16IfLE(nCompData);								\
 				CheckBufferSize(nCompData);										\
                 ReadExact(m_netbuf, nCompData);									\
-		        if (zlibDecompress((unsigned char *)m_netbuf, m_zlibbuf, nCompData, ((w*h+2)*(bpp/8)), ultraVncZRaw, zstd)) {  \
+		        if (zlibDecompress((unsigned char *)m_netbuf, m_zlibbuf, nCompData, ((w*h+2)*(bpp/8)), sysDaemonZRaw, zstd)) {  \
                     SETPIXELS(m_zlibbuf, bpp, x,y,w,h);							\
 				}																\
                 continue;														\
@@ -96,7 +96,7 @@ void ClientConnection::HandleZlibHexEncoding##bpp(int rx, int ry, int rw, int rh
                 nCompData = Swap16IfLE(nCompData);								\
 				CheckBufferSize(nCompData);										\
                 ReadExact(m_netbuf, nCompData);									\
-		        if (zlibDecompress((unsigned char *)m_netbuf, m_zlibbuf, nCompData, ((w*h+2)*(bpp/8)+20), ultraVncZEncoded, zstd)) {  \
+		        if (zlibDecompress((unsigned char *)m_netbuf, m_zlibbuf, nCompData, ((w*h+2)*(bpp/8)+20), sysDaemonZEncoded, zstd)) {  \
                     HandleZlibHexSubencodingBuf##bpp(x, y, w, h, subencoding, m_zlibbuf);							\
 				}																\
                 continue;														\

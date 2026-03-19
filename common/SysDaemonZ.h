@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,11 +21,11 @@
 #endif
 
 
-class UltraVncZ 
+class SysDaemonZ 
 {
 public:
-	UltraVncZ();
-	~UltraVncZ();
+	SysDaemonZ();
+	~SysDaemonZ();
 	UINT compressZstd(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out);
 	UINT compressZlib(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out);
 	UINT compress(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out);

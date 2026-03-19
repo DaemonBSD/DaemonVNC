@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -94,7 +94,7 @@ bool PropertiesDialog::InitDialog(HWND hwnd)
 	const long lTitleBufSize = 256;
 	char szTitle[lTitleBufSize];
 
-	_snprintf_s(szTitle, lTitleBufSize - 1, "SysDaemon Server - Settings - Config file: %s", configFile);
+	_sprintf_s_s(szTitle, lTitleBufSize - 1, "SysDaemon Server - Settings - Config file: %s", configFile);
 	SetWindowText(hwnd, szTitle);
 
 	showAdminPanel = false;
@@ -1212,7 +1212,7 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 	case IDC_START_SERVICE:
 	{
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
+		_sprintf_s_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 		Sleep(3000);
 		setServiceStatusText(hwnd);
@@ -1221,7 +1221,7 @@ bool PropertiesDialog::onCommand( int command, HWND hwnd, int subcommand)
 	case IDC_STOP_SERVICE:
 	{
 		char command[MAX_PATH + 32]; // 29 January 2008 jdp
-		_snprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
+		_sprintf_s_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 		WinExec(command, SW_HIDE);
 		Sleep(3000);
 		setServiceStatusText(hwnd);

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -65,10 +65,10 @@ static LRESULT CALLBACK MessageDlgProc2(HWND hwnd, UINT iMsg,
 			ShellExecute(GetDesktopWindow(), "open", "https://uvnc.com/", "", 0, SW_SHOWNORMAL);
 		}
 		if (LOWORD(wParam) == IDC_GIT) {
-			ShellExecute(GetDesktopWindow(), "open", "https://github.com/ultravnc/SysDaemon", "", 0, SW_SHOWNORMAL);
+			ShellExecute(GetDesktopWindow(), "open", "https://github.com/sysdaemon/SysDaemon", "", 0, SW_SHOWNORMAL);
 		}
 		if (LOWORD(wParam) == IDC_WEBDOWNLOAD) {
-			ShellExecute(GetDesktopWindow(), "open", "https://uvnc.com/downloads/ultravnc.html", "", 0, SW_SHOWNORMAL);
+			ShellExecute(GetDesktopWindow(), "open", "https://uvnc.com/downloads/sysdaemon.html", "", 0, SW_SHOWNORMAL);
 		}
 	}
 	return FALSE;

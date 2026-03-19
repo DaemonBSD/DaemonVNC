@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -393,7 +393,7 @@ char* vncDeskThreadError(DWORD code)
 {
 	// create default message
 	static char msg[255];
-	_snprintf_s(msg, sizeof msg, "Unknown error %u", static_cast<unsigned int>(code));
+	_sprintf_s_s(msg, sizeof msg, "Unknown error %u", static_cast<unsigned int>(code));
 	msg[sizeof msg - 1] = 0;
 
 	switch (code)
@@ -694,7 +694,7 @@ void vncServer::ListAuthClients(HWND hListBox)
 		vncClient* client = GetClient(*i);
 		if (client->GetRepeaterID() && (strlen(client->GetRepeaterID()) > 0)) {
 			char szDescription[256];
-			_snprintf_s(szDescription, 255, "%s - %s", client->GetRepeaterID(), client->GetClientNameName());
+			_sprintf_s_s(szDescription, 255, "%s - %s", client->GetRepeaterID(), client->GetClientNameName());
 			szDescription[255] = '\0';
 
 			SendMessage(hListBox, LB_ADDSTRING, 0, (LPARAM)szDescription);
@@ -717,7 +717,7 @@ void vncServer::ListUnauthClients(HWND hListBox)
 		vncClient* client = GetClient(*i);
 		if (client->GetRepeaterID() && (strlen(client->GetRepeaterID()) > 0)) {
 			char szDescription[256];
-			_snprintf_s(szDescription, 255, "%s - %s", client->GetRepeaterID(), client->GetClientNameName());
+			_sprintf_s_s(szDescription, 255, "%s - %s", client->GetRepeaterID(), client->GetClientNameName());
 			szDescription[255] = '\0';
 
 			SendMessage(hListBox, LB_ADDSTRING, 0, (LPARAM)szDescription);

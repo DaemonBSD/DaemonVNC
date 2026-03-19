@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -20,7 +20,7 @@
 // optimized Hextile sub-encodings, including zlib.
 #include "stdhdrs.h"
 #include "vncEncodeZlibHex.h"
-#include "../../common/UltraVncZ.h"
+#include "../../common/SysDaemonZ.h"
 #include "rfb.h"
 #include <stdlib.h>
 #include <time.h>
@@ -29,7 +29,7 @@
 
 vncEncodeZlibHex::vncEncodeZlibHex()
 {
-	//ultraVncZ = new UltraVncZ();
+	//sysDaemonZ = new SysDaemonZ();
 	m_buffer = NULL;
 	m_bufflen = 0;
 	m_Queuebuffer = NULL;
@@ -38,8 +38,8 @@ vncEncodeZlibHex::vncEncodeZlibHex()
 	m_Queuebuffer = new BYTE [MaxQueuebufflen+1];
 	if (m_Queuebuffer == NULL)
 		vnclog.Print(LL_INTINFO, VNCLOG("Memory error"));
-	ultraVncZRaw = new UltraVncZ();
-	ultraVncZEncoded = new UltraVncZ();
+	sysDaemonZRaw = new SysDaemonZ();
+	sysDaemonZEncoded = new SysDaemonZ();
 }
 
 vncEncodeZlibHex::~vncEncodeZlibHex()
@@ -54,11 +54,11 @@ vncEncodeZlibHex::~vncEncodeZlibHex()
 		m_Queuebuffer = NULL;
 	}
 
-	if (ultraVncZRaw)
-		delete ultraVncZRaw;
+	if (sysDaemonZRaw)
+		delete sysDaemonZRaw;
 
-	if (ultraVncZEncoded)
-		delete ultraVncZEncoded;
+	if (sysDaemonZEncoded)
+		delete sysDaemonZEncoded;
 }
 
 void
@@ -150,7 +150,7 @@ vncEncodeZlibHex::EncodeRect(BYTE *source, VSocket *outConn, BYTE *dest, const R
 }
 
 UINT
-vncEncodeZlibHex::zlibCompress(BYTE *from_buf, BYTE *to_buf, UINT length, UltraVncZ *compressor)
+vncEncodeZlibHex::zlibCompress(BYTE *from_buf, BYTE *to_buf, UINT length, SysDaemonZ *compressor)
 {
 	int totalCompDataLen = compressor->compress(m_compresslevel, length, (2 * length), from_buf, to_buf);
 	if (totalCompDataLen == 0)
@@ -275,7 +275,7 @@ vncEncodeZlibHex::EncodeHextiles##bpp(BYTE *source, BYTE *dest,				\
 					compressedSize = zlibCompress((BYTE *) clientPixelData,	\
 													dest + destoffset + 2,	\
 													(w*h*(bpp/8)),			\
-													ultraVncZRaw);		\
+													sysDaemonZRaw);		\
 																			\
 																			\
 					card16ptr = (CARD16*) (dest + destoffset);				\
@@ -312,7 +312,7 @@ vncEncodeZlibHex::EncodeHextiles##bpp(BYTE *source, BYTE *dest,				\
 					compressedSize = zlibCompress((BYTE *) clientPixelData,	\
 													dest + destoffset + 2,	\
 													subEncodedLen,			\
-													ultraVncZEncoded);	\
+													sysDaemonZEncoded);	\
 																			\
 																			\
 					card16ptr = (CARD16*) (dest + destoffset);				\
@@ -553,7 +553,7 @@ vncEncodeZlibHex::LastRect(VSocket *outConn)
 
 void vncEncodeZlibHex::set_use_zstd(bool enabled)
 {
-	ultraVncZRaw->set_use_zstd(enabled);
-	ultraVncZEncoded->set_use_zstd(enabled);
+	sysDaemonZRaw->set_use_zstd(enabled);
+	sysDaemonZEncoded->set_use_zstd(enabled);
 	vncEncoder::set_use_zstd(enabled);
 }

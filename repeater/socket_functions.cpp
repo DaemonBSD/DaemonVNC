@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -82,7 +82,7 @@ BOOL ParseDisplay(LPTSTR display, int size, LPTSTR phost, int hostlen, int *ppor
 				tmp_port += RFB_PORT_OFFSET;
 		}
 	}
-    strncpy(pport,_itoa_s(tmp_port,pport,10),32);
+    strcpy_s(pport,_itoa_s(tmp_port,pport,10),32);
     return TRUE;
 }*/
 

@@ -42,7 +42,7 @@ BEGIN
         BLOCK "081304b0"
         BEGIN
             VALUE "CompanyName", "SysDaemon Corp"
-            VALUE "FileDescription", "Add password to ultravnc.ini"
+            VALUE "FileDescription", "Add password to sysdaemon.ini"
             VALUE "FileVersion", "1.0.0.1"
             VALUE "InternalName", "setpassw.exe"
             VALUE "LegalCopyright", "Copyright © 2002-2025 SysDaemon Team Members. All Rights Reserved."

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@
 #define _WINVNC_INIFILE
 
 #ifndef SC_20
-	#define INIFILE_NAME "ultravnc.ini"
+	#define INIFILE_NAME "sysdaemon.ini"
 #else
 	#define INIFILE_NAME "SC_20.ini"
 #endif // SC_20

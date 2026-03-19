@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -126,16 +126,16 @@ void PrintIt(const char * sMsg)
 				SetEndOfFile( hLogFile );	// Overwrite
 		}
 
-		if(_snprintf(tmpMsg, sizeof(tmpMsg),"%s %s : ",dbuffer, tbuffer)< 0)
-			PrintLog((DEST,"_snprintf failed - tmpMsg too small"));
+		if(_sprintf_s(tmpMsg, sizeof(tmpMsg),"%s %s : ",dbuffer, tbuffer)< 0)
+			PrintLog((DEST,"_sprintf_s failed - tmpMsg too small"));
 
 		WriteFile(hLogFile, tmpMsg, strlen(tmpMsg), &dwLogBytes, NULL); 
 		WriteFile(hLogFile, sMsg, strlen(sMsg), &dwLogBytes, NULL); 
 		
 		if (lLastError < 0)
 		{
-			if (_snprintf(tmpMsg, sizeof(tmpMsg)," - Last Error = %d : ",lLastError) < 0)
-				PrintLog((DEST,"_snprintf failed - tmpMsg too small"));
+			if (_sprintf_s(tmpMsg, sizeof(tmpMsg)," - Last Error = %d : ",lLastError) < 0)
+				PrintLog((DEST,"_sprintf_s failed - tmpMsg too small"));
 			WriteFile(hLogFile,tmpMsg,strlen(tmpMsg), &dwLogBytes,NULL);
 		}
 		WriteFile(hLogFile, "\r\n", 2, &dwLogBytes, NULL); 

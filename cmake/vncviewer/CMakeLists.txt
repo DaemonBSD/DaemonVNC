@@ -1,5 +1,5 @@
 # // This file is part of SysDaemon
-# // https://github.com/ultravnc/SysDaemon
+# // https://github.com/sysdaemon/SysDaemon
 # // https://uvnc.com/
 # //
 # // SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,7 +13,18 @@ project(vncviewer LANGUAGES C CXX RC)
 
 find_package(JPEG REQUIRED)
 find_package(libjpeg-turbo CONFIG REQUIRED)
-find_package(ZLIB REQUIRED)
+if (NOT TARGET ZLIB::ZLIB)
+  if (ZLIB_LIBRARY AND ZLIB_INCLUDE_DIR)
+    add_library(ZLIB::ZLIB UNKNOWN IMPORTED)
+    set_target_properties(ZLIB::ZLIB PROPERTIES
+      IMPORTED_LOCATION "${ZLIB_LIBRARY}"
+      INTERFACE_INCLUDE_DIRECTORIES "${ZLIB_INCLUDE_DIR}"
+    )
+    set(ZLIB_FOUND TRUE)
+  else()
+    find_package(ZLIB REQUIRED)
+  endif()
+endif()
 find_package(zstd CONFIG REQUIRED)
 find_package(LibLZMA REQUIRED)
 
@@ -22,7 +33,7 @@ set(${PROJECT_NAME}_SOURCES
     ../ZipUnZip32/ZipUnzip32.cpp
     ../common/Clipboard.cpp
     ../common/Hyperlinks.cpp
-    ../common/UltraVncZ.cpp
+    ../common/SysDaemonZ.cpp
     ../common/mnemonic.c
     ../common/mn_wordlist.c
     ../common/d3des.c
@@ -38,7 +49,7 @@ set(${PROJECT_NAME}_SOURCES
     ClientConnectionCoRRE.cpp
     ClientConnectionCopyRect.cpp
     ClientConnectionCursor.cpp
-    ClientConnectionFile.cpp
+#    ClientConnectionFile.cpp
     ClientConnectionFullScreen.cpp
     ClientConnectionHextile.cpp
     ClientConnectionRRE.cpp
@@ -52,7 +63,7 @@ set(${PROJECT_NAME}_SOURCES
     ClientConnectionZlibHex.cpp
     Daemon.cpp
     Exception.cpp
-    FileTransfer.cpp
+#    FileTransfer.cpp
     FullScreenTitleBar.cpp
     KeyMap.cpp
     KeyMapjap.cpp
@@ -63,7 +74,7 @@ set(${PROJECT_NAME}_SOURCES
     SessionDialog.cpp
     SessionDialogTabs.cpp
     Snapshot.cpp
-    TextChat.cpp
+#    TextChat.cpp
     SysDaemonHerperFunctions.cpp
     VNCOptions.cpp
     VNCviewerApp.cpp
@@ -112,7 +123,7 @@ target_link_libraries(${PROJECT_NAME}
     winmm
     ws2_32
 )
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/ultravnc)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon)
 if (MSVC)
-    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/ultravnc OPTIONAL)
+    install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_BINARY_DIR}/sysdaemon OPTIONAL)
 endif()

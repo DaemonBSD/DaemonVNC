@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -457,7 +457,7 @@ int main(int argc, char* argv[])
 	memset(passwd2, 0, 8);
 	if (argc == 2)
 	{		
-		strcpy_s(passwd, argv[1]);
+		strcpy_s(passwd, argv[1], MAXPWLEN);
 		if (strcmp(passwd, "-secure") == 0){
 			std::cout << "Usage: [-secure] password\n";
 			return 0;
@@ -468,12 +468,12 @@ int main(int argc, char* argv[])
 	}
 	else if (argc == 3)
 	{
-		strcpy_s(passwd2, argv[1]);
+		strcpy_s(passwd2, argv[1], MAXPWLEN);
 		if (strcmp(passwd2, "-secure") != 0){
 			std::cout << "Usage: [-secure] password\n";
 			return 0;
 		}
-		strcpy_s(passwd, argv[2]);
+		strcpy_s(passwd, argv[2], MAXPWLEN);
 		if (strlen(passwd) == 0) return 0;
 		vncEncryptPasswd(passwd, epasswd, true);
 		myIniFile.WriteInt((char *)"admin", (char*)"Secure", 1);

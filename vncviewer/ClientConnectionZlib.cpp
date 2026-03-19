@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -45,7 +45,7 @@ void ClientConnection::ReadZlibRect(rfbFramebufferUpdateRectHeader *pfburh, bool
 
 	// Verify enough buffer space for screen update.
 	CheckZlibBufferSize(numRawBytes);
-	if (ultraVncZlib->decompress(numCompBytes, numRawBytes, (unsigned char *)m_netbuf, m_zlibbuf, zstd) != Z_OK)
+	if (sysDaemonZlib->decompress(numCompBytes, numRawBytes, (unsigned char *)m_netbuf, m_zlibbuf, zstd) != Z_OK)
 		return;
 
 	// No other threads can use bitmap DC
@@ -114,7 +114,7 @@ void ClientConnection::ReadQueueZip(rfbFramebufferUpdateRectHeader *pfburh,HRGN 
 	// Verify buffer space for cache rects list
 	CheckZipBufferSize(numRawBytes+500);
 
-	if (ultraVncZlib->decompress(numCompBytes, numRawBytes, (unsigned char *)m_netbuf, m_zlibbuf, zstd) != Z_OK)
+	if (sysDaemonZlib->decompress(numCompBytes, numRawBytes, (unsigned char *)m_netbuf, m_zlibbuf, zstd) != Z_OK)
 		return;
 
 	BYTE* pzipbuf = m_zipbuf;

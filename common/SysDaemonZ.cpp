@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,11 +10,11 @@
 
 
 #include "stdhdrs.h"
-#include "UltraVncZ.h"
+#include "SysDaemonZ.h"
 #include <stdlib.h> 
 #include <sys/stat.h> 
 
-UltraVncZ::UltraVncZ()
+SysDaemonZ::SysDaemonZ()
 {
 	compStreamInitedZlib = false;
 	decompStreamInitedZlib = false;
@@ -22,7 +22,7 @@ UltraVncZ::UltraVncZ()
 	decompStreamInitedZstd = false;
 	use_zstd = false;
 }
-void UltraVncZ::set_use_zstd(bool use_zstd)
+void SysDaemonZ::set_use_zstd(bool use_zstd)
 {
 	this->use_zstd = use_zstd;
 	if (use_zstd)
@@ -31,7 +31,7 @@ void UltraVncZ::set_use_zstd(bool use_zstd)
 		MAX_SIZE = 8192;
 }
 
-UltraVncZ::~UltraVncZ()
+SysDaemonZ::~SysDaemonZ()
 {
 	if (compStreamInitedZlib)
 		deflateEnd(&compStream);
@@ -49,7 +49,7 @@ UltraVncZ::~UltraVncZ()
 	}
 }
 
-void UltraVncZ::endInflateStream(bool zstd)
+void SysDaemonZ::endInflateStream(bool zstd)
 {
 	if (zstd && compStreamInitedZstd) {
 		ZSTD_freeCStream(cstream);
@@ -65,7 +65,7 @@ void UltraVncZ::endInflateStream(bool zstd)
 }
 
 
-UINT UltraVncZ::compress(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
+UINT SysDaemonZ::compress(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
 {
 	if (use_zstd)
 		return compressZstd(compresslevel, avail_in, avail_out, next_in, next_out);
@@ -73,7 +73,7 @@ UINT UltraVncZ::compress(int compresslevel, UINT avail_in, UINT avail_out, BYTE 
 		return compressZlib(compresslevel, avail_in, avail_out, next_in, next_out);
 }
 
-UINT UltraVncZ::compressZlib (int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
+UINT SysDaemonZ::compressZlib (int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
 {
 	compStream.next_in = next_in;
 	compStream.avail_out = avail_out;
@@ -106,7 +106,7 @@ UINT UltraVncZ::compressZlib (int compresslevel, UINT avail_in, UINT avail_out, 
 	return compStream.total_out - previousTotalOut;
 }
 
-UINT UltraVncZ::compressZstd(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
+UINT SysDaemonZ::compressZstd(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
 {
 	compresslevel = compresslevel - 7;
 	unsigned int rc = 0;
@@ -140,7 +140,7 @@ UINT UltraVncZ::compressZstd(int compresslevel, UINT avail_in, UINT avail_out, B
 	return outBufferC->pos;
 }
 
-int UltraVncZ::decompress(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out, bool zstd)
+int SysDaemonZ::decompress(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out, bool zstd)
 {
 	if (zstd)
 		return decompressZstd(avail_in, avail_out, next_in, next_out);
@@ -148,7 +148,7 @@ int UltraVncZ::decompress(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE 
 		return decompressZlib(avail_in, avail_out, next_in, next_out);
 }
 
-int UltraVncZ::decompressZlib(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out)
+int SysDaemonZ::decompressZlib(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out)
 {
 	int inflateResult;
 	decompStream.next_in = next_in;
@@ -177,7 +177,7 @@ int UltraVncZ::decompressZlib(UINT &avail_in, UINT &avail_out, BYTE * next_in, B
 	return result;
 }
 
-int UltraVncZ::decompressZstd(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out)
+int SysDaemonZ::decompressZstd(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out)
 {
 	unsigned int rc = 0;
 	if (!decompStreamInitedZstd) {
@@ -206,12 +206,12 @@ int UltraVncZ::decompressZstd(UINT &avail_in, UINT &avail_out, BYTE * next_in, B
 		return Z_ERRNO;
 }
 
-UINT UltraVncZ::maxSize(UINT size)
+UINT SysDaemonZ::maxSize(UINT size)
 {	
 	return (size > MAX_SIZE) ? size : MAX_SIZE;
 }
 
-UINT UltraVncZ::minSize()
+UINT SysDaemonZ::minSize()
 {
 	if (use_zstd)
 		return 1000;
@@ -219,7 +219,7 @@ UINT UltraVncZ::minSize()
 		return 25;
 }
 
-/*void UltraVncZ::createCDict(int cLevel, ZSTD_CStream* cstream)
+/*void SysDaemonZ::createCDict(int cLevel, ZSTD_CStream* cstream)
 {
 	char file[MAX_PATH];
 	GetModuleFileName(NULL, file, MAX_PATH);
@@ -250,7 +250,7 @@ error:
 	ZSTD_CCtx_loadDictionary(cstream, NULL, fileSize);
 }
 
-void UltraVncZ::createDDict()
+void SysDaemonZ::createDDict()
 {
 	char file[MAX_PATH];
 	GetModuleFileName(NULL, file, MAX_PATH);
@@ -281,7 +281,7 @@ error:
 	ZSTD_DCtx_loadDictionary(dstream, NULL, fileSize);
 }
 
-UINT UltraVncZ::compressZstd_usingCDict(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
+UINT SysDaemonZ::compressZstd_usingCDict(int compresslevel, UINT avail_in, UINT avail_out, BYTE * next_in, BYTE *next_out)
 {
 	compresslevel = compresslevel - 7;
 	unsigned int rc = 0;
@@ -315,7 +315,7 @@ UINT UltraVncZ::compressZstd_usingCDict(int compresslevel, UINT avail_in, UINT a
 	return outBufferC->pos;
 }
 
-int UltraVncZ::decompressZstd_usingCDict(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out)
+int SysDaemonZ::decompressZstd_usingCDict(UINT &avail_in, UINT &avail_out, BYTE * next_in, BYTE *next_out)
 {
 	unsigned int rc = 0;
 	if (!decompStreamInitedZstd) {

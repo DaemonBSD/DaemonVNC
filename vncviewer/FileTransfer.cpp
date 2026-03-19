@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -871,23 +871,23 @@ void FileTransfer::GetFriendlyFileSizeString(__int64 Size, char* szText, int siz
 	{
 		__int64 lRest = (Size % (1024*1024*1024));
 		Size /= (1024*1024*1024);
-		_snprintf_s(szText, size, 256, "%u.%2.2lu Gb", (unsigned long)Size, (unsigned long)(lRest * 100 / 1024 / 1024 / 1024));
+		_sprintf_s_s(szText, size, 256, "%u.%2.2lu Gb", (unsigned long)Size, (unsigned long)(lRest * 100 / 1024 / 1024 / 1024));
 	}
 	else if( Size > (1024*1024) )
 	{
 		unsigned long lRest = (Size % (1024*1024));
 		Size /= (1024*1024);
-		_snprintf_s(szText, size, 256, "%u.%2.2lu Mb", (unsigned long)Size, lRest * 100 / 1024 / 1024);
+		_sprintf_s_s(szText, size, 256, "%u.%2.2lu Mb", (unsigned long)Size, lRest * 100 / 1024 / 1024);
 	}
 	else if ( Size > 1024 )
 	{
 		unsigned long lRest = Size % (1024);
 		Size /= 1024;
-		_snprintf_s(szText, size, 256, "%u.%2.2lu Kb", (unsigned long)Size, lRest * 100 / 1024);
+		_sprintf_s_s(szText, size, 256, "%u.%2.2lu Kb", (unsigned long)Size, lRest * 100 / 1024);
 	}
 	else
 	{
-		_snprintf_s(szText, size, 256, "%u bytes", (unsigned long)Size);
+		_sprintf_s_s(szText, size, 256, "%u bytes", (unsigned long)Size);
 	}
 }
 
@@ -999,7 +999,7 @@ void FileTransfer::AddFileToFileList(HWND hWnd, int nListId, WIN32_FIND_DATA& fd
 		FileTimeToLocalFileTime(&fd.ftLastWriteTime, &LocalFileTime);
 		SYSTEMTIME FileTime;
 		FileTimeToSystemTime(fLocalSide ? &LocalFileTime : &LocalFileTime /*&fd.ftLastWriteTime*/, &FileTime);
-		_snprintf_s(szText, 256, "%2.2d/%2.2d/%4.4d %2.2d:%2.2d",
+		_sprintf_s_s(szText, 256, "%2.2d/%2.2d/%4.4d %2.2d:%2.2d",
 				FileTime.wMonth,
 				FileTime.wDay,
 				FileTime.wYear,
@@ -1128,7 +1128,7 @@ bool FileTransfer::ResolvePossibleShortcutFolder(HWND hWnd, LPSTR szFolder)
 
 		memset(szGUIDir, '\0', 64); //PGM 
 
-		strncpy_s(szGUIDir, szP, 2); //PGM 
+		strcpy_s_s(szGUIDir, szP, 2); //PGM 
 
 		if (strcmp(szGUIDir, "[ ")!=0) //PGM 
 
@@ -1251,7 +1251,7 @@ void FileTransfer::PopulateLocalListBox(HWND hWnd, LPSTR szPath)
 			} //PGM @ Advantig
 			else //PGM @ Advantig
 			{ //PGM @ Advantig
-				strncpy_s(ofDir, ofDirT + 2, strlen(ofDirT) - 3); 
+				strcpy_s_s(ofDir, ofDirT + 2, strlen(ofDirT) - 3); 
 				ofDir[strlen(ofDirT) - 4] = '\0';
 			} //PGM @ Advantig
 		}
@@ -1402,7 +1402,7 @@ void FileTransfer::RequestRemoteDirectoryContent(HWND hWnd, LPSTR szPath)
 	{
 		if (ofDirT[0] == rfbDirPrefix[0] && ofDirT[1] == rfbDirPrefix[1])
 		{
-			strncpy_s(ofDir, ofDirT + 2, strlen(ofDirT) - 3); 
+			strcpy_s_s(ofDir, ofDirT + 2, strlen(ofDirT) - 3); 
 			ofDir[strlen(ofDirT) - 4] = '\0';
 		}
 		else
@@ -1945,7 +1945,7 @@ void FileTransfer::RequestRemoteFile(LPSTR szRemoteFileName)
 	//adzm 2010-09
     m_pCC->WriteExactQueue((char *)&ft, sz_rfbFileTransferMsg, rfbFileTransfer);
     m_pCC->WriteExact((char *)szRemoteFileName, strlen(szRemoteFileName));
-	strncpy_s(szRemoteFileNameRequested, szRemoteFileName, strlen(szRemoteFileName));
+	strcpy_s_s(szRemoteFileNameRequested, szRemoteFileName, strlen(szRemoteFileName));
 	rfbFileHeaderRequested = true;
 	return;
 }
@@ -3262,7 +3262,7 @@ bool FileTransfer::IsDirectoryGetIt(char* szName, int size)
 	strcpy_s(szWork, szName);
 	if (szWork[0] == rfbDirPrefix[0] && szWork[1] == rfbDirPrefix[1])
 	{
-		strncpy_s(szName, size, szWork + 2, strlen(szWork) - 3); 
+		strcpy_s_s(szName, size, szWork + 2, strlen(szWork) - 3); 
 		szName[strlen(szWork) - 4] = '\0';
 		return true;
 	}	
@@ -3409,14 +3409,14 @@ BOOL CALLBACK FileTransfer::FileTransferDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM
 			const long lTitleBufSize=256;			
 			char szRemoteName[lTitleBufSize];
 			char szTitle[lTitleBufSize];
-			if (_snprintf_s(szRemoteName, 127 ,"%s", l_this->m_pCC->m_desktopName) < 0 )
+			if (_sprintf_s_s(szRemoteName, 127 ,"%s", l_this->m_pCC->m_desktopName) < 0 )
 			{
 				szRemoteName[128-4]='.';
 				szRemoteName[128-3]='.';
 				szRemoteName[128-2]='.';
 				szRemoteName[128-1]=0x00;
 			}	
-			_snprintf_s(szTitle, lTitleBufSize-1," %s < %s>  -  SysDaemon", sz_H35,szRemoteName);
+			_sprintf_s_s(szTitle, lTitleBufSize-1," %s < %s>  -  SysDaemon", sz_H35,szRemoteName);
 			SetWindowText(hWnd, szTitle);
 
 			// Create all the columns of the Files ListViews
@@ -3936,7 +3936,7 @@ BOOL CALLBACK FileTransfer::FileTransferDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM
 				}
 				strcat_s(szCurrLocal, _this->m_szFTParam);
                 TCHAR szFolderName[MAX_PATH];
-                _snprintf_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
+                _sprintf_s_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
                 szFolderName[MAX_PATH - 1] = 0;
 				if (_this->FileOrFolderExists(GetDlgItem(hWnd, IDC_LOCAL_FILELIST), szFolderName))
 				{
@@ -3975,7 +3975,7 @@ BOOL CALLBACK FileTransfer::FileTransferDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM
 				}
 
                 TCHAR szFolderName[MAX_PATH];
-                _snprintf_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
+                _sprintf_s_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
                 szFolderName[MAX_PATH - 1] = 0;
 				if (_this->FileOrFolderExists(GetDlgItem(hWnd, IDC_REMOTE_FILELIST), szFolderName))
 				{
@@ -4038,7 +4038,7 @@ BOOL CALLBACK FileTransfer::FileTransferDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM
 							break;
 						}
 		                TCHAR szFolderName[MAX_PATH];
-		                _snprintf_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
+		                _sprintf_s_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
 		                szFolderName[MAX_PATH - 1] = 0;
 						if ((_this->FileOrFolderExists(GetDlgItem(hWnd, IDC_LOCAL_FILELIST), szFolderName)) ||
 						   (_this->FileOrFolderExists(GetDlgItem(hWnd, IDC_LOCAL_FILELIST), _this->m_szFTParam)))
@@ -4112,7 +4112,7 @@ BOOL CALLBACK FileTransfer::FileTransferDlgProc(  HWND hWnd,  UINT uMsg,  WPARAM
 							break;
 						}
 		                TCHAR szFolderName[MAX_PATH];
-		                _snprintf_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
+		                _sprintf_s_s(szFolderName, MAX_PATH, "%s%s%s", rfbDirPrefix, _this->m_szFTParam, rfbDirSuffix);
 		                szFolderName[MAX_PATH - 1] = 0;
 						if ((_this->FileOrFolderExists(GetDlgItem(hWnd, IDC_REMOTE_FILELIST), szFolderName)) ||
 						   (_this->FileOrFolderExists(GetDlgItem(hWnd, IDC_REMOTE_FILELIST), _this->m_szFTParam)))

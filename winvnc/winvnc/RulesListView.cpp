@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -400,7 +400,7 @@ bool RulesListView::isValidNumber(const char* str) {
 
 bool RulesListView::isValidIPAddress(const char* ip) {
 	char ipCopy[20];
-	strncpy_s(ipCopy, ip, 19);
+	strcpy_s_s(ipCopy, ip, 19);
 	ipCopy[19] = '\0';
 
 	char* token = std::strtok(ipCopy, ".");

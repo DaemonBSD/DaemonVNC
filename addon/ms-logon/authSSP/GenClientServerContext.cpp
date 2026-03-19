@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -89,12 +89,13 @@ HMODULE LoadSecurityDll() {
 	if (!hModule)
 		return NULL;
 
-   __try {
+    { // __try 
+//    __try {
 
       fn._AcceptSecurityContext = (ACCEPT_SECURITY_CONTEXT_FN) 
             GetProcAddress(hModule, "AcceptSecurityContext");
       if (!fn._AcceptSecurityContext)
-         __leave;
+         		goto __finally_label;
 
 #ifdef UNICODE
       fn._AcquireCredentialsHandle = (ACQUIRE_CREDENTIALS_HANDLE_FN)
@@ -104,7 +105,7 @@ HMODULE LoadSecurityDll() {
             GetProcAddress(hModule, "AcquireCredentialsHandleA");
 #endif
       if (!fn._AcquireCredentialsHandle)
-         __leave;
+         		goto __finally_label;
 
       // CompleteAuthToken, ImpersonateSecurityContext and RevertSecurityContext
 	  // are not present on Windows 9x Secur32.dll
@@ -121,17 +122,17 @@ HMODULE LoadSecurityDll() {
       fn._DeleteSecurityContext = (DELETE_SECURITY_CONTEXT_FN) 
             GetProcAddress(hModule, "DeleteSecurityContext");
       if (!fn._DeleteSecurityContext)
-         __leave;
+         		goto __finally_label;
 
       fn._FreeContextBuffer = (FREE_CONTEXT_BUFFER_FN) 
             GetProcAddress(hModule, "FreeContextBuffer");
       if (!fn._FreeContextBuffer)
-         __leave;
+         		goto __finally_label;
 
       fn._FreeCredentialsHandle = (FREE_CREDENTIALS_HANDLE_FN) 
             GetProcAddress(hModule, "FreeCredentialsHandle");
       if (!fn._FreeCredentialsHandle)
-         __leave;
+         		goto __finally_label;
 
 #ifdef UNICODE
       fn._InitializeSecurityContext = (INITIALIZE_SECURITY_CONTEXT_FN)
@@ -141,7 +142,7 @@ HMODULE LoadSecurityDll() {
             GetProcAddress(hModule, "InitializeSecurityContextA");
 #endif
       if (!fn._InitializeSecurityContext)
-         __leave;
+         		goto __finally_label;
 
 #ifdef UNICODE
       fn._QuerySecurityPackageInfo = (QUERY_SECURITY_PACKAGE_INFO_FN)
@@ -151,11 +152,12 @@ HMODULE LoadSecurityDll() {
             GetProcAddress(hModule, "QuerySecurityPackageInfoA");
 #endif
       if (!fn._QuerySecurityPackageInfo)
-         __leave;
+         		goto __finally_label;
 
       fAllFunctionsLoaded = TRUE;
 
-   } __finally {
+    } __finally_label: {  // __finally 
+//   } __finally {
 
       if (!fAllFunctionsLoaded) {
          UnloadSecurityDll(hModule);
@@ -166,6 +168,7 @@ HMODULE LoadSecurityDll() {
    
    return hModule;
 }
+
 
 BOOL GenClientContext(PAUTH_SEQ pAS, PSEC_WINNT_AUTH_IDENTITY pAuthIdentity,
       PVOID pIn, DWORD cbIn, PVOID pOut, PDWORD pcbOut, PBOOL pfDone) {

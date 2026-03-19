@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -43,7 +43,7 @@ class vncEncodeZlibHex;
 #define VNC_ENCODE_ZLIBHEX_MIN_DATAXFER (1400)
 
 // Class definition
-class UltraVncZ;
+class SysDaemonZ;
 
 class vncEncodeZlibHex : public vncEncoder
 {
@@ -67,7 +67,7 @@ public:
 	virtual void set_use_zstd(bool enabled);
 
 protected:
-	virtual UINT zlibCompress(BYTE *from_buf, BYTE *to_buf, UINT length, UltraVncZ *compressor);
+	virtual UINT zlibCompress(BYTE *from_buf, BYTE *to_buf, UINT length, SysDaemonZ *compressor);
 	virtual UINT EncodeHextiles8(BYTE *source, BYTE *dest,
 		VSocket *outConn, int x, int y, int w, int h);
 	virtual UINT EncodeHextiles16(BYTE *source, BYTE *dest,
@@ -83,8 +83,8 @@ protected:
 	BYTE			  *m_Queuebuffer;
 	int					m_Queuelen;
 	int					MaxQueuebufflen;
-	UltraVncZ   *ultraVncZRaw;
-	UltraVncZ   *ultraVncZEncoded;
+	SysDaemonZ   *sysDaemonZRaw;
+	SysDaemonZ   *sysDaemonZEncoded;
 };
 
 #endif // _WINVNC_ENCODEHEXTILE

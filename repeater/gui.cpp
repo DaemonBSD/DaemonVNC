@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -34,9 +34,9 @@ int main_test();
 #define LOG_DEBUG       7
 
 #define safecopy(dst, src) \
-    (dst[STRLEN-1]='\0', strncpy((dst), (src), STRLEN-1))
+    (dst[STRLEN-1]='\0', strcpy_s((dst), (src), STRLEN-1))
 #define safeconcat(dst, src) \
-    (dst[STRLEN-1]='\0', strncat((dst), (src), STRLEN-strlen(dst)-1))
+    (dst[STRLEN-1]='\0', strncat_s((dst), (src), STRLEN-strlen(dst)-1))
 
 BOOL taskbar=TRUE;
 int num_clients;//undefined

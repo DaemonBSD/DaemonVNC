@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -40,7 +40,7 @@ char* removeNewlineAndCopy(const char* str) {
 
     // Allocate a new char array for the result
     char* result = new char[newLen + 1]; // +1 for null terminator
-    strncpy(result, str, newLen); // Copy up to newLen characters
+    strcpy_s(result, str, newLen); // Copy up to newLen characters
     result[newLen] = '\0'; // Add null terminator
 
     return result; // Return the new char array
@@ -235,7 +235,7 @@ void VNCLog::ReallyPrint(const char* format, va_list ap)
 	TCHAR line[(LINE_BUFFER_SIZE * 2) + 1]; // sf@2006 - Prevents buffer overflow
 	TCHAR szErrorMsg[LINE_BUFFER_SIZE];
 	DWORD  dwErrorCode = GetLastError();
-    _vsnprintf(line, LINE_BUFFER_SIZE, format, ap);
+    _vsprintf_s(line, LINE_BUFFER_SIZE, format, ap);
 	SetLastError(0);
     if (dwErrorCode != 0) {
 	    if (FormatMessage( 
@@ -258,7 +258,7 @@ void VNCLog::ReallyPrintScreen(const char* format, va_list ap)
     std::strftime(isoTime, sizeof(isoTime), "%Y-%m-%d %H:%M:%S", std::localtime(&current));
     TCHAR line[(LINE_BUFFER_SIZE * 2) + 1];
     TCHAR line2[(LINE_BUFFER_SIZE * 2) + 1];
-    _vsnprintf(line, LINE_BUFFER_SIZE, format, ap);
+    _vsprintf_s(line, LINE_BUFFER_SIZE, format, ap);
     strcpy_s(line2, isoTime);
     strcat_s(line2, " ");
     strcat_s(line2, line);

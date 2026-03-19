@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -228,7 +228,7 @@ void extractConfig(char* szCmdLine)
 				const char* end = strchr(start, '"'); // Find the closing quote
 				if (end) {
 					pathLength = end - start; // Calculate the length of the path
-					strncpy(configFile, start, pathLength); // Copy the path into the char array
+					strcpy_s(configFile, start, pathLength); // Copy the path into the char array
 					configFile[pathLength] = '\0'; // Null-terminate the path
 					i += pathLength + 1; // Move i past the closing quote
 					configfileskip += pathLength + 1;
@@ -240,7 +240,7 @@ void extractConfig(char* szCmdLine)
 				const char* end = strchr(start, ' '); // Find the next space
 				if (end) {
 					pathLength = end - start; // Calculate the length of the path
-					strncpy(configFile, start, pathLength); // Copy the path into the char array
+					strcpy_s(configFile, start, pathLength); // Copy the path into the char array
 					configFile[pathLength] = '\0'; // Null-terminate the path
 					i += pathLength; // Move i past the path
 					configfileskip += pathLength;
@@ -685,13 +685,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 				// the default, use the supplied service name instead
 				if (*pServiceName && (_strcmpi(pServiceName, SysDaemonService::service_name) != 0))
 				{
-					strncpy_s(SysDaemonService::service_name, 256, pServiceName, 256);
+					strcpy_s_s(SysDaemonService::service_name, 256, pServiceName, 256);
 					SysDaemonService::service_name[255] = 0;
 				}
 				SysDaemonService::install_service();
 				Sleep(2000);
 				char command[MAX_PATH + 32]; // 29 January 2008 jdp
-				_snprintf_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
+				_sprintf_s_s(command, sizeof command, "net start \"%s\"", SysDaemonService::service_name);
 				WinExec(command, SW_HIDE);
 				return return2(0);
 			}
@@ -723,10 +723,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 
 				if (*pServiceName && (_strcmpi(pServiceName, SysDaemonService::service_name) != 0))
 				{
-					strncpy_s(SysDaemonService::service_name, 256, pServiceName, 256);
+					strcpy_s_s(SysDaemonService::service_name, 256, pServiceName, 256);
 					SysDaemonService::service_name[255] = 0;
 				}
-				_snprintf_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
+				_sprintf_s_s(command, sizeof command, "net stop \"%s\"", SysDaemonService::service_name);
 				WinExec(command, SW_HIDE);
 				SysDaemonService::uninstall_service();
 				return return2(0);
@@ -834,7 +834,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 
 						pszId = new char[end - start + 1];
 
-						strncpy_s(pszId, end - start + 1, &(szCmdLine[start]), end - start);
+						strcpy_s_s(pszId, end - start + 1, &(szCmdLine[start]), end - start);
 						pszId[end - start] = 0;
 						pszId = _strupr(pszId);
 					}
@@ -878,7 +878,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					pszId = new char[end - start + 1];
 					if (pszId != 0)
 					{
-						strncpy_s(pszId, end - start + 1, &(szCmdLine[start]), end - start);
+						strcpy_s_s(pszId, end - start + 1, &(szCmdLine[start]), end - start);
 						pszId[end - start] = 0;
 						pszId = _strupr(pszId);
 					}
@@ -925,14 +925,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					char* name = new char[end - start + 1];
 					char* name2 = new char[end - start + 1];
 					if (name != 0) {
-						strncpy_s(name, end - start + 1, &(szCmdLine[start]), end - start);
+						strcpy_s_s(name, end - start + 1, &(szCmdLine[start]), end - start);
 						name[end - start] = 0;
 						strcpy_s(name2, end - start + 1, name);
 						//detect braceletes in IPv6 address or remove port number from name
 						char* bs = strchr(name, '[');
 						char* be = strchr(name, ']');
 						if (bs && be) {
-							strncpy_s(name2, end - start + 1, be + 1, strlen(be));
+							strcpy_s_s(name2, end - start + 1, be + 1, strlen(be));
 							*be = '\0';
 							strcpy_s(name, end - start + 1, bs + 1);
 						}
@@ -1096,7 +1096,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine2
 					}
 					g_szRepeaterHost = new char[end - start + 1];
 					if (g_szRepeaterHost != 0) {
-						strncpy_s(g_szRepeaterHost, end - start + 1, &(szCmdLine[start]), end - start);
+						strcpy_s_s(g_szRepeaterHost, end - start + 1, &(szCmdLine[start]), end - start);
 						g_szRepeaterHost[end - start] = 0;
 
 						// We can not contact a runnning service, permissions, so we must store the settings

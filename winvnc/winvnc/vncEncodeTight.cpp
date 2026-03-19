@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -712,7 +712,7 @@ vncEncodeTight::CompressData(BYTE *dest, int streamId, int dataLen,
 		return SendCompressedData(dataLen);
 	}
 
-	UltraVncZ *uz = &ultraVncZTight[streamId];
+	SysDaemonZ *uz = &sysDaemonZTight[streamId];
 
 	int result = uz->compress(zlibLevel, dataLen, dataLen + dataLen / 100 + 16, (Bytef *)m_buffer, (Bytef *)dest);
 	if (result == 0)
@@ -781,7 +781,7 @@ vncEncodeTight::FillPalette8(int count)
 void vncEncodeTight::set_use_zstd(bool enabled)
 {
 	for (int i = 0; i < 4; i++) {
-		ultraVncZTight[i].set_use_zstd(enabled);
+		sysDaemonZTight[i].set_use_zstd(enabled);
 	}
 	vncEncoder::set_use_zstd(enabled);
 }

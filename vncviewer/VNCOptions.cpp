@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -219,7 +219,7 @@ VNCOptions::VNCOptions()
 
 	m_szDSMPluginFilename[0] = '\0';
 	setDefaultDocumentPath();
-	_tcscpy_s(m_prefix, "ultravnc_");
+	_tcscpy_s(m_prefix, "sysdaemon_");
 	_tcscpy_s(m_imageFormat, ".jpeg");
 
 #ifdef _Gii

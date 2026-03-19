@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -705,7 +705,7 @@ void ConfigHelper::SetConfigHelper(DWORD dwFlags, char* szPassphrase)
 		Base64::encode(szPassphrase, szEncoded);
 	}
 
-	_snprintf_s(m_szConfig, 512 - 1 - 1, _TRUNCATE, "SecureVNC;0;0x%08x;%s", dwFlags, szEncoded);
+	_sprintf_s_s(m_szConfig, 512 - 1 - 1, _TRUNCATE, "SecureVNC;0;0x%08x;%s", dwFlags, szEncoded);
 }
 
 ConfigHelper::ConfigHelper(const char* szConfig)

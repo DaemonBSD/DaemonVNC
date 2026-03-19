@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -117,7 +117,7 @@ void Log::CloseFile() {
 void Log::ReallyPrint(LPTSTR format, va_list ap) 
 {
     TCHAR line[LINE_BUFFER_SIZE];
-	_vsnprintf_s(line, LINE_BUFFER_SIZE-1, format, ap); // sf@2006 - Prevents buffer overflow
+	_vsprintf_s_s(line, LINE_BUFFER_SIZE-1, format, ap); // sf@2006 - Prevents buffer overflow
     if (m_todebug) OutputDebugString(line);
 
     if (m_toconsole) {

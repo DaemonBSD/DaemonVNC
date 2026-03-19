@@ -491,8 +491,8 @@ BEGIN
     LTEXT           "BuildTime",IDC_BUILDTIME,68,17,98,10
     LTEXT           "https://forum.uvnc.com/",IDC_FORUMHYPERLINK,56,74,102,8
     LTEXT           "https://uvnc.com/",IDC_WEBSITE,56,64,94,8
-    LTEXT           "https://github.com/ultravnc/SysDaemon",IDC_GIT,56,84,144,8
-    LTEXT           "https://uvnc.com/downloads/ultravnc.html",IDC_WEBDOWNLOAD,56,94,135,8
+    LTEXT           "https://github.com/sysdaemon/SysDaemon",IDC_GIT,56,84,144,8
+    LTEXT           "https://uvnc.com/downloads/sysdaemon.html",IDC_WEBDOWNLOAD,56,94,135,8
     LTEXT           "Website:",IDC_STATIC,10,64,38,8
     LTEXT           "Forum:",IDC_STATIC,10,74,38,8
     LTEXT           "Git:",IDC_STATIC,10,84,38,8

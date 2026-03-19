@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -125,10 +125,10 @@ PLUGIN_API int Startup(void)
 	GetEnvVar(PROGRAMFILES, sProgramFiles, BufSize);
 
 		//add 'SysDaemon' to it.
-	if (_snprintf(defaultKeyFile, sizeof(defaultKeyFile),"%s%s%s",sProgramFiles,sDefault,sDefaultKeyName) < 0)
-		PrintLog((DEST,"_snprintf failed - defaultKeyFile too small"));
-	if (_snprintf(defaultGenFile, sizeof(defaultGenFile),"%s%s%s",sProgramFiles,sDefault,sDefaultGenKey) < 0)
-		PrintLog((DEST,"_snprintf failed - defaultGenFile too small"));
+	if (_sprintf_s(defaultKeyFile, sizeof(defaultKeyFile),"%s%s%s",sProgramFiles,sDefault,sDefaultKeyName) < 0)
+		PrintLog((DEST,"_sprintf_s failed - defaultKeyFile too small"));
+	if (_sprintf_s(defaultGenFile, sizeof(defaultGenFile),"%s%s%s",sProgramFiles,sDefault,sDefaultGenKey) < 0)
+		PrintLog((DEST,"_sprintf_s failed - defaultGenFile too small"));
 
     char keyFile[KEYFILENAME_SIZE];
 
@@ -374,10 +374,10 @@ PrintLog((DEST,"Set Params"));
 		char defaultGenFile[BufSize];
 
 			//add 'SysDaemon' to it.
-		if (_snprintf(defaultKeyFile, sizeof(defaultKeyFile),"%s%s%s",sProgramFiles,sDefault,sDefaultKeyName) < 0)
-			PrintLog((DEST,"_snprintf failed - defaultKeyFile too small"));
-		if (_snprintf(defaultGenFile, sizeof(defaultGenFile),"%s%s%s",sProgramFiles,sDefault,sDefaultGenKey) < 0)
-			PrintLog((DEST,"_snprintf failed - defaultGenFile too small"));
+		if (_sprintf_s(defaultKeyFile, sizeof(defaultKeyFile),"%s%s%s",sProgramFiles,sDefault,sDefaultKeyName) < 0)
+			PrintLog((DEST,"_sprintf_s failed - defaultKeyFile too small"));
+		if (_sprintf_s(defaultGenFile, sizeof(defaultGenFile),"%s%s%s",sProgramFiles,sDefault,sDefaultGenKey) < 0)
+			PrintLog((DEST,"_sprintf_s failed - defaultGenFile too small"));
 
 		//load some default values into the registry if the keys don't exist.
 		REGISTRY *m_pREGISTRY;

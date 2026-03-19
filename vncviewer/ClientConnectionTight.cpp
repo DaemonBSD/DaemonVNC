@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -33,7 +33,7 @@ void ClientConnection::ReadTightRect(rfbFramebufferUpdateRectHeader *pfburh, boo
   /* Flush zlib streams if we are told by the server to do so. */
   for (int i = 0; i < 4; i++) {
     if (comp_ctl & 1){
-		UltraVncZ *uz = &ultraVncZTight[i];
+		SysDaemonZ *uz = &sysDaemonZTight[i];
 		uz->endInflateStream(zstd);
 		}
     comp_ctl >>= 1;
@@ -133,7 +133,7 @@ void ClientConnection::ReadTightRect(rfbFramebufferUpdateRectHeader *pfburh, boo
 
   /* Now let's initialize compression stream if needed. */
   int stream_id = comp_ctl & 0x03;
-  UltraVncZ *uz = &ultraVncZTight[stream_id];
+  SysDaemonZ *uz = &sysDaemonZTight[stream_id];
 
   /* Read, decode and draw actual pixel data in a loop. */
   int beforeBufferSize =

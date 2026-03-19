@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -104,7 +104,7 @@ void convertToISO8601(const char* input, char* output, size_t size) {
     month = (std::strstr(months, monthStr) - months) / 3 + 1;
 
     // Format into ISO 8601 format "YYYY-MM-DDTHH:MM:SS"
-    snprintf(output, size, "%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
+    sprintf_s(output, size, "%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
 }
 
 // Process the About dialog.

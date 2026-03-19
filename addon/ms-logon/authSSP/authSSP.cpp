@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -80,14 +80,21 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain,
 	HMODULE     hModule    = NULL;
 	SEC_WINNT_AUTH_IDENTITY ai;
 
-	__try {
+	{ //  {  
+//		 {  {
+
 		
 		hModule = LoadSecurityDll();
 		if (!hModule)
-			__leave;
+					goto __finally_label;
+
 		
 		// Get max token size
+#if defined(UNICODE) || defined(_UNICODE)
 		fn._QuerySecurityPackageInfo((SEC_WCHAR *) L"NTLM", &pSPI);
+#else
+		fn._QuerySecurityPackageInfo((SEC_CHAR *) "NTLM", &pSPI);
+#endif
 		cbMaxToken = pSPI->cbMaxToken;
 		
 		// Allocate buffers for client and server messages
@@ -119,14 +126,14 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain,
 		// Prepare client message (negotiate) .
 		cbOut = cbMaxToken;
 		if (!GenClientContext(&asClient, &ai, NULL, 0, pClientBuf, &cbOut, &fDone))
-			__leave;
+					goto __finally_label;
 		
 		// Prepare server message (challenge) .
 		cbIn = cbOut;
 		cbOut = cbMaxToken;
 		if (!GenServerContext(&asServer, pClientBuf, cbIn, pServerBuf, &cbOut, 
             &fDone))
-			__leave;
+					goto __finally_label;
 		// Most likely failure: AcceptServerContext fails with SEC_E_LOGON_DENIED
 		// in the case of bad szUser or szPassword.
 		// Unexpected Result: Logon will succeed if you pass in a bad szUser and 
@@ -137,14 +144,16 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain,
 		cbOut = cbMaxToken;
 		if (!GenClientContext(&asClient, &ai, pServerBuf, cbIn, pClientBuf, &cbOut,
             &fDone))
-			__leave;
+					goto __finally_label;
+
 		
 		// Prepare server message (authentication) .
 		cbIn = cbOut;
 		cbOut = cbMaxToken;
 		if (!GenServerContext(&asServer, pClientBuf, cbIn, pServerBuf, &cbOut, 
             &fDone))
-			__leave;
+					goto __finally_label;
+
 		
 		*isAuthenticated = TRUE;
 
@@ -158,7 +167,9 @@ BOOL WINAPI SSPLogonUser(LPTSTR szDomain,
 				fResult = TRUE;
 		}
 
-	} __finally {
+	 } __finally_label: {   
+//	 } __finally_label: { 
+
 
 		// Clean up resources
 		if (pSPI)
@@ -235,7 +246,7 @@ const char *SplitString(const char *input, char separator, char *head, int sizeH
 		l = (int)(tail - input);
 		// get rid of separator
 		tail = tail + 1; 
-		strncpy_s(head, sizeHead, input, l);
+		strcpy_s_s(head, sizeHead, input, l);
 		head[l] = '\0';
 	} else {
 		tail   = input;
@@ -287,20 +298,28 @@ bool QualifyName(const TCHAR *user, LPTSTR DomName) {
 	SID_NAME_USE sidUse;
 	bool isNameQualified = false;
 
-	__try {
+	{ //  {  
+//	 {  {
+
 		// Get Sid buffer size
 		LookupAccountName(NULL, user, pSid, &cbSid, DomName, &cbDomName, &sidUse);
 		if (GetLastError() != ERROR_INSUFFICIENT_BUFFER)
-			__leave;
+					goto __finally_label;
+
 		if (!(pSid = (PSID) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, cbSid)))
-			__leave;
+					goto __finally_label;
+
 		if (cbDomName > MAXLEN)
-			__leave;
+					goto __finally_label;
+
 		// Get DomName
 		if (!LookupAccountName(NULL, user, pSid, &cbSid, DomName, &cbDomName, &sidUse))
-			__leave;
+					goto __finally_label;
+
 		isNameQualified = true;
-	} __finally {
+	 } __finally_label: {   
+//	 } __finally_label: { 
+
 		HeapFree(GetProcessHeap(), 0, pSid);
 	}
 

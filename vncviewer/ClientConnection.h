@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,7 +21,7 @@
 #include "KeyMap.h"
 #include "KeyMapjap.h"
 #include <rdr/types.h>
-#include "../common/UltraVncZ.h"
+#include "../common/SysDaemonZ.h"
 #ifdef _VCPKG
 #include <zlib.h>
 #include <zstd.h>
@@ -191,8 +191,8 @@ public:
 private:
 	bool brfbClientInitExtraMsgSupportNew = false;
 	CRITICAL_SECTION crit;
-	UltraVncZ *ultraVncZlib;
-	UltraVncZ ultraVncZTight[4];
+	SysDaemonZ *sysDaemonZlib;
+	SysDaemonZ sysDaemonZTight[4];
 	Fps fps;
 #ifdef _Gii
 	vnctouch *mytouch;
@@ -418,7 +418,7 @@ private:
 	void HandleZlibHexSubencodingBuf32(int x, int y, int w, int h, int subencoding, unsigned char * buffer);
 	void ReadZlibHexRect(rfbFramebufferUpdateRectHeader *pfburh, bool zstd);
 
-	bool zlibDecompress(unsigned char *from_buf, unsigned char *to_buf, unsigned int count, unsigned int size, UltraVncZ * ultravncZ, bool zstd);
+	bool zlibDecompress(unsigned char *from_buf, unsigned char *to_buf, unsigned int count, unsigned int size, SysDaemonZ * sysdaemonZ, bool zstd);
 
 	// ClientConnectionClipboard.cpp
 	void ProcessLocalClipboardChange();
@@ -550,8 +550,8 @@ private:
 	// zlib decompression state
 	//bool m_decompStreamInited;
 	//z_stream m_decompStream;
-	UltraVncZ *ultraVncZRaw;
-	UltraVncZ *ultraVncZEncoded;
+	SysDaemonZ *sysDaemonZRaw;
+	SysDaemonZ *sysDaemonZEncoded;
 
 	void CheckZipBufferSize(int bufsize);
 	unsigned char *m_zipbuf;

@@ -1,5 +1,5 @@
 // This file is part of SysDaemon
-// https://github.com/ultravnc/SysDaemon
+// https://github.com/sysdaemon/SysDaemon
 // https://uvnc.com/
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -164,7 +164,7 @@ void convertToISO8601(const char* input, char* output, size_t size) {
     month = (std::strstr(months, monthStr) - months) / 3 + 1;
 
     // Format into ISO 8601 format "YYYY-MM-DDTHH:MM:SS"
-    snprintf(output, size, "%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
+    sprintf_s(output, size, "%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
 }
 
 // Constructor/destructor
@@ -259,7 +259,7 @@ vncAbout::DialogProc(HWND hwnd,
             const long lszConfigFileSize = 256;
             char szConfigFile[lszConfigFileSize];
 
-            _snprintf_s(szConfigFile, lszConfigFileSize - 1, "Config file: %s", configFile);
+            _sprintf_s_s(szConfigFile, lszConfigFileSize - 1, "Config file: %s", configFile);
             SetDlgItemText(hwnd, IDC_CONFIG_FILE, szConfigFile);
 			return TRUE;
 		}
