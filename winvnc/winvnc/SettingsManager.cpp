@@ -184,7 +184,7 @@ void SettingsManager::setDefaults()
 	m_pref_allowproperties = TRUE;
 	m_pref_allowInjection = FALSE;
 	m_pref_UseDSMPlugin = FALSE;
-	m_pref_EnableFileTransfer = TRUE;
+	m_pref_EnableFileTransfer = FALSE;
 	m_pref_FTUserImpersonation = TRUE;
 	m_pref_EnableBlankMonitor = TRUE;
 	m_pref_BlankInputsOnly = FALSE;
